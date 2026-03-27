@@ -1,0 +1,28 @@
+#include "../../src/vr_sys_socket/export.h"
+
+#include <stdio.h>
+
+int main(int params_count, char* params_array[])
+{
+    uint8 buffer[VR_MEMORY_KIB] = {0};
+
+    VR_Arena_Alloc arena = vr_arena_alloc_make(buffer, sizeof buffer);
+    VR_Alloc       alloc = vr_alloc_arena(&arena);
+
+    VR_Socket_TCP* socket = vr_socket_tcp_reserve(alloc);
+
+    vr_socket_tcp_create(socket, vr_endpoint_ip4_empty());
+    vr_socket_tcp_connect(socket, vr_endpoint_ip4_local(5000));
+
+    char message[8] = "Ciao";
+
+    vr_socket_tcp_write(socket, (uint8*) message, (intptr) sizeof message);
+
+    intptr count = vr_socket_tcp_read(socket, (uint8*) message, sizeof message);
+
+    printf("%.*s\n", (int) count, message);
+
+    vr_socket_tcp_destroy(socket);
+
+    return 0;
+}
