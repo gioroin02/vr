@@ -1,0 +1,15 @@
+# Exclude any file
+
+/*
+
+# Except for these
+
+!/src
+!/test
+
+!/.gitignore
+
+!/build.*
+!/clean.*
+
+!/README.md
