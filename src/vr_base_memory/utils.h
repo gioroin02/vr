@@ -106,7 +106,6 @@ intptr vr_memory_copy(void* pntr, intptr size, void* value);
         <vr_memory_set>
         <vr_memory_copy>
 */
-
 intptr vr_memory_copy_endian(void* pntr, intptr size, void* value, VR_Endian endian);
 
 /*

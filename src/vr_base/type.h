@@ -29,7 +29,8 @@
 
 #else
 
-    #include <stdint.h>
+    #define _DEFAULT_SOURCE
+    #include <inttypes.h>
 
 #endif
 
