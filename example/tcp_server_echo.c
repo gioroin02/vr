@@ -38,10 +38,13 @@ int main(int params_count, char* params_array[])
         // Ricezione del messaggio dal client.
         count = vr_socket_tcp_read(socket, message, sizeof message);
 
-        printf("%.*s\n", (int) count, message);
+        printf("[INFO] Ricevuto '%.*s'\n", (int) count, message);
 
         // Invio della risposta al client e chiusura della connessione.
         vr_socket_tcp_write(socket, message, count);
+
+        printf("[INFO] Inviato '%.*s'\n", (int) count, message);
+
         vr_socket_tcp_destroy(socket);
     }
 

@@ -6,8 +6,8 @@
 #define VR_SYSTEM_LINUX   2
 
 /*
- * Found at: https://sourceforge.net/p/predef/wiki/OperatingSystems/
- */
+    Found at: https://sourceforge.net/p/predef/wiki/OperatingSystems/
+*/
 
 #if !defined VR_SYSTEM
 
@@ -28,6 +28,19 @@
 
 #endif
 
+/*
+    Enum: VR_System
+
+    Elenca i sistemi operativi che la libreria tenta di rilevare.
+
+    Cases:
+        VR_System_None    - Indica generalmente un sistema non rilevato o invalido
+        VR_System_Windows - Sistema operativo Windows
+        VR_System_Linux   - Sistema operativo Linux
+
+    See Also:
+        <vr_get_system>
+*/
 typedef enum
 {
     VR_System_None    = VR_SYSTEM_NONE,
@@ -36,6 +49,18 @@ typedef enum
 }
 VR_System;
 
+/*
+    Function: vr_get_system
+
+    Returns:
+        Il sistema operativo rilevato dalla libreria.
+
+        Se restituisce VR_System_None significa che la libreria non è stata
+        in grado di rilevare un sistema operativo valido.
+
+    See Also:
+        <VR_System>
+*/
 VR_System vr_get_system();
 
 #endif

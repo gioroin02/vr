@@ -8,7 +8,7 @@
 #endif
 
 #define vr_static_assert(expr, str) \
-    extern char ro_static_assert_casse[(expr) ? 1 : -1]
+    extern char ro_static_assert_case[(expr) ? 1 : -1]
 
 #define vr_min(x, y) ((x) < (y) ? (x) : (y))
 #define vr_max(x, y) ((x) < (y) ? (y) : (x))

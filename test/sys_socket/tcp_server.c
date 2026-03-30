@@ -23,9 +23,11 @@ int main(int params_count, char* params_array[])
 
     intptr count = vr_socket_tcp_read(socket, (uint8*) message, sizeof message);
 
-    printf("%.*s\n", (int) count, message);
+    printf("[INFO] Ricevuto '%.*s'\n", (int) count, message);
 
-    vr_socket_tcp_write(socket, (uint8*) message, (intptr) sizeof message);
+    vr_socket_tcp_write(socket, (uint8*) message, count);
+
+    printf("[INFO] Inviato '%.*s'\n", (int) count, message);
 
     vr_socket_tcp_destroy(socket);
     vr_socket_tcp_destroy(listener);

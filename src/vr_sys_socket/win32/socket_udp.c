@@ -5,7 +5,7 @@
 
 VR_Win32_Socket_UDP* vr_win32_socket_udp_reserve(VR_Alloc alloc)
 {
-    return vr_alloc_reserve_of(alloc, VR_Win32_Socket_UDP, 1);
+    return vr_alloc_reserve_of(alloc, 1, VR_Win32_Socket_UDP);
 }
 
 bool32 vr_win32_socket_udp_create(VR_Win32_Socket_UDP* self, VR_Endpoint_IP endpoint)
@@ -61,37 +61,37 @@ bool32 vr_win32_socket_udp_bind(VR_Win32_Socket_UDP* self)
     return 1;
 }
 
-intptr vr_win32_socket_udp_write(VR_Win32_Socket_UDP* self, uint8* memory, intptr size, VR_Endpoint_IP endpoint)
+intptr vr_win32_socket_udp_write(VR_Win32_Socket_UDP* self, uint8* pntr, intptr size, VR_Endpoint_IP endpoint)
 {
-    if (memory == NULL || size <= 0) return 0;
+    if (pntr == NULL || size <= 0) return 0;
 
     sockaddr_storage_t address = vr_win32_sockaddr_make(endpoint);
     socklen_t          length  = vr_win32_sockaddr_get_size(&address);
 
     intptr result = 0;
+    int    count  = 0;
 
-    while (result < size) {
-        int count = sendto(self->handle, (char*) memory,
+    for (NULL; result < size; result += count) {
+        count = sendto(self->handle, (char*) pntr,
             (int) size, 0, (sockaddr_t*) &address, length);
 
         if (count <= 0 || count > size) break;
 
-        memory += count;
-        size   -= count;
-        result += count;
+        pntr += count;
+        size -= count;
     }
 
     return result;
 }
 
-intptr vr_win32_socket_udp_read(VR_Win32_Socket_UDP* self, uint8* memory, intptr size, VR_Endpoint_IP* endpoint)
+intptr vr_win32_socket_udp_read(VR_Win32_Socket_UDP* self, uint8* pntr, intptr size, VR_Endpoint_IP* endpoint)
 {
-    if (memory == NULL || size <= 0) return 0;
+    if (pntr == NULL || size <= 0) return 0;
 
     sockaddr_storage_t address = {0};
     socklen_t          length  = sizeof address;
 
-    int count = recvfrom(self->handle, (char*) memory,
+    int count = recvfrom(self->handle, (char*) pntr,
         (int) size, 0, (sockaddr_t*) &address, &length);
 
     if (count <= 0 || count > size) return 0;

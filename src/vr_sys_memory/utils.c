@@ -30,9 +30,9 @@ intptr vr_memory_page_size()
     return _vr_memory_page_size_();
 }
 
-VR_Arena_Alloc vr_memory_reserve(intptr count, intptr step)
+VR_Arena_Alloc vr_memory_reserve(intptr elem_count, intptr elem_size)
 {
-    return _vr_memory_reserve_(count, step);
+    return _vr_memory_reserve_(elem_count, elem_size);
 }
 
 void vr_memory_release(VR_Arena_Alloc* arena)

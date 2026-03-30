@@ -16,28 +16,36 @@ int main(int params_count, char* params_array[])
 
     uint8  message[32]      = {0};
     intptr count            = 0;
-    uint8* message_end_pntr = message;
+    uint8* message_end_pntr = NULL;
     intptr message_number   = 0;
 
-    while (message == message_end_pntr) {
-        printf("$ ");
+    while (1) {
+        message_end_pntr = message;
 
-        fgets((char*) message, sizeof message - 1, stdin);
+        while (message == message_end_pntr) {
+            printf("$ ");
 
-        while (message[count] != 0) count += 1;
+            fgets((char*) message, sizeof message - 1, stdin);
 
-        message_number = strtoll((char*) message,
-            (char**) &message_end_pntr, 10);
+            while (message[count] != 0) count += 1;
+
+            message_number = strtoll((char*) message,
+                (char**) &message_end_pntr, 10);
+        }
+
+        count = snprintf((char*) message, sizeof message,
+            "%lli", message_number);
+
+        vr_socket_tcp_write(socket, message, count);
+
+        printf("[INFO] Inviato '%.*s'\n", (int) count, message);
+
+        count = vr_socket_tcp_read(socket, message, sizeof message);
+
+        printf("[INFO] Ricevuto '%.*s'\n", (int) count, message);
+
+        if (message_number == 0) break;
     }
-
-    count = snprintf((char*) message, sizeof message,
-        "%lli", message_number);
-
-    vr_socket_tcp_write(socket, message, count);
-
-    count = vr_socket_tcp_read(socket, message, sizeof message);
-
-    printf("%.*s\n", (int) count, message);
 
     vr_socket_tcp_destroy(socket);
 

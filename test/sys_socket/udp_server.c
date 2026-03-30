@@ -19,9 +19,11 @@ int main(int params_count, char* params_array[])
 
     intptr count = vr_socket_udp_read(socket, (uint8*) message, sizeof message, &endpoint);
 
-    printf("%.*s\n", (int) count, message);
+    printf("[INFO] Ricevuto '%.*s'\n", (int) count, message);
 
-    vr_socket_udp_write(socket, (uint8*) message, sizeof message, endpoint);
+    vr_socket_udp_write(socket, (uint8*) message, count, endpoint);
+
+    printf("[INFO] Inviato '%.*s'\n", (int) count, message);
 
     vr_socket_udp_destroy(socket);
 

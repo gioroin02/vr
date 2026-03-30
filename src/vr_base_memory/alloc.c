@@ -3,10 +3,10 @@
 
 #include "alloc.h"
 
-void* vr_alloc_reserve(VR_Alloc self, intptr count, intptr size)
+void* vr_alloc_reserve(VR_Alloc self, intptr elem_count, intptr elem_size)
 {
     if (self.proc_reserve != NULL)
-        return self.proc_reserve(self.self, count, size);
+        return self.proc_reserve(self.self, elem_count, elem_size);
 
     return NULL;
 }
@@ -23,22 +23,6 @@ void vr_alloc_clear(VR_Alloc self)
         return self.proc_clear(self.self);
 }
 
-void* vr_alloc_get_pntr(VR_Alloc self)
-{
-    if (self.proc_get_pntr != NULL)
-        return self.proc_get_pntr(self.self);
-
-    return NULL;
-}
-
-intptr vr_alloc_get_size(VR_Alloc self)
-{
-    if (self.proc_get_size != NULL)
-        return self.proc_get_size(self.self);
-
-    return 0;
-}
-
 VR_Alloc vr_alloc_null()
 {
     return (VR_Alloc) {
@@ -46,8 +30,6 @@ VR_Alloc vr_alloc_null()
         .proc_reserve  = NULL,
         .proc_release  = NULL,
         .proc_clear    = NULL,
-        .proc_get_pntr = NULL,
-        .proc_get_size = NULL,
     };
 }
 

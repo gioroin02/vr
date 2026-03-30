@@ -9,9 +9,9 @@
 #define vr_is_machine_big_endian()    (vr_get_machine_endian() == VR_Endian_Big)
 
 /*
- * Found at: https://sourceforge.net/p/predef/wiki/Architectures/
- * Found at: https://sourceforge.net/p/predef/wiki/OperatingSystems/
- */
+    Found at: https://sourceforge.net/p/predef/wiki/Architectures/
+    Found at: https://sourceforge.net/p/predef/wiki/OperatingSystems/
+*/
 
 #if !defined VR_WORD
 
@@ -41,6 +41,20 @@
 
 #endif
 
+/*
+    Enum: VR_Word
+
+    Elenca le dimensioni della parola del processore che la libreria
+    tenta di rilevare.
+
+    Cases:
+        VR_Word_None - Indica generalmente una parola non rilevata o invalida
+        VR_Word_32   - Parola a 32 bit
+        VR_Word_64   - Parola a 64 bit
+
+    See Also:
+        <vr_get_machine_word>
+*/
 typedef enum
 {
     VR_Word_None = VR_WORD_NONE,
@@ -49,6 +63,19 @@ typedef enum
 }
 VR_Word;
 
+/*
+    Enum: VR_Endian
+
+    Elenca le endianness del processore che la libreria tenta di rilevare.
+
+    Cases:
+        VR_Endian_None   - Indica generalmente una endianness non rilevata o invalida
+        VR_Endian_Little - Little endian
+        VR_Endian_Big    - Big endian
+
+    See Also:
+        <vr_get_machine_endian>
+*/
 typedef enum
 {
     VR_Endian_None,
@@ -57,8 +84,32 @@ typedef enum
 }
 VR_Endian;
 
+/*
+    Function: vr_get_machine_word
+
+    Returns:
+        La parola del processore rilevata dalla libreria.
+
+        Se restituisce VR_Word_None significa che la libreria non è stata
+        in grado di rilevare una parola valida.
+
+    See Also:
+        <VR_Word>
+*/
 VR_Word vr_get_machine_word();
 
+/*
+    Function: vr_get_machine_endian
+
+    Returns:
+        La endianness del processore rilevata dalla libreria.
+
+        Se restituisce VR_Endian_None significa che la libreria non è stata
+        in grado di rilevare una endianness valida.
+
+    See Also:
+        <VR_Endian>
+*/
 VR_Endian vr_get_machine_endian();
 
 #endif

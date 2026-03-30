@@ -7,8 +7,8 @@
 #define VR_COMPILER_MSVC  3
 
 /*
- * Found at: https://sourceforge.net/p/predef/wiki/Compilers/
- */
+    Found at: https://sourceforge.net/p/predef/wiki/Compilers/
+*/
 
 #if !defined VR_COMPILER
 
@@ -32,20 +32,38 @@
 
 #endif
 
-#if VR_COMPILER == VR_COMPILER_GCC || VR_COMPILER == VR_COMPILER_CLANG
+#ifndef vr_debug_break
 
-    #define vr_debug_break() __builtin_trap()
+    #if VR_COMPILER == VR_COMPILER_GCC || VR_COMPILER == VR_COMPILER_CLANG
 
-#elif VR_COMPILER == VR_COMPILER_MSVC
+        #define vr_debug_break() __builtin_trap()
 
-    #define vr_debug_break() __debugbreak()
+    #elif VR_COMPILER == VR_COMPILER_MSVC
 
-#else
+        #define vr_debug_break() __debugbreak()
 
-    #define vr_debug_break() (*(volatile int*) NULL = 0)
+    #else
+
+        #define vr_debug_break() (*(volatile int*) NULL = 0)
+
+    #endif
 
 #endif
 
+/*
+    Enum: VR_Compiler
+
+    Elenca i compilatori che la libreria tenta di rilevare.
+
+    Cases:
+        VR_Compiler_None  - Indica generalmente un compilatore non rilevato o invalido
+        VR_Compiler_GCC   - Compilatore GCC o compatibile
+        VR_Compiler_Clang - Compilatore Clang o compatibile
+        VR_Compiler_MSVC  - Compilatore MSVC o compatibile
+
+    See Also:
+        <vr_get_compiler>
+*/
 typedef enum
 {
     VR_Compiler_None  = VR_COMPILER_NONE,
@@ -55,6 +73,18 @@ typedef enum
 }
 VR_Compiler;
 
+/*
+    Function: vr_get_compiler
+
+    Returns:
+        Il compilatore rilevato dalla libreria.
+
+        Se restituisce VR_Compiler_None significa che la libreria non è stata
+        in grado di rilevare un compilatore valido.
+
+    See Also:
+        <VR_Compiler>
+*/
 VR_Compiler vr_get_compiler();
 
 #endif

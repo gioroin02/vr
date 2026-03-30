@@ -5,7 +5,7 @@
 
 VR_Win32_Socket_TCP* vr_win32_socket_tcp_reserve(VR_Alloc alloc)
 {
-    return vr_alloc_reserve_of(alloc, VR_Win32_Socket_TCP, 1);
+    return vr_alloc_reserve_of(alloc, 1, VR_Win32_Socket_TCP);
 }
 
 bool32 vr_win32_socket_tcp_create(VR_Win32_Socket_TCP* self, VR_Endpoint_IP endpoint)
@@ -108,30 +108,30 @@ bool32 vr_win32_socket_tcp_connect(VR_Win32_Socket_TCP* self, VR_Endpoint_IP end
     return 1;
 }
 
-intptr vr_win32_socket_tcp_write(VR_Win32_Socket_TCP* self, uint8* memory, intptr size)
+intptr vr_win32_socket_tcp_write(VR_Win32_Socket_TCP* self, uint8* pntr, intptr size)
 {
-    if (memory == NULL || size <= 0) return 0;
+    if (pntr == NULL || size <= 0) return 0;
 
     intptr result = 0;
+    int    count  = 0;
 
-    while (result < size) {
-        int count = send(self->handle, (char*) memory, (int) size, 0);
+    for (NULL; result < size; result += count) {
+        count = send(self->handle, (char*) pntr, (int) size, 0);
 
         if (count <= 0 || count > size) break;
 
-        memory += count;
-        size   -= count;
-        result += count;
+        pntr += count;
+        size -= count;
     }
 
     return result;
 }
 
-intptr vr_win32_socket_tcp_read(VR_Win32_Socket_TCP* self, uint8* memory, intptr size)
+intptr vr_win32_socket_tcp_read(VR_Win32_Socket_TCP* self, uint8* pntr, intptr size)
 {
-    if (memory == NULL || size <= 0) return 0;
+    if (pntr == NULL || size <= 0) return 0;
 
-    int count = recv(self->handle, (char*) memory, (int) size, 0);
+    int count = recv(self->handle, (char*) pntr, (int) size, 0);
 
     if (count <= 0 || count > size) return 0;
 

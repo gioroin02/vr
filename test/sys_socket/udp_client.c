@@ -1,6 +1,7 @@
 #include "../../src/vr_sys_socket/export.h"
 
 #include <stdio.h>
+#include <string.h>
 
 int main(int params_count, char* params_array[])
 {
@@ -14,13 +15,16 @@ int main(int params_count, char* params_array[])
 
     vr_socket_udp_create(socket, vr_endpoint_ip4_empty());
 
-    char message[8] = "Ciao";
+    char   message[8] = "Ciao";
+    intptr count      = strlen(message);
 
-    vr_socket_udp_write(socket, (uint8*) message, (intptr) sizeof message, endpoint);
+    vr_socket_udp_write(socket, (uint8*) message, count, endpoint);
 
-    intptr count = vr_socket_udp_read(socket, (uint8*) message, sizeof message, &endpoint);
+    printf("[INFO] Inviato '%.*s'\n", (int) count, message);
 
-    printf("%.*s\n", (int) count, message);
+    count = vr_socket_udp_read(socket, (uint8*) message, sizeof message, &endpoint);
+
+    printf("[INFO] Ricevuto '%.*s'\n", (int) count, message);
 
     vr_socket_udp_destroy(socket);
 

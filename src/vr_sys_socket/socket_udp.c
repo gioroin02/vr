@@ -59,14 +59,14 @@ bool32 vr_socket_udp_bind(VR_Socket_UDP* self)
     return _vr_socket_udp_bind_((_VR_Socket_UDP_*) self);
 }
 
-intptr vr_socket_udp_write(VR_Socket_UDP* self, uint8* memory, intptr size, VR_Endpoint_IP endpoint)
+intptr vr_socket_udp_write(VR_Socket_UDP* self, uint8* pntr, intptr size, VR_Endpoint_IP endpoint)
 {
-    return _vr_socket_udp_write_((_VR_Socket_UDP_*) self, memory, size, endpoint);
+    return _vr_socket_udp_write_((_VR_Socket_UDP_*) self, pntr, size, endpoint);
 }
 
-intptr vr_socket_udp_read(VR_Socket_UDP* self, uint8* memory, intptr size, VR_Endpoint_IP* endpoint)
+intptr vr_socket_udp_read(VR_Socket_UDP* self, uint8* pntr, intptr size, VR_Endpoint_IP* endpoint)
 {
-    return _vr_socket_udp_read_((_VR_Socket_UDP_*) self, memory, size, endpoint);
+    return _vr_socket_udp_read_((_VR_Socket_UDP_*) self, pntr, size, endpoint);
 }
 
 VR_Endpoint_IP vr_socket_udp_get_endpoint(VR_Socket_UDP* self)

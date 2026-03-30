@@ -25,13 +25,13 @@ int main(int params_count, char* params_array[])
     intptr write_big = vr_memory_write_float32_endian(
         buffer_big, sizeof buffer_big, 2.4f, VR_Endian_Big);
 
-    printf("Local endian:  ");
+    printf("[INFO] Local endian:  ");
     print_buffer(buffer_local, sizeof buffer_local);
 
-    printf("Little endian: ");
+    printf("[INFO] Little endian: ");
     print_buffer(buffer_little, sizeof buffer_little);
 
-    printf("Big endian:    ");
+    printf("[INFO] Big endian:    ");
     print_buffer(buffer_big,    sizeof buffer_big);
 
     float32 value_local  = 0.0f;
@@ -47,16 +47,17 @@ int main(int params_count, char* params_array[])
     intptr read_big = vr_memory_read_float32_endian(
         buffer_big, sizeof buffer_big, &value_big, VR_Endian_Big);
 
-    printf("Local endian:  %.3f\n", value_local);
-    printf("Little endian: %.3f\n", value_little);
-    printf("Big endian:    %.3f\n", value_big);
+    printf("[INFO] Local endian:  %.3f\n", value_local);
+    printf("[INFO] Little endian: %.3f\n", value_little);
+    printf("[INFO] Big endian:    %.3f\n", value_big);
+    printf("\n");
 
-    printf("write_local  = %lli\n", write_local);
-    printf("write_little = %lli\n", write_little);
-    printf("write_big    = %lli\n", write_big);
-    printf("read_local   = %lli\n", read_local);
-    printf("read_little  = %lli\n", read_little);
-    printf("read_big     = %lli\n", read_big);
+    printf("[INFO] write_local  = %lli\n", write_local);
+    printf("[INFO] write_little = %lli\n", write_little);
+    printf("[INFO] write_big    = %lli\n", write_big);
+    printf("[INFO] read_local   = %lli\n", read_local);
+    printf("[INFO] read_little  = %lli\n", read_little);
+    printf("[INFO] read_big     = %lli\n", read_big);
 
     return 0;
 }

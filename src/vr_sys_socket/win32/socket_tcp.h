@@ -24,9 +24,9 @@ bool32 vr_win32_socket_tcp_accept(VR_Win32_Socket_TCP* self, VR_Win32_Socket_TCP
 
 bool32 vr_win32_socket_tcp_connect(VR_Win32_Socket_TCP* self, VR_Endpoint_IP endpoint);
 
-intptr vr_win32_socket_tcp_write(VR_Win32_Socket_TCP* self, uint8* memory, intptr size);
+intptr vr_win32_socket_tcp_write(VR_Win32_Socket_TCP* self, uint8* pntr, intptr size);
 
-intptr vr_win32_socket_tcp_read(VR_Win32_Socket_TCP* self, uint8* memory, intptr size);
+intptr vr_win32_socket_tcp_read(VR_Win32_Socket_TCP* self, uint8* pntr, intptr size);
 
 VR_Endpoint_IP vr_win32_socket_tcp_get_endpoint(VR_Win32_Socket_TCP* self);
 

@@ -80,14 +80,14 @@ bool32 vr_socket_tcp_connect(VR_Socket_TCP* self, VR_Endpoint_IP endpoint)
     return _vr_socket_tcp_connect_((_VR_Socket_TCP_*) self, endpoint);
 }
 
-intptr vr_socket_tcp_write(VR_Socket_TCP* self, uint8* memory, intptr size)
+intptr vr_socket_tcp_write(VR_Socket_TCP* self, uint8* pntr, intptr size)
 {
-    return _vr_socket_tcp_write_((_VR_Socket_TCP_*) self, memory, size);
+    return _vr_socket_tcp_write_((_VR_Socket_TCP_*) self, pntr, size);
 }
 
-intptr vr_socket_tcp_read(VR_Socket_TCP* self, uint8* memory, intptr size)
+intptr vr_socket_tcp_read(VR_Socket_TCP* self, uint8* pntr, intptr size)
 {
-    return _vr_socket_tcp_read_((_VR_Socket_TCP_*) self, memory, size);
+    return _vr_socket_tcp_read_((_VR_Socket_TCP_*) self, pntr, size);
 }
 
 VR_Endpoint_IP vr_socket_tcp_get_endpoint(VR_Socket_TCP* self)

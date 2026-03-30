@@ -17,11 +17,11 @@ int main(int params_count, char* params_array[])
     vr_socket_tcp_bind(listener);
     vr_socket_tcp_listen(listener);
 
+    vr_socket_tcp_accept(socket, listener);
+
     intptr number = 0;
 
     while (1) {
-        vr_socket_tcp_accept(socket, listener);
-
         uint8  message[32]      = {0};
         intptr count            = 0;
         uint8* message_end_pntr = NULL;
@@ -29,7 +29,7 @@ int main(int params_count, char* params_array[])
 
         count = vr_socket_tcp_read(socket, message, sizeof message);
 
-        printf("[DEBUG] Ricevuto '%.*s'\n", (int) count, message);
+        printf("[INFO] Ricevuto '%.*s'\n", (int) count, message);
 
         message_number = strtoll((char*) message, (char**) &message_end_pntr, 10);
 
@@ -38,11 +38,13 @@ int main(int params_count, char* params_array[])
         count = snprintf((char*) message, sizeof message, "%lli", number);
 
         vr_socket_tcp_write(socket, message, count);
-        vr_socket_tcp_destroy(socket);
+
+        printf("[INFO] Inviato '%.*s'\n", (int) count, message);
 
         if (message_number == 0) break;
     }
 
+    vr_socket_tcp_destroy(socket);
     vr_socket_tcp_destroy(listener);
 
     return 0;
