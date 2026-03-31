@@ -5,5 +5,7 @@
 
 #include "alloc.c"
 #include "arena_alloc.c"
+#include "pool_alloc.c"
+#include "stack_alloc.c"
 
 #endif

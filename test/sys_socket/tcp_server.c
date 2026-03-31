@@ -4,9 +4,9 @@
 
 int main(int params_count, char* params_array[])
 {
-    uint8 buffer[VR_MEMORY_KIB] = {0};
+    uint8 memory[VR_INTPTR_KIBI] = {0};
 
-    VR_Arena_Alloc arena = vr_arena_alloc_make(buffer, sizeof buffer);
+    VR_Arena_Alloc arena = vr_arena_alloc_make(memory, sizeof memory);
     VR_Alloc       alloc = vr_alloc_arena(&arena);
 
     VR_Socket_TCP* listener = vr_socket_tcp_reserve(alloc);
@@ -19,7 +19,7 @@ int main(int params_count, char* params_array[])
 
     vr_socket_tcp_accept(socket, listener);
 
-    char message[8] = {0};
+    char message[32] = {0};
 
     intptr count = vr_socket_tcp_read(socket, (uint8*) message, sizeof message);
 

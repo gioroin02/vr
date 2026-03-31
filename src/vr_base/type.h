@@ -7,7 +7,7 @@
 
 #if !defined VR_ALLOW_LIBC
 
-    #if VR_SYSTEM == VR_SYSTEM_WINDOWS || defined LLP64
+    #if VR_SYSTEM == VR_SYSTEM_WINDOWS
 
         typedef unsigned long long uint64_t;
         typedef signed   long long int64_t;
@@ -71,10 +71,10 @@ typedef uint8  bool8;
 #define VR_INT16_MAX ((int16) 32767)
 #define VR_INT8_MAX  ((int8)  127)
 
-#define VR_INT64_MIN (-((int64) 9223372036854775807ll) - 1)
-#define VR_INT32_MIN (-((int32) 2147483647l) - 1)
-#define VR_INT16_MIN (-((int16) 32767) - 1)
-#define VR_INT8_MIN  (-((int8)  127) - 1)
+#define VR_INT64_MIN (-VR_INT64_MAX - 1)
+#define VR_INT32_MIN (-VR_INT32_MAX - 1)
+#define VR_INT16_MIN (-VR_INT16_MAX - 1)
+#define VR_INT8_MIN  (-VR_INT8_MAX  - 1)
 
 #if VR_WORD == VR_WORD_64
 
@@ -99,6 +99,14 @@ typedef uint8  bool8;
     #define VR_INTPTR_MIN VR_INT32_MIN
 
 #endif
+
+#define VR_INTPTR_KILO ((intptr) 1000ll)
+#define VR_INTPTR_MEGA ((intptr) 1000000ll)
+#define VR_INTPTR_GIGA ((intptr) 1000000000ll)
+
+#define VR_INTPTR_KIBI ((intptr) 1024ll)
+#define VR_INTPTR_MEBI ((intptr) 1048576ll)
+#define VR_INTPTR_GIBI ((intptr) 1073741824ll)
 
 vr_static_assert(sizeof (uint64) == 8, "");
 vr_static_assert(sizeof (uint32) == 4, "");

@@ -27,6 +27,16 @@ typedef struct
 VR_Alloc;
 
 /*
+    Function: vr_alloc_null
+
+    Implementa un allocatore che non riserva o rilascia alcuna memoria.
+
+    Returns:
+        Un allocatore che non può riservare o rilasciare memoria.
+*/
+VR_Alloc vr_alloc_null();
+
+/*
     Function: vr_alloc_reserve
 
     Riserva un blocco di memoria.
@@ -74,15 +84,5 @@ void vr_alloc_release(VR_Alloc self, void* pntr);
         <vr_alloc_release>
 */
 void vr_alloc_clear(VR_Alloc self);
-
-/*
-    Function: vr_alloc_null
-
-    Implementa un allocatore che non riserva o rilascia alcuna memoria.
-
-    Returns:
-        Un allocatore che non può riservare o rilasciare memoria.
-*/
-VR_Alloc vr_alloc_null();
 
 #endif

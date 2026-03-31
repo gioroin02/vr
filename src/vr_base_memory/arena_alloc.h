@@ -24,8 +24,8 @@ void vr_arena_alloc_clear(VR_Arena_Alloc* self);
 
 void* vr_arena_alloc_reserve(VR_Arena_Alloc* self, intptr elem_count, intptr elem_size);
 
-void* vr_arena_alloc_marker(VR_Arena_Alloc* self);
-
 void vr_arena_alloc_rewind(VR_Arena_Alloc* self, void* marker);
+
+void* vr_arena_alloc_marker(VR_Arena_Alloc* self);
 
 #endif

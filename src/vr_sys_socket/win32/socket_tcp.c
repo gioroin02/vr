@@ -81,8 +81,6 @@ bool32 vr_win32_socket_tcp_accept(VR_Win32_Socket_TCP* self, VR_Win32_Socket_TCP
 
     SOCKET handle = accept(listener->handle, (sockaddr_t*) &address, &length);
 
-    int error = GetLastError();
-
     if (handle != INVALID_SOCKET) {
         self->handle  = handle;
         self->address = address;

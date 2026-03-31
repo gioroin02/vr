@@ -1,5 +1,5 @@
-#ifndef VR_SYS_MEMORY_MEMORY_C
-#define VR_SYS_MEMORY_MEMORY_C
+#ifndef VR_SYS_MEMORY_UTILS_C
+#define VR_SYS_MEMORY_UTILS_C
 
 #include "utils.h"
 

@@ -26,8 +26,7 @@ intptr vr_memory_copy(void* pntr, intptr size, void* value)
 
 intptr vr_memory_copy_endian(void* pntr, intptr size, void* value, VR_Endian endian)
 {
-    if (pntr == NULL || size <= 0 || value == NULL)
-        return 0;
+    if (pntr == NULL || size <= 0 || value == NULL) return 0;
 
     switch (endian) {
         case VR_Endian_None: {
@@ -65,10 +64,15 @@ void* vr_memory_align_pntr(void* pntr, intptr alignment)
     if (pntr == NULL || alignment <= 0 || (alignment & (alignment - 1)) != 0)
         return NULL;
 
-    uintptr error = ((uintptr) pntr) % alignment;
+    uintptr value = (uintptr) pntr;
+    uintptr error = value % alignment;
 
-    if (error != 0)
+    if (error != 0) {
+        if (value > VR_UINTPTR_MAX - (alignment - error))
+            return NULL;
+
         return ((uint8*) pntr) + (alignment - error);
+    }
 
     return pntr;
 }
@@ -78,10 +82,14 @@ intptr vr_memory_align_size(intptr size, intptr alignment)
     if (size <= 0 || alignment <= 0 || (alignment & (alignment - 1)) != 0)
         return 0;
 
-    uintptr error = ((uintptr) size) % alignment;
+    intptr error = size % alignment;
 
-    if (error != 0)
+    if (error != 0) {
+        if (size > VR_INTPTR_MAX - (alignment - error))
+            return 0;
+
         return size + (alignment - error);
+    }
 
     return size;
 }

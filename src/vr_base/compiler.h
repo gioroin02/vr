@@ -32,7 +32,7 @@
 
 #endif
 
-#ifndef vr_debug_break
+#if !defined vr_debug_break
 
     #if VR_COMPILER == VR_COMPILER_GCC || VR_COMPILER == VR_COMPILER_CLANG
 

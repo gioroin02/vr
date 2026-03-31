@@ -43,28 +43,22 @@ void vr_arena_alloc_clear(VR_Arena_Alloc* self)
     self->count = 0;
 }
 
-void* vr_arena_alloc_reserve(VR_Arena_Alloc* self, intptr count, intptr size)
+void* vr_arena_alloc_reserve(VR_Arena_Alloc* self, intptr elem_count, intptr elem_size)
 {
-    if (count <= 0 || size <= 0 || count > VR_INTPTR_MAX / size)
+    if (elem_count <= 0 || elem_size <= 0 || elem_count > VR_INTPTR_MAX / elem_size)
         return NULL;
 
     intptr alignment = VR_MEMORY_DEFAULT_ALIGNMENT;
-    intptr total     = vr_memory_align_size(count * size, alignment);
+    void*  pntr      = self->memory + self->count;
+    intptr size      = vr_memory_align_size(elem_count * elem_size, alignment);
 
-    if (total <= 0 || self->count + total > self->size) return NULL;
+    if (size <= 0 || self->count + size > self->size) return NULL;
 
-    void* result = self->memory + self->count;
+    self->count += size;
 
-    self->count += total;
+    vr_memory_set_zero(pntr, size);
 
-    vr_memory_set_zero(result, total);
-
-    return result;
-}
-
-void* vr_arena_alloc_marker(VR_Arena_Alloc* self)
-{
-    return self->memory + self->count;
+    return pntr;
 }
 
 void vr_arena_alloc_rewind(VR_Arena_Alloc* self, void* pntr)
@@ -80,6 +74,11 @@ void vr_arena_alloc_rewind(VR_Arena_Alloc* self, void* pntr)
     vr_memory_set_zero(self->memory + delta, self->count - delta);
 
     self->count = delta;
+}
+
+void* vr_arena_alloc_marker(VR_Arena_Alloc* self)
+{
+    return self->memory + self->count;
 }
 
 #endif

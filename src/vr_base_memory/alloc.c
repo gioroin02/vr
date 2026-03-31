@@ -3,6 +3,16 @@
 
 #include "alloc.h"
 
+VR_Alloc vr_alloc_null()
+{
+    return (VR_Alloc) {
+        .self          = NULL,
+        .proc_reserve  = NULL,
+        .proc_release  = NULL,
+        .proc_clear    = NULL,
+    };
+}
+
 void* vr_alloc_reserve(VR_Alloc self, intptr elem_count, intptr elem_size)
 {
     if (self.proc_reserve != NULL)
@@ -21,16 +31,6 @@ void vr_alloc_clear(VR_Alloc self)
 {
     if (self.proc_clear != NULL)
         return self.proc_clear(self.self);
-}
-
-VR_Alloc vr_alloc_null()
-{
-    return (VR_Alloc) {
-        .self          = NULL,
-        .proc_reserve  = NULL,
-        .proc_release  = NULL,
-        .proc_clear    = NULL,
-    };
 }
 
 #endif
