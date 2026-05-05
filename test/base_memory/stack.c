@@ -25,12 +25,10 @@ int main(int args_count, char* args_array[])
 {
     uint8 memory[VR_INTPTR_KIBI] = {0};
 
-    VR_Arena_Alloc arena = vr_arena_alloc_make(memory, sizeof memory);
+    VR_Stack_Alloc stack = vr_stack_alloc_make(memory, sizeof memory);
 
-    void* marker = vr_arena_alloc_marker(&arena);
-
-    uint32* p0 = vr_arena_alloc_reserve_of(&arena, 1, uint32);
-    uint32* p1 = vr_arena_alloc_reserve_of(&arena, 1, uint32);
+    uint32* p0 = vr_stack_alloc_reserve_of(&stack, 1, uint32);
+    uint32* p1 = vr_stack_alloc_reserve_of(&stack, 1, uint32);
 
     if (p0 != NULL) vr_memory_set_zero(p0, sizeof *p0);
     if (p1 != NULL) vr_memory_set_zero(p1, sizeof *p1);
@@ -38,10 +36,12 @@ int main(int args_count, char* args_array[])
     show_memory_uint32(p0);
     show_memory_uint32(p1);
 
-    vr_arena_alloc_rewind(&arena, marker);
+    vr_stack_alloc_release(&stack, p1);
+    vr_stack_alloc_release(&stack, p1);
+    vr_stack_alloc_release(&stack, p0);
 
-    p0 = vr_arena_alloc_reserve_of(&arena, 1, uint32);
-    p1 = vr_arena_alloc_reserve_of(&arena, 1, uint32);
+    p0 = vr_stack_alloc_reserve_of(&stack, 1, uint32);
+    p1 = vr_stack_alloc_reserve_of(&stack, 1, uint32);
 
     if (p0 != NULL) vr_memory_set_zero(p0, sizeof *p0);
     if (p1 != NULL) vr_memory_set_zero(p1, sizeof *p1);

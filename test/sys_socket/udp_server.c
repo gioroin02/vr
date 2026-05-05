@@ -1,8 +1,7 @@
-#include "../../src/vr_sys_socket/export.h"
-
+#include <vr_sys_socket.h>
 #include <stdio.h>
 
-int main(int params_count, char* params_array[])
+int main(int args_count, char* args_array[])
 {
     uint8 memory[VR_INTPTR_KIBI] = {0};
 
@@ -12,8 +11,7 @@ int main(int params_count, char* params_array[])
     VR_Socket_UDP* socket   = vr_socket_udp_reserve(alloc);
     VR_Endpoint_IP endpoint = vr_endpoint_ip_none();
 
-    vr_socket_udp_create(socket, vr_endpoint_ip4_local(5000));
-    vr_socket_udp_bind(socket);
+    vr_socket_udp_create_bound(socket, VR_Endpoint_IP_Kind_4, 5000);
 
     char message[32] = {0};
 

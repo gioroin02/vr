@@ -1,17 +1,17 @@
-#include "../src/vr_sys_memory/export.h"
-#include "../src/vr_sys_socket/export.h"
+#include <vr_sys_memory.h>
+#include <vr_sys_socket.h>
 
 #include <stdio.h>
 #include <stdlib.h>
 
-int main(int params_count, char* params_array[])
+int main(int args_count, char* args_array[])
 {
-    VR_Arena_Alloc arena = vr_memory_reserve(16, VR_MEMORY_KIB);
+    VR_Arena_Alloc arena = vr_memory_reserve(16, VR_INTPTR_KIBI);
     VR_Alloc       alloc = vr_alloc_arena(&arena);
 
     VR_Socket_TCP* socket = vr_socket_tcp_reserve(alloc);
 
-    vr_socket_tcp_create(socket, vr_endpoint_ip4_empty());
+    vr_socket_tcp_create(socket, VR_Endpoint_IP_Kind_4);
     vr_socket_tcp_connect(socket, vr_endpoint_ip4_local(37134));
 
     uint8  message[32]      = {0};

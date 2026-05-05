@@ -1,8 +1,7 @@
-#include "../../src/vr_sys_socket/export.h"
-
+#include <vr_sys_socket.h>
 #include <stdio.h>
 
-int main(int params_count, char* params_array[])
+int main(int args_count, char* args_array[])
 {
     uint8 memory[VR_INTPTR_KIBI] = {0};
 
@@ -12,9 +11,7 @@ int main(int params_count, char* params_array[])
     VR_Socket_TCP* listener = vr_socket_tcp_reserve(alloc);
     VR_Socket_TCP* socket   = vr_socket_tcp_reserve(alloc);
 
-    vr_socket_tcp_create(listener, vr_endpoint_ip4_local(5000));
-
-    vr_socket_tcp_bind(listener);
+    vr_socket_tcp_create_bound(listener, VR_Endpoint_IP_Kind_4, 5000);
     vr_socket_tcp_listen(listener);
 
     vr_socket_tcp_accept(socket, listener);

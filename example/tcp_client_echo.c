@@ -1,5 +1,5 @@
-#include "../src/vr_sys_memory/export.h"
-#include "../src/vr_sys_socket/export.h"
+#include <vr_sys_memory.h>
+#include <vr_sys_socket.h>
 
 #include <stdio.h>
 #include <stdlib.h>
@@ -12,7 +12,8 @@ int main(int params_count, char* params_array[])
     // Creazione di una "arena", un tipo di allocatore che può riservare
     // blocchi di memoria ma non può rilasciarli singolarmente, può essere
     // solamente ripulito globalmente.
-    VR_Arena_Alloc arena = vr_memory_reserve(16, VR_MEMORY_KIB);
+    // In questo caso richiediamo 16 * 1024 byte.
+    VR_Arena_Alloc arena = vr_memory_reserve(16, VR_INTPTR_KIBI);
 
     // La struttura VR_Alloc è un'interfaccia che permette di allocare
     // e liberare memoria in modo generico senza sapere quale allocatore
@@ -24,7 +25,7 @@ int main(int params_count, char* params_array[])
 
     // Inizializzazione del socket con un placeholder, indirizzo e porta
     // sono dati automaticamente dal sistema operativo durante la connect.
-    vr_socket_tcp_create(socket, vr_endpoint_ip4_empty());
+    vr_socket_tcp_create(socket, VR_Endpoint_IP_Kind_4);
 
     // Connessione a localhost alla porta 37134.
     vr_socket_tcp_connect(socket, vr_endpoint_ip4_local(37134));

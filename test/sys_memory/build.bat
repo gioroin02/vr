@@ -1,11 +1,15 @@
 @echo off
 
-set "compiler=zig cc --std=c99"
+setlocal
 
-set "impl=%impl% src\vr_base\export.c"
-set "impl=%impl% src\vr_base_memory\export.c"
-set "impl=%impl% src\vr_sys_memory\export.c"
+set "compiler=zig cc --std=c99 -Isource -Wall -g"
+
+set "impl=%impl% source\vr_base_platform.c"
+set "impl=%impl% source\vr_base_memory.c"
+set "impl=%impl% source\vr_sys_memory.c"
 
 set "test_memory=test\sys_memory\memory.c"
 
 %compiler% %impl% %test_memory% -o sys_memory_memory.exe
+
+endlocal
