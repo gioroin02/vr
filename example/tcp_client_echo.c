@@ -1,11 +1,11 @@
-#include <vr_sys_memory.h>
-#include <vr_sys_socket.h>
+#include <vr_system_memory.h>
+#include <vr_system_socket.h>
 
 #include <stdio.h>
 #include <stdlib.h>
 #include <time.h>
 
-int main(int params_count, char* params_array[])
+int main(int args_count, char* args_array[])
 {
     srand(time(NULL));
 
@@ -25,10 +25,10 @@ int main(int params_count, char* params_array[])
 
     // Inizializzazione del socket con un placeholder, indirizzo e porta
     // sono dati automaticamente dal sistema operativo durante la connect.
-    vr_socket_tcp_create(socket, VR_Endpoint_IP_Kind_4);
+    vr_socket_tcp_init(socket, VR_Endpoint_IP_Kind_V4);
 
     // Connessione a localhost alla porta 37134.
-    vr_socket_tcp_connect(socket, vr_endpoint_ip4_local(37134));
+    vr_socket_tcp_connect(socket, vr_endpoint_ipv4_local(37134));
 
     uint8  message[32] = {0};
     intptr count       = 0;
@@ -47,7 +47,7 @@ int main(int params_count, char* params_array[])
     printf("[INFO] Ricevuto '%.*s'\n", (int) count, message);
 
     // Chiusura della connessione e distruzione delle risorse acquisite.
-    vr_socket_tcp_destroy(socket);
+    vr_socket_tcp_deinit(socket);
     vr_memory_release(&arena);
 
     return 0;

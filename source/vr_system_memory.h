@@ -1,5 +1,5 @@
-#ifndef VR_SYS_MEMORY_H
-#define VR_SYS_MEMORY_H
+#ifndef VR_SYSTEM_MEMORY_H
+#define VR_SYSTEM_MEMORY_H
 
 #include "vr_base_memory.h"
 

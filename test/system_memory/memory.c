@@ -1,4 +1,4 @@
-#include <vr_sys_memory.h>
+#include <vr_system_memory.h>
 #include <stdio.h>
 
 int main(int args_count, char* args_array[])

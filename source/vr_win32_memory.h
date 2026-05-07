@@ -1,7 +1,7 @@
-#ifndef VR_SYS_MEMORY_WIN32_H
-#define VR_SYS_MEMORY_WIN32_H
+#ifndef VR_WIN32_MEMORY_H
+#define VR_WIN32_MEMORY_H
 
-#include "vr_base_memory.h"
+#include "vr_system_memory.h"
 
 #define WIN32_LEAN_AND_MEAN
 #define NOGDI

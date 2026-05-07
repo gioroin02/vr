@@ -1,7 +1,7 @@
-#ifndef VR_SYS_SOCKET_WIN32_H
-#define VR_SYS_SOCKET_WIN32_H
+#ifndef VR_WIN32_SOCKET_H
+#define VR_WIN32_SOCKET_H
 
-#include "vr_sys_socket.h"
+#include "vr_system_socket.h"
 
 #define WIN32_LEAN_AND_MEAN
 #define NOGDI
@@ -13,8 +13,8 @@
 
 typedef struct sockaddr_storage sockaddr_storage_t;
 typedef struct sockaddr         sockaddr_t;
-typedef struct sockaddr_in      sockaddr_ip4_t;
-typedef struct sockaddr_in6     sockaddr_ip6_t;
+typedef struct sockaddr_in      sockaddr_ipv4_t;
+typedef struct sockaddr_in6     sockaddr_ipv6_t;
 
 bool32 vr_win32_socket_start();
 
@@ -38,9 +38,9 @@ VR_Win32_Socket_TCP;
 
 VR_Win32_Socket_TCP* vr_win32_socket_tcp_reserve(VR_Alloc alloc);
 
-bool32 vr_win32_socket_tcp_create(VR_Win32_Socket_TCP* self, VR_Endpoint_IP endpoint);
+bool32 vr_win32_socket_tcp_init(VR_Win32_Socket_TCP* self, VR_Endpoint_IP endpoint);
 
-void vr_win32_socket_tcp_destroy(VR_Win32_Socket_TCP* self);
+void vr_win32_socket_tcp_deinit(VR_Win32_Socket_TCP* self);
 
 bool32 vr_win32_socket_tcp_bind(VR_Win32_Socket_TCP* self);
 
@@ -66,9 +66,9 @@ VR_Win32_Socket_UDP;
 
 VR_Win32_Socket_UDP* vr_win32_socket_udp_reserve(VR_Alloc alloc);
 
-bool32 vr_win32_socket_udp_create(VR_Win32_Socket_UDP* self, VR_Endpoint_IP endpoint);
+bool32 vr_win32_socket_udp_init(VR_Win32_Socket_UDP* self, VR_Endpoint_IP endpoint);
 
-void vr_win32_socket_udp_destroy(VR_Win32_Socket_UDP* self);
+void vr_win32_socket_udp_deinit(VR_Win32_Socket_UDP* self);
 
 bool32 vr_win32_socket_udp_bind(VR_Win32_Socket_UDP* self);
 

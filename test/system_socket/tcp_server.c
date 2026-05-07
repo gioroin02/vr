@@ -1,4 +1,4 @@
-#include <vr_sys_socket.h>
+#include <vr_system_socket.h>
 #include <stdio.h>
 
 int main(int args_count, char* args_array[])
@@ -11,7 +11,7 @@ int main(int args_count, char* args_array[])
     VR_Socket_TCP* listener = vr_socket_tcp_reserve(alloc);
     VR_Socket_TCP* socket   = vr_socket_tcp_reserve(alloc);
 
-    vr_socket_tcp_create_bound(listener, VR_Endpoint_IP_Kind_4, 5000);
+    vr_socket_tcp_init_bound(listener, VR_Endpoint_IP_Kind_V4, 5000);
     vr_socket_tcp_listen(listener);
 
     vr_socket_tcp_accept(socket, listener);
@@ -26,8 +26,8 @@ int main(int args_count, char* args_array[])
 
     printf("[INFO] Inviato '%.*s'\n", (int) count, message);
 
-    vr_socket_tcp_destroy(socket);
-    vr_socket_tcp_destroy(listener);
+    vr_socket_tcp_deinit(socket);
+    vr_socket_tcp_deinit(listener);
 
     return 0;
 }

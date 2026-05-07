@@ -6,8 +6,8 @@ set "compiler=zig cc --std=c99 -Isource -Wall -g -lws2_32"
 
 set "impl=%impl% source\vr_base_platform.c"
 set "impl=%impl% source\vr_base_memory.c"
-set "impl=%impl% source\vr_sys_memory.c"
-set "impl=%impl% source\vr_sys_socket.c"
+set "impl=%impl% source\vr_system_memory.c"
+set "impl=%impl% source\vr_system_socket.c"
 
 set "example_tcp_server_echo=example\tcp_server_echo.c"
 set "example_tcp_client_echo=example\tcp_client_echo.c"

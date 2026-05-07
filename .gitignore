@@ -14,3 +14,6 @@
 !/clean.*
 
 !/README.md
+
+# Useful for clangd
+!/compile_flags.txt

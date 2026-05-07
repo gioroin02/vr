@@ -1,9 +1,9 @@
-#include <vr_sys_memory.h>
-#include <vr_sys_socket.h>
+#include <vr_system_memory.h>
+#include <vr_system_socket.h>
 
 #include <stdio.h>
 
-int main(int params_count, char* params_array[])
+int main(int args_count, char* args_array[])
 {
     // Creazione di una "arena", un tipo di allocatore che può riservare
     // blocchi di memoria ma non può rilasciarli singolarmente, può essere
@@ -21,7 +21,7 @@ int main(int params_count, char* params_array[])
     VR_Socket_TCP* socket   = vr_socket_tcp_reserve(alloc);
 
     // Inizializzazione del socket listener come localhost alla porta 37134.
-    vr_socket_tcp_create_bound(listener, VR_Endpoint_IP_Kind_4, 37134);
+    vr_socket_tcp_init_bound(listener, VR_Endpoint_IP_Kind_V4, 37134);
 
     // Bind di socket e indirizzo/porta più ascolto di connessioni da accettare.
     vr_socket_tcp_listen(listener);
@@ -45,11 +45,11 @@ int main(int params_count, char* params_array[])
 
         printf("[INFO] Inviato '%.*s'\n", (int) count, message);
 
-        vr_socket_tcp_destroy(socket);
+        vr_socket_tcp_deinit(socket);
     }
 
     // Chiusura del server e distruzione delle risorse acquisite.
-    vr_socket_tcp_destroy(listener);
+    vr_socket_tcp_deinit(listener);
     vr_memory_release(&arena);
 
     return 0;

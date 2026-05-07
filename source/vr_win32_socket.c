@@ -1,7 +1,7 @@
-#ifndef VR_SYS_SOCKET_WIN32_C
-#define VR_SYS_SOCKET_WIN32_C
+#ifndef VR_WIN32_SOCKET_C
+#define VR_WIN32_SOCKET_C
 
-#include "vr_sys_socket_win32.h"
+#include "vr_win32_socket.h"
 
 static volatile long vr_win32_socket_refs = 0;
 
@@ -95,24 +95,24 @@ sockaddr_storage_t vr_win32_sockaddr_make(VR_Endpoint_IP endpoint)
     sockaddr_storage_t result = {0};
 
     switch (endpoint.kind) {
-        case VR_Endpoint_IP_Kind_4: {
-            sockaddr_ip4_t* ip_4 = (sockaddr_ip4_t*) &result;
+        case VR_Endpoint_IP_Kind_V4: {
+            sockaddr_ipv4_t* ip_ver4 = (sockaddr_ipv4_t*) &result;
 
-            ip_4->sin_family = AF_INET;
-            ip_4->sin_port   = htons(endpoint.port);
+            ip_ver4->sin_family = AF_INET;
+            ip_ver4->sin_port   = htons(endpoint.port);
 
-            vr_memory_copy(&ip_4->sin_addr.s_addr,
-                VR_ENDPOINT_IP4_SIZE, endpoint.ip_4.elems);
+            vr_memory_copy(&ip_ver4->sin_addr.s_addr,
+                VR_ENDPOINT_IPV4_SIZE, endpoint.ip_ver4.elems);
         } break;
 
-        case VR_Endpoint_IP_Kind_6: {
-            sockaddr_ip6_t* ip_6 = (sockaddr_ip6_t*) &result;
+        case VR_Endpoint_IP_Kind_V6: {
+            sockaddr_ipv6_t* ip_ver6 = (sockaddr_ipv6_t*) &result;
 
-            ip_6->sin6_family = AF_INET6;
-            ip_6->sin6_port   = htons(endpoint.port);
+            ip_ver6->sin6_family = AF_INET6;
+            ip_ver6->sin6_port   = htons(endpoint.port);
 
-            vr_memory_copy(&ip_6->sin6_addr.s6_addr,
-                VR_ENDPOINT_IP6_SIZE, endpoint.ip_6.elems);
+            vr_memory_copy(&ip_ver6->sin6_addr.s6_addr,
+                VR_ENDPOINT_IPV6_SIZE, endpoint.ip_ver6.elems);
         } break;
 
         default: break;
@@ -126,25 +126,25 @@ sockaddr_storage_t vr_win32_sockaddr_make_any(VR_Endpoint_IP_Kind kind, uint16 p
     sockaddr_storage_t result = {0};
 
     switch (kind) {
-        case VR_Endpoint_IP_Kind_4: {
-            sockaddr_ip4_t* ip_4        = (sockaddr_ip4_t*) &result;
+        case VR_Endpoint_IP_Kind_V4: {
+            sockaddr_ipv4_t* ip_ver4        = (sockaddr_ipv4_t*) &result;
             uint32          in4addr_any = INADDR_ANY;
 
-            ip_4->sin_family = AF_INET;
-            ip_4->sin_port   = htons(port);
+            ip_ver4->sin_family = AF_INET;
+            ip_ver4->sin_port   = htons(port);
 
-            vr_memory_copy(&ip_4->sin_addr.s_addr,
-                VR_ENDPOINT_IP4_SIZE, (void*) &in4addr_any);
+            vr_memory_copy(&ip_ver4->sin_addr.s_addr,
+                VR_ENDPOINT_IPV4_SIZE, (void*) &in4addr_any);
         } break;
 
-        case VR_Endpoint_IP_Kind_6: {
-            sockaddr_ip6_t* ip_6 = (sockaddr_ip6_t*) &result;
+        case VR_Endpoint_IP_Kind_V6: {
+            sockaddr_ipv6_t* ip_ver6 = (sockaddr_ipv6_t*) &result;
 
-            ip_6->sin6_family = AF_INET6;
-            ip_6->sin6_port   = htons(port);
+            ip_ver6->sin6_family = AF_INET6;
+            ip_ver6->sin6_port   = htons(port);
 
-            vr_memory_copy(&ip_6->sin6_addr.s6_addr,
-                VR_ENDPOINT_IP6_SIZE, (void*) &in6addr_any);
+            vr_memory_copy(&ip_ver6->sin6_addr.s6_addr,
+                VR_ENDPOINT_IPV6_SIZE, (void*) &in6addr_any);
         } break;
 
         default: break;
@@ -156,8 +156,8 @@ sockaddr_storage_t vr_win32_sockaddr_make_any(VR_Endpoint_IP_Kind kind, uint16 p
 intptr vr_win32_sockaddr_size(sockaddr_storage_t* self)
 {
     switch (self->ss_family) {
-        case AF_INET:  { return sizeof (sockaddr_ip4_t); } break;
-        case AF_INET6: { return sizeof (sockaddr_ip6_t); } break;
+        case AF_INET:  { return sizeof (sockaddr_ipv4_t); } break;
+        case AF_INET6: { return sizeof (sockaddr_ipv6_t); } break;
 
         default: break;
     }
@@ -171,23 +171,23 @@ VR_Endpoint_IP vr_win32_sockaddr_endpoint(sockaddr_storage_t* self)
 
     switch (self->ss_family) {
         case AF_INET: {
-            sockaddr_ip4_t* ip_4 = (sockaddr_ip4_t*) self;
+            sockaddr_ipv4_t* ip_ver4 = (sockaddr_ipv4_t*) self;
 
-            result.kind = VR_Endpoint_IP_Kind_4;
-            result.port = ntohs(ip_4->sin_port);
+            result.kind = VR_Endpoint_IP_Kind_V4;
+            result.port = ntohs(ip_ver4->sin_port);
 
-            vr_memory_copy(result.ip_4.elems,
-                VR_ENDPOINT_IP4_SIZE, &ip_4->sin_addr.s_addr);
+            vr_memory_copy(result.ip_ver4.elems,
+                VR_ENDPOINT_IPV4_SIZE, &ip_ver4->sin_addr.s_addr);
         } break;
 
         case AF_INET6: {
-            sockaddr_ip6_t* ip_6 = (sockaddr_ip6_t*) self;
+            sockaddr_ipv6_t* ip_ver6 = (sockaddr_ipv6_t*) self;
 
-            result.kind = VR_Endpoint_IP_Kind_6;
-            result.port = ntohs(ip_6->sin6_port);
+            result.kind = VR_Endpoint_IP_Kind_V6;
+            result.port = ntohs(ip_ver6->sin6_port);
 
-            vr_memory_copy(result.ip_6.elems,
-                VR_ENDPOINT_IP6_SIZE, &ip_6->sin6_addr.s6_addr);
+            vr_memory_copy(result.ip_ver6.elems,
+                VR_ENDPOINT_IPV6_SIZE, &ip_ver6->sin6_addr.s6_addr);
         } break;
 
         default: break;
@@ -201,7 +201,7 @@ VR_Win32_Socket_TCP* vr_win32_socket_tcp_reserve(VR_Alloc alloc)
     return vr_alloc_reserve_of(alloc, 1, VR_Win32_Socket_TCP);
 }
 
-bool32 vr_win32_socket_tcp_create(VR_Win32_Socket_TCP* self, VR_Endpoint_IP endpoint)
+bool32 vr_win32_socket_tcp_init(VR_Win32_Socket_TCP* self, VR_Endpoint_IP endpoint)
 {
     self->handle  = INVALID_SOCKET;
     self->address = (sockaddr_storage_t) {0};
@@ -230,7 +230,7 @@ bool32 vr_win32_socket_tcp_create(VR_Win32_Socket_TCP* self, VR_Endpoint_IP endp
     return 0;
 }
 
-void vr_win32_socket_tcp_destroy(VR_Win32_Socket_TCP* self)
+void vr_win32_socket_tcp_deinit(VR_Win32_Socket_TCP* self)
 {
     if (self->handle == INVALID_SOCKET) return;
 
@@ -341,7 +341,7 @@ VR_Win32_Socket_UDP* vr_win32_socket_udp_reserve(VR_Alloc alloc)
     return vr_alloc_reserve_of(alloc, 1, VR_Win32_Socket_UDP);
 }
 
-bool32 vr_win32_socket_udp_create(VR_Win32_Socket_UDP* self, VR_Endpoint_IP endpoint)
+bool32 vr_win32_socket_udp_init(VR_Win32_Socket_UDP* self, VR_Endpoint_IP endpoint)
 {
     self->handle  = INVALID_SOCKET;
     self->address = (sockaddr_storage_t) {0};
@@ -370,7 +370,7 @@ bool32 vr_win32_socket_udp_create(VR_Win32_Socket_UDP* self, VR_Endpoint_IP endp
     return 0;
 }
 
-void vr_win32_socket_udp_destroy(VR_Win32_Socket_UDP* self)
+void vr_win32_socket_udp_deinit(VR_Win32_Socket_UDP* self)
 {
     if (self->handle == INVALID_SOCKET) return;
 

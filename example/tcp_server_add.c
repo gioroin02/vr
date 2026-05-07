@@ -1,10 +1,10 @@
-#include <vr_sys_memory.h>
-#include <vr_sys_socket.h>
+#include <vr_system_memory.h>
+#include <vr_system_socket.h>
 
 #include <stdio.h>
 #include <stdlib.h>
 
-int main(int params_count, char* params_array[])
+int main(int args_count, char* args_array[])
 {
     VR_Arena_Alloc arena = vr_memory_reserve(16, VR_INTPTR_KIBI);
     VR_Alloc       alloc = vr_alloc_arena(&arena);
@@ -12,7 +12,7 @@ int main(int params_count, char* params_array[])
     VR_Socket_TCP* listener = vr_socket_tcp_reserve(alloc);
     VR_Socket_TCP* socket   = vr_socket_tcp_reserve(alloc);
 
-    vr_socket_tcp_create_bound(listener, VR_Endpoint_IP_Kind_4, 37134);
+    vr_socket_tcp_init_bound(listener, VR_Endpoint_IP_Kind_V4, 37134);
     vr_socket_tcp_listen(listener);
 
     vr_socket_tcp_accept(socket, listener);
@@ -42,8 +42,8 @@ int main(int params_count, char* params_array[])
         if (message_number == 0) break;
     }
 
-    vr_socket_tcp_destroy(socket);
-    vr_socket_tcp_destroy(listener);
+    vr_socket_tcp_deinit(socket);
+    vr_socket_tcp_deinit(listener);
 
     return 0;
 }

@@ -1,11 +1,11 @@
-#ifndef VR_SYS_MEMORY_C
-#define VR_SYS_MEMORY_C
+#ifndef VR_SYSTEM_MEMORY_C
+#define VR_SYSTEM_MEMORY_C
 
-#include "vr_sys_memory.h"
+#include "vr_system_memory.h"
 
 #if VR_SYSTEM == VR_SYSTEM_WINDOWS
 
-    #include "vr_sys_memory_win32.c"
+    #include "vr_win32_memory.c"
 
     #define _vr_memory_page_size_ vr_win32_memory_page_size
     #define _vr_memory_reserve_   vr_win32_memory_reserve
@@ -13,7 +13,7 @@
 
 #elif VR_SYSTEM == VR_SYSTEM_LINUX
 
-    #include "vr_sys_memory_linux.c"
+    #include "vr_linux_memory.c"
 
     #define _vr_memory_page_size_ vr_linux_memory_page_size
     #define _vr_memory_reserve_   vr_linux_memory_reserve

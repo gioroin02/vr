@@ -1,7 +1,7 @@
-#ifndef VR_SYS_MEMORY_WIN32_C
-#define VR_SYS_MEMORY_WIN32_C
+#ifndef VR_WIN32_MEMORY_C
+#define VR_WIN32_MEMORY_C
 
-#include "vr_sys_memory_win32.h"
+#include "vr_win32_memory.h"
 
 intptr vr_win32_memory_page_size()
 {

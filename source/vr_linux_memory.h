@@ -1,7 +1,7 @@
-#ifndef VR_SYS_MEMORY_LINUX_H
-#define VR_SYS_MEMORY_LINUX_H
+#ifndef VR_LINUX_MEMORY_H
+#define VR_LINUX_MEMORY_H
 
-#include "vr_sys_memory.h"
+#include "vr_system_memory.h"
 
 #include <unistd.h>
 #include <errno.h>

@@ -1,5 +1,6 @@
-#include <vr_sys_socket.h>
+#include <vr_system_socket.h>
 #include <stdio.h>
+#include <string.h>
 
 int main(int args_count, char* args_array[])
 {
@@ -8,23 +9,24 @@ int main(int args_count, char* args_array[])
     VR_Arena_Alloc arena = vr_arena_alloc_make(memory, sizeof memory);
     VR_Alloc       alloc = vr_alloc_arena(&arena);
 
+    VR_Endpoint_IP endpoint = vr_endpoint_ipv4_local(5000);
     VR_Socket_UDP* socket   = vr_socket_udp_reserve(alloc);
-    VR_Endpoint_IP endpoint = vr_endpoint_ip_none();
 
-    vr_socket_udp_create_bound(socket, VR_Endpoint_IP_Kind_4, 5000);
+    vr_socket_udp_init(socket, VR_Endpoint_IP_Kind_V4);
 
-    char message[32] = {0};
-
-    intptr count = vr_socket_udp_read(socket,
-        (uint8*) message, sizeof message, &endpoint);
-
-    printf("[INFO] Ricevuto '%.*s'\n", (int) count, message);
+    char   message[32] = "Ciao";
+    intptr count       = strlen(message);
 
     vr_socket_udp_write(socket, (uint8*) message, count, endpoint);
 
     printf("[INFO] Inviato '%.*s'\n", (int) count, message);
 
-    vr_socket_udp_destroy(socket);
+    count = vr_socket_udp_read(socket,
+        (uint8*) message, sizeof message, &endpoint);
+
+    printf("[INFO] Ricevuto '%.*s'\n", (int) count, message);
+
+    vr_socket_udp_deinit(socket);
 
     return 0;
 }

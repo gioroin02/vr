@@ -1,7 +1,7 @@
-#ifndef VR_SYS_MEMORY_LINUX_C
-#define VR_SYS_MEMORY_LINUX_C
+#ifndef VR_LINUX_MEMORY_C
+#define VR_LINUX_MEMORY_C
 
-#include "vr_sys_memory_linux.h"
+#include "vr_linux_memory.h"
 
 intptr vr_linux_memory_page_size()
 {

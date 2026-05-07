@@ -1,5 +1,5 @@
-#include <vr_sys_memory.h>
-#include <vr_sys_socket.h>
+#include <vr_system_memory.h>
+#include <vr_system_socket.h>
 
 #include <stdio.h>
 #include <stdlib.h>
@@ -11,8 +11,8 @@ int main(int args_count, char* args_array[])
 
     VR_Socket_TCP* socket = vr_socket_tcp_reserve(alloc);
 
-    vr_socket_tcp_create(socket, VR_Endpoint_IP_Kind_4);
-    vr_socket_tcp_connect(socket, vr_endpoint_ip4_local(37134));
+    vr_socket_tcp_init(socket, VR_Endpoint_IP_Kind_V4);
+    vr_socket_tcp_connect(socket, vr_endpoint_ipv4_local(37134));
 
     uint8  message[32]      = {0};
     intptr count            = 0;
@@ -47,7 +47,7 @@ int main(int args_count, char* args_array[])
         if (message_number == 0) break;
     }
 
-    vr_socket_tcp_destroy(socket);
+    vr_socket_tcp_deinit(socket);
 
     return 0;
 }

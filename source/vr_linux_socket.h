@@ -1,7 +1,7 @@
-#ifndef VR_SYS_SOCKET_LINUX_H
-#define VR_SYS_SOCKET_LINUX_H
+#ifndef VR_LINUX_SOCKET_H
+#define VR_LINUX_SOCKET_H
 
-#include "vr_sys_socket.h"
+#include "vr_system_socket.h"
 
 #include <unistd.h>
 #include <errno.h>
@@ -11,8 +11,8 @@
 
 typedef struct sockaddr_storage sockaddr_storage_t;
 typedef struct sockaddr         sockaddr_t;
-typedef struct sockaddr_in      sockaddr_ip4_t;
-typedef struct sockaddr_in6     sockaddr_ip6_t;
+typedef struct sockaddr_in      sockaddr_ipv4_t;
+typedef struct sockaddr_in6     sockaddr_ipv6_t;
 
 sockaddr_storage_t vr_linux_sockaddr_make(VR_Endpoint_IP endpoint);
 
@@ -32,9 +32,9 @@ VR_Linux_Socket_TCP;
 
 VR_Linux_Socket_TCP* vr_linux_socket_tcp_reserve(VR_Alloc alloc);
 
-bool32 vr_linux_socket_tcp_create(VR_Linux_Socket_TCP* self, VR_Endpoint_IP endpoint);
+bool32 vr_linux_socket_tcp_init(VR_Linux_Socket_TCP* self, VR_Endpoint_IP endpoint);
 
-void vr_linux_socket_tcp_destroy(VR_Linux_Socket_TCP* self);
+void vr_linux_socket_tcp_deinit(VR_Linux_Socket_TCP* self);
 
 bool32 vr_linux_socket_tcp_bind(VR_Linux_Socket_TCP* self);
 
@@ -60,9 +60,9 @@ VR_Linux_Socket_UDP;
 
 VR_Linux_Socket_UDP* vr_linux_socket_udp_reserve(VR_Alloc alloc);
 
-bool32 vr_linux_socket_udp_create(VR_Linux_Socket_UDP* self, VR_Endpoint_IP endpoint);
+bool32 vr_linux_socket_udp_init(VR_Linux_Socket_UDP* self, VR_Endpoint_IP endpoint);
 
-void vr_linux_socket_udp_destroy(VR_Linux_Socket_UDP* self);
+void vr_linux_socket_udp_deinit(VR_Linux_Socket_UDP* self);
 
 bool32 vr_linux_socket_udp_bind(VR_Linux_Socket_UDP* self);
 
