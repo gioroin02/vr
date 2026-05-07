@@ -287,10 +287,10 @@ void vr_alloc_clear(VR_Alloc self)
 VR_Alloc vr_alloc_arena(VR_Arena_Alloc* self)
 {
     return (VR_Alloc) {
-        .self          = self,
-        .proc_reserve  = (VR_Alloc_Proc_Reserve*) vr_arena_alloc_reserve,
-        .proc_release  = NULL,
-        .proc_clear    = (VR_Alloc_Proc_Clear*)   vr_arena_alloc_clear,
+        .self         = self,
+        .proc_reserve = (VR_Alloc_Proc_Reserve*) vr_arena_alloc_reserve,
+        .proc_release = NULL,
+        .proc_clear   = (VR_Alloc_Proc_Clear*)   vr_arena_alloc_clear,
     };
 }
 

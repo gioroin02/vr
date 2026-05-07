@@ -17,8 +17,8 @@ int main(int args_count, char* args_array[])
     VR_Alloc alloc = vr_alloc_arena(&arena);
 
     // Allocazione di un socket TCP listener e uno di connessione.
-    VR_Socket_TCP* listener = vr_socket_tcp_reserve(alloc);
-    VR_Socket_TCP* socket   = vr_socket_tcp_reserve(alloc);
+    VR_Socket_TCP listener = vr_socket_tcp_reserve(alloc);
+    VR_Socket_TCP socket   = vr_socket_tcp_reserve(alloc);
 
     // Inizializzazione del socket listener come localhost alla porta 37134.
     vr_socket_tcp_init_bound(listener, VR_Endpoint_IP_Kind_V4, 37134);

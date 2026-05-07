@@ -198,11 +198,11 @@
 #endif
 
 typedef double float64;
-typedef float  float32;
+typedef  float float32;
 
 typedef uint32 char32;
 typedef uint16 char16;
-typedef char   char8;
+typedef   char char8;
 
 typedef uint64 bool64;
 typedef uint32 bool32;
@@ -212,7 +212,7 @@ typedef uint8  bool8;
 #if VR_WORD == VR_WORD_64
 
     typedef uint64 uintptr;
-    typedef int64  intptr;
+    typedef  int64 intptr;
 
     #define VR_UINTPTR_MAX VR_UINT64_MAX
     #define VR_UINTPTR_MIN VR_UINT64_MIN
@@ -223,7 +223,7 @@ typedef uint8  bool8;
 #else
 
     typedef uint32 uintptr;
-    typedef int32  intptr;
+    typedef  int32 intptr;
 
     #define VR_UINTPTR_MAX VR_UINT32_MAX
     #define VR_UINTPTR_MIN VR_UINT32_MIN

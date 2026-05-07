@@ -10,7 +10,7 @@ int main(int args_count, char* args_array[])
     VR_Alloc       alloc = vr_alloc_arena(&arena);
 
     VR_Endpoint_IP endpoint = vr_endpoint_ipv4_local(5000);
-    VR_Socket_UDP* socket   = vr_socket_udp_reserve(alloc);
+    VR_Socket_UDP  socket   = vr_socket_udp_reserve(alloc);
 
     vr_socket_udp_init(socket, VR_Endpoint_IP_Kind_V4);
 

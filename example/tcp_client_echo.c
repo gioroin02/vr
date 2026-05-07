@@ -21,7 +21,7 @@ int main(int args_count, char* args_array[])
     VR_Alloc alloc = vr_alloc_arena(&arena);
 
     // Allocazione di un socket TCP.
-    VR_Socket_TCP* socket = vr_socket_tcp_reserve(alloc);
+    VR_Socket_TCP socket = vr_socket_tcp_reserve(alloc);
 
     // Inizializzazione del socket con un placeholder, indirizzo e porta
     // sono dati automaticamente dal sistema operativo durante la connect.

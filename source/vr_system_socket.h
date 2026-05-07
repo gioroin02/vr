@@ -68,42 +68,50 @@ VR_Endpoint_IP vr_endpoint_ip_local(VR_Endpoint_IP_Kind kind, uint16 port);
 
 bool32 vr_endpoint_ip_is_equal(VR_Endpoint_IP self, VR_Endpoint_IP other);
 
-typedef struct VR_Socket_TCP VR_Socket_TCP;
+typedef struct
+{
+    void* impl;
+}
+VR_Socket_TCP;
 
-VR_Socket_TCP* vr_socket_tcp_reserve(VR_Alloc alloc);
+VR_Socket_TCP vr_socket_tcp_reserve(VR_Alloc alloc);
 
-bool32 vr_socket_tcp_init(VR_Socket_TCP* self, VR_Endpoint_IP_Kind kind);
+bool32 vr_socket_tcp_init(VR_Socket_TCP self, VR_Endpoint_IP_Kind kind);
 
-bool32 vr_socket_tcp_init_bound(VR_Socket_TCP* self, VR_Endpoint_IP_Kind kind, uint16 port);
+bool32 vr_socket_tcp_init_bound(VR_Socket_TCP self, VR_Endpoint_IP_Kind kind, uint16 port);
 
-bool32 vr_socket_tcp_listen(VR_Socket_TCP* self);
+bool32 vr_socket_tcp_listen(VR_Socket_TCP self);
 
-void vr_socket_tcp_deinit(VR_Socket_TCP* self);
+void vr_socket_tcp_deinit(VR_Socket_TCP self);
 
-bool32 vr_socket_tcp_accept(VR_Socket_TCP* self, VR_Socket_TCP* listener);
+bool32 vr_socket_tcp_accept(VR_Socket_TCP self, VR_Socket_TCP listener);
 
-bool32 vr_socket_tcp_connect(VR_Socket_TCP* self, VR_Endpoint_IP endpoint);
+bool32 vr_socket_tcp_connect(VR_Socket_TCP self, VR_Endpoint_IP endpoint);
 
-intptr vr_socket_tcp_write(VR_Socket_TCP* self, uint8* pntr, intptr size);
+intptr vr_socket_tcp_write(VR_Socket_TCP self, uint8* pntr, intptr size);
 
-intptr vr_socket_tcp_read(VR_Socket_TCP* self, uint8* pntr, intptr size);
+intptr vr_socket_tcp_read(VR_Socket_TCP self, uint8* pntr, intptr size);
 
-VR_Endpoint_IP vr_socket_tcp_endpoint(VR_Socket_TCP* self);
+VR_Endpoint_IP vr_socket_tcp_endpoint(VR_Socket_TCP self);
 
-typedef struct VR_Socket_UDP VR_Socket_UDP;
+typedef struct
+{
+    void* impl;
+}
+VR_Socket_UDP;
 
-VR_Socket_UDP* vr_socket_udp_reserve(VR_Alloc alloc);
+VR_Socket_UDP vr_socket_udp_reserve(VR_Alloc alloc);
 
-bool32 vr_socket_udp_init(VR_Socket_UDP* self, VR_Endpoint_IP_Kind kind);
+bool32 vr_socket_udp_init(VR_Socket_UDP self, VR_Endpoint_IP_Kind kind);
 
-bool32 vr_socket_udp_init_bound(VR_Socket_UDP* self, VR_Endpoint_IP_Kind kind, uint16 port);
+bool32 vr_socket_udp_init_bound(VR_Socket_UDP self, VR_Endpoint_IP_Kind kind, uint16 port);
 
-void vr_socket_udp_deinit(VR_Socket_UDP* self);
+void vr_socket_udp_deinit(VR_Socket_UDP self);
 
-intptr vr_socket_udp_write(VR_Socket_UDP* self, uint8* pntr, intptr size, VR_Endpoint_IP endpoint);
+intptr vr_socket_udp_write(VR_Socket_UDP self, uint8* pntr, intptr size, VR_Endpoint_IP endpoint);
 
-intptr vr_socket_udp_read(VR_Socket_UDP* self, uint8* pntr, intptr size, VR_Endpoint_IP* endpoint);
+intptr vr_socket_udp_read(VR_Socket_UDP self, uint8* pntr, intptr size, VR_Endpoint_IP* endpoint);
 
-VR_Endpoint_IP vr_socket_udp_endpoint(VR_Socket_UDP* self);
+VR_Endpoint_IP vr_socket_udp_endpoint(VR_Socket_UDP self);
 
 #endif
