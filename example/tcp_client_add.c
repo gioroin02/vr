@@ -47,7 +47,7 @@ int main(int args_count, char* args_array[])
         if (message_number == 0) break;
     }
 
-    vr_socket_tcp_deinit(socket);
+    vr_socket_tcp_uninit(socket);
 
     return 0;
 }

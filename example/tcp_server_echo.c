@@ -45,11 +45,11 @@ int main(int args_count, char* args_array[])
 
         printf("[INFO] Inviato '%.*s'\n", (int) count, message);
 
-        vr_socket_tcp_deinit(socket);
+        vr_socket_tcp_uninit(socket);
     }
 
     // Chiusura del server e distruzione delle risorse acquisite.
-    vr_socket_tcp_deinit(listener);
+    vr_socket_tcp_uninit(listener);
     vr_memory_release(&arena);
 
     return 0;

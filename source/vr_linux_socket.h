@@ -34,7 +34,7 @@ VR_Linux_Socket_TCP* vr_linux_socket_tcp_reserve(VR_Alloc alloc);
 
 bool32 vr_linux_socket_tcp_init(VR_Linux_Socket_TCP* self, VR_Endpoint_IP endpoint);
 
-void vr_linux_socket_tcp_deinit(VR_Linux_Socket_TCP* self);
+void vr_linux_socket_tcp_uninit(VR_Linux_Socket_TCP* self);
 
 bool32 vr_linux_socket_tcp_bind(VR_Linux_Socket_TCP* self);
 
@@ -62,7 +62,7 @@ VR_Linux_Socket_UDP* vr_linux_socket_udp_reserve(VR_Alloc alloc);
 
 bool32 vr_linux_socket_udp_init(VR_Linux_Socket_UDP* self, VR_Endpoint_IP endpoint);
 
-void vr_linux_socket_udp_deinit(VR_Linux_Socket_UDP* self);
+void vr_linux_socket_udp_uninit(VR_Linux_Socket_UDP* self);
 
 bool32 vr_linux_socket_udp_bind(VR_Linux_Socket_UDP* self);
 

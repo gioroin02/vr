@@ -26,8 +26,8 @@ int main(int args_count, char* args_array[])
 
     printf("[INFO] Inviato '%.*s'\n", (int) count, message);
 
-    vr_socket_tcp_deinit(socket);
-    vr_socket_tcp_deinit(listener);
+    vr_socket_tcp_uninit(socket);
+    vr_socket_tcp_uninit(listener);
 
     return 0;
 }

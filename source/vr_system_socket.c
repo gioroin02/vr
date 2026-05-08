@@ -11,7 +11,7 @@
 
     #define _vr_socket_tcp_reserve_  vr_win32_socket_tcp_reserve
     #define _vr_socket_tcp_init_     vr_win32_socket_tcp_init
-    #define _vr_socket_tcp_deinit_   vr_win32_socket_tcp_deinit
+    #define _vr_socket_tcp_uninit_   vr_win32_socket_tcp_uninit
     #define _vr_socket_tcp_bind_     vr_win32_socket_tcp_bind
     #define _vr_socket_tcp_listen_   vr_win32_socket_tcp_listen
     #define _vr_socket_tcp_accept_   vr_win32_socket_tcp_accept
@@ -24,7 +24,7 @@
 
     #define _vr_socket_udp_reserve_  vr_win32_socket_udp_reserve
     #define _vr_socket_udp_init_     vr_win32_socket_udp_init
-    #define _vr_socket_udp_deinit_   vr_win32_socket_udp_deinit
+    #define _vr_socket_udp_uninit_   vr_win32_socket_udp_uninit
     #define _vr_socket_udp_bind_     vr_win32_socket_udp_bind
     #define _vr_socket_udp_write_    vr_win32_socket_udp_write
     #define _vr_socket_udp_read_     vr_win32_socket_udp_read
@@ -38,7 +38,7 @@
 
     #define _vr_socket_tcp_reserve_  vr_linux_socket_tcp_reserve
     #define _vr_socket_tcp_init_     vr_linux_socket_tcp_init
-    #define _vr_socket_tcp_deinit_   vr_linux_socket_tcp_deinit
+    #define _vr_socket_tcp_uninit_   vr_linux_socket_tcp_uninit
     #define _vr_socket_tcp_bind_     vr_linux_socket_tcp_bind
     #define _vr_socket_tcp_listen_   vr_linux_socket_tcp_listen
     #define _vr_socket_tcp_accept_   vr_linux_socket_tcp_accept
@@ -51,7 +51,7 @@
 
     #define _vr_socket_udp_reserve_  vr_linux_socket_udp_reserve
     #define _vr_socket_udp_init_     vr_linux_socket_udp_init
-    #define _vr_socket_udp_deinit_   vr_linux_socket_udp_deinit
+    #define _vr_socket_udp_uninit_   vr_linux_socket_udp_uninit
     #define _vr_socket_udp_bind_     vr_linux_socket_udp_bind
     #define _vr_socket_udp_write_    vr_linux_socket_udp_write
     #define _vr_socket_udp_read_     vr_linux_socket_udp_read
@@ -158,14 +158,14 @@ bool32 vr_socket_tcp_init_bound(VR_Socket_TCP self, VR_Endpoint_IP_Kind kind, ui
     status &= _vr_socket_tcp_bind_(self.impl);
 
     if (status == 0)
-        _vr_socket_tcp_deinit_(self.impl);
+        _vr_socket_tcp_uninit_(self.impl);
 
     return status;
 }
 
-void vr_socket_tcp_deinit(VR_Socket_TCP self)
+void vr_socket_tcp_uninit(VR_Socket_TCP self)
 {
-    return _vr_socket_tcp_deinit_(self.impl);
+    return _vr_socket_tcp_uninit_(self.impl);
 }
 
 bool32 vr_socket_tcp_listen(VR_Socket_TCP self)
@@ -221,14 +221,14 @@ bool32 vr_socket_udp_init_bound(VR_Socket_UDP self, VR_Endpoint_IP_Kind kind, ui
     status &= _vr_socket_udp_bind_(self.impl);
 
     if (status == 0)
-        _vr_socket_udp_deinit_(self.impl);
+        _vr_socket_udp_uninit_(self.impl);
 
     return status;
 }
 
-void vr_socket_udp_deinit(VR_Socket_UDP self)
+void vr_socket_udp_uninit(VR_Socket_UDP self)
 {
-    return _vr_socket_udp_deinit_(self.impl);
+    return _vr_socket_udp_uninit_(self.impl);
 }
 
 intptr vr_socket_udp_write(VR_Socket_UDP self, uint8* pntr, intptr size, VR_Endpoint_IP endpoint)

@@ -26,7 +26,7 @@ int main(int args_count, char* args_array[])
 
     printf("[INFO] Ricevuto '%.*s'\n", (int) count, message);
 
-    vr_socket_udp_deinit(socket);
+    vr_socket_udp_uninit(socket);
 
     return 0;
 }

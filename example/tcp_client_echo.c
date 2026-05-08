@@ -47,7 +47,7 @@ int main(int args_count, char* args_array[])
     printf("[INFO] Ricevuto '%.*s'\n", (int) count, message);
 
     // Chiusura della connessione e distruzione delle risorse acquisite.
-    vr_socket_tcp_deinit(socket);
+    vr_socket_tcp_uninit(socket);
     vr_memory_release(&arena);
 
     return 0;

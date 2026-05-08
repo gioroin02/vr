@@ -154,7 +154,7 @@ bool32 vr_linux_socket_tcp_init(VR_Linux_Socket_TCP* self, VR_Endpoint_IP endpoi
     return 0;
 }
 
-void vr_linux_socket_tcp_deinit(VR_Linux_Socket_TCP* self)
+void vr_linux_socket_tcp_uninit(VR_Linux_Socket_TCP* self)
 {
     if (self->handle != -1) {
         int status = 0;
@@ -327,7 +327,7 @@ bool32 vr_linux_socket_udp_init(VR_Linux_Socket_UDP* self, VR_Endpoint_IP endpoi
     return 0;
 }
 
-void vr_linux_socket_udp_deinit(VR_Linux_Socket_UDP* self)
+void vr_linux_socket_udp_uninit(VR_Linux_Socket_UDP* self)
 {
     if (self->handle != -1 ) {
         int status = 0;
