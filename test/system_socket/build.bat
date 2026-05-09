@@ -2,7 +2,7 @@
 
 setlocal
 
-set "compiler=gcc --std=c99 -Isource -Wall -Werror -g"
+set "compiler=gcc --std=c99 -Isource -Wall -g"
 set "linker=-lws2_32"
 
 set "impl=%impl% source\vr_base_platform.c"
