@@ -4,6 +4,7 @@
 
 # Except for these
 
+!/manual
 !/source
 !/test
 !/example

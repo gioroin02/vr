@@ -15,14 +15,12 @@ VR_Endpoint_IP_Kind;
 #define VR_ENDPOINT_IPV4_EMPTY ((VR_Endpoint_IPv4) {0})
 #define VR_ENDPOINT_IPV4_LOCAL ((VR_Endpoint_IPv4) {.elem_0 = 0x7F, .elem_3 = 0x01})
 
-typedef struct
+typedef union
 {
-    union {
-        uint8 elems[VR_ENDPOINT_IPV4_SIZE];
+    uint8 elements[VR_ENDPOINT_IPV4_SIZE];
 
-        struct {
-            uint8 elem_0, elem_1, elem_2, elem_3;
-        };
+    struct {
+        uint8 elem_0, elem_1, elem_2, elem_3;
     };
 }
 VR_Endpoint_IPv4;
@@ -31,17 +29,15 @@ VR_Endpoint_IPv4;
 #define VR_ENDPOINT_IPV6_EMPTY ((VR_Endpoint_IPv6) {0})
 #define VR_ENDPOINT_IPV6_LOCAL ((VR_Endpoint_IPv6) {.elem_15 = 0x01})
 
-typedef struct
+typedef union
 {
-    union {
-        uint8 elems[VR_ENDPOINT_IPV6_SIZE];
+    uint8 elements[VR_ENDPOINT_IPV6_SIZE];
 
-        struct {
-            uint8  elem_0,  elem_1,  elem_2,  elem_3;
-            uint8  elem_4,  elem_5,  elem_6,  elem_7;
-            uint8  elem_8,  elem_9, elem_10, elem_11;
-            uint8 elem_12, elem_13, elem_14, elem_15;
-        };
+    struct {
+        uint8 elem_0,  elem_1,  elem_2,  elem_3;
+        uint8 elem_4,  elem_5,  elem_6,  elem_7;
+        uint8 elem_8,  elem_9,  elem_10, elem_11;
+        uint8 elem_12, elem_13, elem_14, elem_15;
     };
 }
 VR_Endpoint_IPv6;
@@ -49,12 +45,13 @@ VR_Endpoint_IPv6;
 typedef struct
 {
     VR_Endpoint_IP_Kind kind;
-    uint16              port;
 
     union {
         VR_Endpoint_IPv4 ip_ver4;
         VR_Endpoint_IPv6 ip_ver6;
     };
+
+    uint16 port;
 }
 VR_Endpoint_IP;
 
@@ -64,9 +61,9 @@ VR_Endpoint_IP vr_endpoint_ip_empty(VR_Endpoint_IP_Kind kind);
 
 VR_Endpoint_IP vr_endpoint_ip_local(VR_Endpoint_IP_Kind kind, uint16 port);
 
-VR_Endpoint_IP vr_endpoint_ipv4(VR_Endpoint_IPv4 ipv4, uint16 port);
+VR_Endpoint_IP vr_endpoint_ip_ver4(VR_Endpoint_IPv4 ipv4, uint16 port);
 
-VR_Endpoint_IP vr_endpoint_ipv6(VR_Endpoint_IPv6 ipv6, uint16 port);
+VR_Endpoint_IP vr_endpoint_ip_ver6(VR_Endpoint_IPv6 ipv6, uint16 port);
 
 bool32 vr_endpoint_ip_is_equal(VR_Endpoint_IP self, VR_Endpoint_IP other);
 
@@ -76,13 +73,13 @@ typedef struct
 }
 VR_Socket_TCP;
 
-VR_Socket_TCP vr_socket_tcp_reserve(VR_Alloc alloc);
+VR_Socket_TCP vr_socket_tcp_reserve(VR_Alloc* alloc);
 
 bool32 vr_socket_tcp_init(VR_Socket_TCP self, VR_Endpoint_IP_Kind kind);
 
 bool32 vr_socket_tcp_init_bound(VR_Socket_TCP self, VR_Endpoint_IP_Kind kind, uint16 port);
 
-bool32 vr_socket_tcp_listen(VR_Socket_TCP self);
+bool32 vr_socket_tcp_listen(VR_Socket_TCP listener);
 
 void vr_socket_tcp_uninit(VR_Socket_TCP self);
 
@@ -102,7 +99,7 @@ typedef struct
 }
 VR_Socket_UDP;
 
-VR_Socket_UDP vr_socket_udp_reserve(VR_Alloc alloc);
+VR_Socket_UDP vr_socket_udp_reserve(VR_Alloc* alloc);
 
 bool32 vr_socket_udp_init(VR_Socket_UDP self, VR_Endpoint_IP_Kind kind);
 

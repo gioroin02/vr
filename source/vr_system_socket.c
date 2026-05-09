@@ -102,7 +102,7 @@ VR_Endpoint_IP vr_endpoint_ip_local(VR_Endpoint_IP_Kind kind, uint16 port)
     return (VR_Endpoint_IP) {.kind = VR_Endpoint_IP_Kind_None};
 }
 
-VR_Endpoint_IP vr_endpoint_ipv4(VR_Endpoint_IPv4 ipv4, uint16 port)
+VR_Endpoint_IP vr_endpoint_ip_ver4(VR_Endpoint_IPv4 ipv4, uint16 port)
 {
     return (VR_Endpoint_IP) {
         .kind    = VR_Endpoint_IP_Kind_V4,
@@ -111,7 +111,7 @@ VR_Endpoint_IP vr_endpoint_ipv4(VR_Endpoint_IPv4 ipv4, uint16 port)
     };
 }
 
-VR_Endpoint_IP vr_endpoint_ipv6(VR_Endpoint_IPv6 ipv6, uint16 port)
+VR_Endpoint_IP vr_endpoint_ip_ver6(VR_Endpoint_IPv6 ipv6, uint16 port)
 {
     return (VR_Endpoint_IP) {
         .kind    = VR_Endpoint_IP_Kind_V6,
@@ -128,7 +128,7 @@ bool32 vr_endpoint_ip_is_equal(VR_Endpoint_IP self, VR_Endpoint_IP other)
     switch (self.kind) {
         case VR_Endpoint_IP_Kind_V4: {
             for (intptr i = 0; i < VR_ENDPOINT_IPV4_SIZE; i += 1) {
-                if (self.ip_ver4.elems[i] != other.ip_ver4.elems[i])
+                if (self.ip_ver4.elements[i] != other.ip_ver4.elements[i])
                     return 0;
             }
 
@@ -137,7 +137,7 @@ bool32 vr_endpoint_ip_is_equal(VR_Endpoint_IP self, VR_Endpoint_IP other)
 
         case VR_Endpoint_IP_Kind_V6: {
             for (intptr i = 0; i < VR_ENDPOINT_IPV6_SIZE; i += 1) {
-                if (self.ip_ver6.elems[i] != other.ip_ver6.elems[i])
+                if (self.ip_ver6.elements[i] != other.ip_ver6.elements[i])
                     return 0;
             }
 
@@ -150,7 +150,7 @@ bool32 vr_endpoint_ip_is_equal(VR_Endpoint_IP self, VR_Endpoint_IP other)
     return 0;
 }
 
-VR_Socket_TCP vr_socket_tcp_reserve(VR_Alloc alloc)
+VR_Socket_TCP vr_socket_tcp_reserve(VR_Alloc* alloc)
 {
     return (VR_Socket_TCP) {
         .impl = _vr_socket_tcp_reserve_(alloc),
@@ -183,9 +183,9 @@ void vr_socket_tcp_uninit(VR_Socket_TCP self)
     return _vr_socket_tcp_uninit_(self.impl);
 }
 
-bool32 vr_socket_tcp_listen(VR_Socket_TCP self)
+bool32 vr_socket_tcp_listen(VR_Socket_TCP listener)
 {
-    return _vr_socket_tcp_listen_(self.impl);
+    return _vr_socket_tcp_listen_(listener.impl);
 }
 
 bool32 vr_socket_tcp_accept(VR_Socket_TCP self, VR_Socket_TCP listener)
@@ -213,7 +213,7 @@ VR_Endpoint_IP vr_socket_tcp_endpoint(VR_Socket_TCP self)
     return _vr_socket_tcp_endpoint_(self.impl);
 }
 
-VR_Socket_UDP vr_socket_udp_reserve(VR_Alloc alloc)
+VR_Socket_UDP vr_socket_udp_reserve(VR_Alloc* alloc)
 {
     return (VR_Socket_UDP) {
         .impl = _vr_socket_udp_reserve_(alloc),

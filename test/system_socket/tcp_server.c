@@ -6,10 +6,9 @@ int main(int args_count, char* args_array[])
     uint8 memory[VR_INTPTR_KIBI] = {0};
 
     VR_Arena_Alloc arena = vr_arena_alloc_make(memory, sizeof memory);
-    VR_Alloc       alloc = vr_alloc_arena(&arena);
 
-    VR_Socket_TCP listener = vr_socket_tcp_reserve(alloc);
-    VR_Socket_TCP socket   = vr_socket_tcp_reserve(alloc);
+    VR_Socket_TCP  listener = vr_socket_tcp_reserve((VR_Alloc*) &arena);
+    VR_Socket_TCP  socket   = vr_socket_tcp_reserve((VR_Alloc*) &arena);
 
     vr_socket_tcp_init_bound(listener, VR_Endpoint_IP_Kind_V4, 5000);
     vr_socket_tcp_listen(listener);

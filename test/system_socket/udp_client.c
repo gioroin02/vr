@@ -7,10 +7,9 @@ int main(int args_count, char* args_array[])
     uint8 memory[VR_INTPTR_KIBI] = {0};
 
     VR_Arena_Alloc arena = vr_arena_alloc_make(memory, sizeof memory);
-    VR_Alloc       alloc = vr_alloc_arena(&arena);
 
-    VR_Endpoint_IP endpoint = vr_endpoint_ipv4(VR_ENDPOINT_IPV4_LOCAL, 5000);
-    VR_Socket_UDP  socket   = vr_socket_udp_reserve(alloc);
+    VR_Endpoint_IP endpoint = vr_endpoint_ip_ver4(VR_ENDPOINT_IPV4_LOCAL, 5000);
+    VR_Socket_UDP  socket   = vr_socket_udp_reserve((VR_Alloc*) &arena);
 
     vr_socket_udp_init(socket, VR_Endpoint_IP_Kind_V4);
 

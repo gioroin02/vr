@@ -254,52 +254,35 @@ intptr vr_memory_read_float32_endian(void* pntr, intptr size, float32* value, VR
     return 0;
 }
 
-VR_Alloc vr_alloc_null()
+void* vr_alloc_reserve(VR_Alloc* self, intptr elem_count, intptr elem_size)
 {
-    return (VR_Alloc) {
-        .self          = NULL,
-        .proc_reserve  = NULL,
-        .proc_release  = NULL,
-        .proc_clear    = NULL,
-    };
-}
-
-void* vr_alloc_reserve(VR_Alloc self, intptr elem_count, intptr elem_size)
-{
-    if (self.proc_reserve != NULL)
-        return self.proc_reserve(self.self, elem_count, elem_size);
+    if (self != NULL && self->proc_reserve != NULL)
+        return self->proc_reserve(self, elem_count, elem_size);
 
     return NULL;
 }
 
-void vr_alloc_release(VR_Alloc self, void* pntr)
+void vr_alloc_release(VR_Alloc* self, void* pntr)
 {
-    if (self.proc_release != NULL)
-        return self.proc_release(self.self, pntr);
+    if (self != NULL && self->proc_release != NULL)
+        return self->proc_release(self, pntr);
 }
 
-void vr_alloc_clear(VR_Alloc self)
+void vr_alloc_clear(VR_Alloc* self)
 {
-    if (self.proc_clear != NULL)
-        return self.proc_clear(self.self);
-}
-
-VR_Alloc vr_alloc_arena(VR_Arena_Alloc* self)
-{
-    return (VR_Alloc) {
-        .self         = self,
-        .proc_reserve = (VR_Alloc_Proc_Reserve*) vr_arena_alloc_reserve,
-        .proc_release = NULL,
-        .proc_clear   = (VR_Alloc_Proc_Clear*)   vr_arena_alloc_clear,
-    };
+    if (self != NULL && self->proc_clear != NULL)
+        return self->proc_clear(self);
 }
 
 VR_Arena_Alloc vr_arena_alloc_make(void* pntr, intptr size)
 {
     VR_Arena_Alloc result = {
-        .memory = NULL,
-        .size   = 0,
-        .count  = 0,
+        .proc_reserve = (VR_Alloc_Proc_Reserve*) vr_arena_alloc_reserve,
+        .proc_release = NULL,
+        .proc_clear   = (VR_Alloc_Proc_Clear*)   vr_arena_alloc_clear,
+        .memory       = NULL,
+        .size         = 0,
+        .count        = 0,
     };
 
     if (pntr == NULL || size <= 0) return result;
@@ -312,7 +295,7 @@ VR_Arena_Alloc vr_arena_alloc_make(void* pntr, intptr size)
     return result;
 }
 
-VR_Arena_Alloc vr_arena_alloc_from_alloc(VR_Alloc alloc, intptr size)
+VR_Arena_Alloc vr_arena_alloc_from_alloc(VR_Alloc* alloc, intptr size)
 {
     return vr_arena_alloc_make(vr_alloc_reserve(alloc, 1, size), size);
 }
@@ -382,24 +365,17 @@ static VR_Pool_Alloc_Node vr_pool_alloc_node_make(void* next, bool32 available)
     };
 }
 
-VR_Alloc vr_alloc_pool(VR_Pool_Alloc* self)
-{
-    return (VR_Alloc) {
-        .self         = self,
-        .proc_reserve = (VR_Alloc_Proc_Reserve*) vr_pool_alloc_reserve,
-        .proc_release = (VR_Alloc_Proc_Release*) vr_pool_alloc_release,
-        .proc_clear   = (VR_Alloc_Proc_Clear*)   vr_pool_alloc_clear,
-    };
-}
-
 VR_Pool_Alloc vr_pool_alloc_make(void* pntr, intptr size, intptr elem_size)
 {
     VR_Pool_Alloc result = {
-        .memory = NULL,
-        .size   = 0,
-        .count  = 0,
-        .stride = 0,
-        .front  = NULL,
+        .proc_reserve = (VR_Alloc_Proc_Reserve*) vr_pool_alloc_reserve,
+        .proc_release = (VR_Alloc_Proc_Release*) vr_pool_alloc_release,
+        .proc_clear   = (VR_Alloc_Proc_Clear*)   vr_pool_alloc_clear,
+        .memory       = NULL,
+        .size         = 0,
+        .count        = 0,
+        .stride       = 0,
+        .front        = NULL,
     };
 
     if (pntr == NULL || size <= 0 || elem_size <= 0)
@@ -418,7 +394,7 @@ VR_Pool_Alloc vr_pool_alloc_make(void* pntr, intptr size, intptr elem_size)
     return result;
 }
 
-VR_Pool_Alloc vr_pool_alloc_from_alloc(VR_Alloc alloc, intptr size, intptr elem_size)
+VR_Pool_Alloc vr_pool_alloc_from_alloc(VR_Alloc* alloc, intptr size, intptr elem_size)
 {
     return vr_pool_alloc_make(vr_alloc_reserve(alloc, 1, size), size, elem_size);
 }
@@ -518,22 +494,15 @@ static VR_Stack_Alloc_Node vr_stack_alloc_node_make(intptr size)
     return result;
 }
 
-VR_Alloc vr_alloc_stack(VR_Stack_Alloc* self)
-{
-    return (VR_Alloc) {
-        .self         = self,
-        .proc_reserve = (VR_Alloc_Proc_Reserve*) vr_stack_alloc_reserve,
-        .proc_release = (VR_Alloc_Proc_Release*) vr_stack_alloc_release,
-        .proc_clear   = (VR_Alloc_Proc_Clear*)   vr_stack_alloc_clear,
-    };
-}
-
 VR_Stack_Alloc vr_stack_alloc_make(void* pntr, intptr size)
 {
     VR_Stack_Alloc result = {
-        .memory = NULL,
-        .size   = 0,
-        .count  = 0,
+        .proc_reserve = (VR_Alloc_Proc_Reserve*) vr_stack_alloc_reserve,
+        .proc_release = (VR_Alloc_Proc_Release*) vr_stack_alloc_release,
+        .proc_clear   = (VR_Alloc_Proc_Clear*)   vr_stack_alloc_clear,
+        .memory       = NULL,
+        .size         = 0,
+        .count        = 0,
     };
 
     if (pntr == NULL || size <= 0) return result;
@@ -546,7 +515,7 @@ VR_Stack_Alloc vr_stack_alloc_make(void* pntr, intptr size)
     return result;
 }
 
-VR_Stack_Alloc vr_stack_alloc_from_alloc(VR_Alloc alloc, intptr size)
+VR_Stack_Alloc vr_stack_alloc_from_alloc(VR_Alloc* alloc, intptr size)
 {
     return vr_stack_alloc_make(vr_alloc_reserve(alloc, 1, size), size);
 }

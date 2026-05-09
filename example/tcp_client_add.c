@@ -7,12 +7,11 @@
 int main(int args_count, char* args_array[])
 {
     VR_Arena_Alloc arena = vr_memory_reserve(16, VR_INTPTR_KIBI);
-    VR_Alloc       alloc = vr_alloc_arena(&arena);
 
-    VR_Socket_TCP socket = vr_socket_tcp_reserve(alloc);
+    VR_Socket_TCP socket = vr_socket_tcp_reserve((VR_Alloc*) &arena);
 
     vr_socket_tcp_init(socket, VR_Endpoint_IP_Kind_V4);
-    vr_socket_tcp_connect(socket, vr_endpoint_ipv4(VR_ENDPOINT_IPV4_LOCAL, 37134));
+    vr_socket_tcp_connect(socket, vr_endpoint_ip_ver4(VR_ENDPOINT_IPV4_LOCAL, 37134));
 
     uint8  message[32]      = {0};
     intptr count            = 0;

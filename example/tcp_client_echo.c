@@ -15,20 +15,17 @@ int main(int args_count, char* args_array[])
     // In questo caso richiediamo 16 * 1024 byte.
     VR_Arena_Alloc arena = vr_memory_reserve(16, VR_INTPTR_KIBI);
 
-    // La struttura VR_Alloc è un'interfaccia che permette di allocare
-    // e liberare memoria in modo generico senza sapere quale allocatore
-    // si trovi dietro le quinte.
-    VR_Alloc alloc = vr_alloc_arena(&arena);
-
-    // Allocazione di un socket TCP.
-    VR_Socket_TCP socket = vr_socket_tcp_reserve(alloc);
+    // Allocazione di un socket TCP. La struttura VR_Alloc è un'interfaccia
+    // che permette di allocare e liberare memoria in modo generico senza
+    // sapere quale allocatore si trovi dietro le quinte.
+    VR_Socket_TCP socket = vr_socket_tcp_reserve((VR_Alloc*) &arena);
 
     // Inizializzazione del socket con un placeholder, indirizzo e porta
     // sono dati automaticamente dal sistema operativo durante la connect.
     vr_socket_tcp_init(socket, VR_Endpoint_IP_Kind_V4);
 
     // Connessione a localhost alla porta 37134.
-    vr_socket_tcp_connect(socket, vr_endpoint_ipv4(VR_ENDPOINT_IPV4_LOCAL, 37134));
+    vr_socket_tcp_connect(socket, vr_endpoint_ip_ver4(VR_ENDPOINT_IPV4_LOCAL, 37134));
 
     uint8  message[32] = {0};
     intptr count       = 0;

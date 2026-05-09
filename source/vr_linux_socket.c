@@ -9,23 +9,23 @@ sockaddr_storage_t vr_linux_sockaddr_make(VR_Endpoint_IP endpoint)
 
     switch (endpoint.kind) {
         case VR_Endpoint_IP_Kind_V4: {
-            sockaddr_ipv4_t* ip_ver4 = (sockaddr_ipv4_t*) &result;
+            sockaddr_ip_ver4_t* ip_ver4 = (sockaddr_ip_ver4_t*) &result;
 
             ip_ver4->sin_family = AF_INET;
             ip_ver4->sin_port   = htons(endpoint.port);
 
             vr_memory_copy(&ip_ver4->sin_addr.s_addr,
-                VR_ENDPOINT_IPV4_SIZE, endpoint.ip_ver4.elems);
+                VR_ENDPOINT_IPV4_SIZE, endpoint.ip_ver4.elements);
         } break;
 
         case VR_Endpoint_IP_Kind_V6: {
-            sockaddr_ipv6_t* ip_ver6 = (sockaddr_ipv6_t*) &result;
+            sockaddr_ip_ver6_t* ip_ver6 = (sockaddr_ip_ver6_t*) &result;
 
             ip_ver6->sin6_family = AF_INET6;
             ip_ver6->sin6_port   = htons(endpoint.port);
 
             vr_memory_copy(&ip_ver6->sin6_addr.s6_addr,
-                VR_ENDPOINT_IPV6_SIZE, endpoint.ip_ver6.elems);
+                VR_ENDPOINT_IPV6_SIZE, endpoint.ip_ver6.elements);
         } break;
 
         default: break;
@@ -40,8 +40,8 @@ sockaddr_storage_t vr_linux_sockaddr_make_any(VR_Endpoint_IP_Kind kind, uint16 p
 
     switch (kind) {
         case VR_Endpoint_IP_Kind_V4: {
-            sockaddr_ipv4_t* ip_ver4        = (sockaddr_ipv4_t*) &result;
-            uint32          in4addr_any = INADDR_ANY;
+            sockaddr_ip_ver4_t* ip_ver4     = (sockaddr_ip_ver4_t*) &result;
+            uint32              in4addr_any = INADDR_ANY;
 
             ip_ver4->sin_family = AF_INET;
             ip_ver4->sin_port   = htons(port);
@@ -51,7 +51,7 @@ sockaddr_storage_t vr_linux_sockaddr_make_any(VR_Endpoint_IP_Kind kind, uint16 p
         } break;
 
         case VR_Endpoint_IP_Kind_V6: {
-            sockaddr_ipv6_t* ip_ver6 = (sockaddr_ipv6_t*) &result;
+            sockaddr_ip_ver6_t* ip_ver6 = (sockaddr_ip_ver6_t*) &result;
 
             ip_ver6->sin6_family = AF_INET6;
             ip_ver6->sin6_port   = htons(port);
@@ -69,8 +69,8 @@ sockaddr_storage_t vr_linux_sockaddr_make_any(VR_Endpoint_IP_Kind kind, uint16 p
 intptr vr_linux_sockaddr_size(sockaddr_storage_t* self)
 {
     switch (self->ss_family) {
-        case AF_INET:  { return sizeof (sockaddr_ipv4_t); } break;
-        case AF_INET6: { return sizeof (sockaddr_ipv6_t); } break;
+        case AF_INET:  { return sizeof (sockaddr_ip_ver4_t); } break;
+        case AF_INET6: { return sizeof (sockaddr_ip_ver6_t); } break;
 
         default: break;
     }
@@ -84,22 +84,22 @@ VR_Endpoint_IP vr_linux_sockaddr_endpoint(sockaddr_storage_t* self)
 
     switch (self->ss_family) {
         case AF_INET: {
-            sockaddr_ipv4_t* ip_ver4 = (sockaddr_ipv4_t*) self;
+            sockaddr_ip_ver4_t* ip_ver4 = (sockaddr_ip_ver4_t*) self;
 
             result.kind = VR_Endpoint_IP_Kind_V4;
             result.port = ntohs(ip_ver4->sin_port);
 
-            vr_memory_copy(result.ip_ver4.elems,
+            vr_memory_copy(result.ip_ver4.elements,
                 VR_ENDPOINT_IPV4_SIZE, &ip_ver4->sin_addr.s_addr);
         } break;
 
         case AF_INET6: {
-            sockaddr_ipv6_t* ip_ver6 = (sockaddr_ipv6_t*) self;
+            sockaddr_ip_ver6_t* ip_ver6 = (sockaddr_ip_ver6_t*) self;
 
             result.kind = VR_Endpoint_IP_Kind_V6;
             result.port = ntohs(ip_ver6->sin6_port);
 
-            vr_memory_copy(result.ip_ver6.elems,
+            vr_memory_copy(result.ip_ver6.elements,
                 VR_ENDPOINT_IPV6_SIZE, &ip_ver6->sin6_addr.s6_addr);
         } break;
 
@@ -109,7 +109,7 @@ VR_Endpoint_IP vr_linux_sockaddr_endpoint(sockaddr_storage_t* self)
     return result;
 }
 
-VR_Linux_Socket_TCP* vr_linux_socket_tcp_reserve(VR_Alloc alloc)
+VR_Linux_Socket_TCP* vr_linux_socket_tcp_reserve(VR_Alloc* alloc)
 {
     return vr_alloc_reserve_of(alloc, 1, VR_Linux_Socket_TCP);
 }
@@ -186,12 +186,12 @@ bool32 vr_linux_socket_tcp_bind(VR_Linux_Socket_TCP* self)
     return status != -1 ? 1 : 0;
 }
 
-bool32 vr_linux_socket_tcp_listen(VR_Linux_Socket_TCP* self)
+bool32 vr_linux_socket_tcp_listen(VR_Linux_Socket_TCP* listener)
 {
     int status = 0;
 
     do {
-        status = listen(self->handle, SOMAXCONN);
+        status = listen(listener->handle, SOMAXCONN);
     }
     while (status == -1 && errno == EINTR);
 
@@ -282,7 +282,7 @@ VR_Endpoint_IP vr_linux_socket_tcp_endpoint(VR_Linux_Socket_TCP* self)
     return vr_linux_sockaddr_endpoint(&self->address);
 }
 
-VR_Linux_Socket_UDP* vr_linux_socket_udp_reserve(VR_Alloc alloc)
+VR_Linux_Socket_UDP* vr_linux_socket_udp_reserve(VR_Alloc* alloc)
 {
     return vr_alloc_reserve_of(alloc, 1, VR_Linux_Socket_UDP);
 }

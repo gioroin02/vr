@@ -7,12 +7,11 @@ int main(int args_count, char* args_array[])
     uint8 memory[VR_INTPTR_KIBI] = {0};
 
     VR_Arena_Alloc arena = vr_arena_alloc_make(memory, sizeof memory);
-    VR_Alloc       alloc = vr_alloc_arena(&arena);
 
-    VR_Socket_TCP socket = vr_socket_tcp_reserve(alloc);
+    VR_Socket_TCP socket = vr_socket_tcp_reserve((VR_Alloc*) &arena);
 
     vr_socket_tcp_init(socket, VR_Endpoint_IP_Kind_V4);
-    vr_socket_tcp_connect(socket, vr_endpoint_ipv4(VR_ENDPOINT_IPV4_LOCAL, 5000));
+    vr_socket_tcp_connect(socket, vr_endpoint_ip_ver4(VR_ENDPOINT_IPV4_LOCAL, 5000));
 
     char   message[32] = "Ciao!";
     intptr count       = strlen(message);
