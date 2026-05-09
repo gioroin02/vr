@@ -70,39 +70,54 @@ VR_Endpoint_IP vr_endpoint_ip_none()
 
 VR_Endpoint_IP vr_endpoint_ip_empty(VR_Endpoint_IP_Kind kind)
 {
-    switch (kind) {
-        case VR_Endpoint_IP_Kind_V4: { return (VR_Endpoint_IP) {.kind = kind}; } break;
-        case VR_Endpoint_IP_Kind_V6: { return (VR_Endpoint_IP) {.kind = kind}; } break;
-
-        default: break;
-    }
-
-    return vr_endpoint_ip_none();
+    return (VR_Endpoint_IP) {.kind = kind};
 }
 
 VR_Endpoint_IP vr_endpoint_ip_local(VR_Endpoint_IP_Kind kind, uint16 port)
 {
     switch (kind) {
         case VR_Endpoint_IP_Kind_V4: {
+            VR_Endpoint_IPv4 ipv4 = VR_ENDPOINT_IPV4_LOCAL;
+
             return (VR_Endpoint_IP) {
-                .kind = kind,
-                .port = port,
-                .ip_ver4 = (VR_Endpoint_IPv4) {.elem_0 = 0x7F, .elem_3 = 0x01},
+                .kind    = kind,
+                .ip_ver4 = ipv4,
+                .port    = port,
             };
         } break;
 
         case VR_Endpoint_IP_Kind_V6: {
+            VR_Endpoint_IPv6 ipv6 = VR_ENDPOINT_IPV6_LOCAL;
+
             return (VR_Endpoint_IP) {
-                .kind = kind,
-                .port = port,
-                .ip_ver6 = (VR_Endpoint_IPv6) {.elem_15 = 0x01},
+                .kind    = kind,
+                .ip_ver6 = ipv6,
+                .port    = port,
             };
         } break;
 
         default: break;
     }
 
-    return vr_endpoint_ip_none();
+    return (VR_Endpoint_IP) {.kind = VR_Endpoint_IP_Kind_None};
+}
+
+VR_Endpoint_IP vr_endpoint_ipv4(VR_Endpoint_IPv4 ipv4, uint16 port)
+{
+    return (VR_Endpoint_IP) {
+        .kind    = VR_Endpoint_IP_Kind_V4,
+        .ip_ver4 = ipv4,
+        .port    = port,
+    };
+}
+
+VR_Endpoint_IP vr_endpoint_ipv6(VR_Endpoint_IPv6 ipv6, uint16 port)
+{
+    return (VR_Endpoint_IP) {
+        .kind    = VR_Endpoint_IP_Kind_V6,
+        .ip_ver6 = ipv6,
+        .port    = port,
+    };
 }
 
 bool32 vr_endpoint_ip_is_equal(VR_Endpoint_IP self, VR_Endpoint_IP other)

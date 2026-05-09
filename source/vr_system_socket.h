@@ -11,7 +11,9 @@ typedef enum
 }
 VR_Endpoint_IP_Kind;
 
-#define VR_ENDPOINT_IPV4_SIZE ((intptr) 4)
+#define VR_ENDPOINT_IPV4_SIZE  ((intptr) 4)
+#define VR_ENDPOINT_IPV4_EMPTY ((VR_Endpoint_IPv4) {0})
+#define VR_ENDPOINT_IPV4_LOCAL ((VR_Endpoint_IPv4) {.elem_0 = 0x7F, .elem_3 = 0x01})
 
 typedef struct
 {
@@ -25,7 +27,9 @@ typedef struct
 }
 VR_Endpoint_IPv4;
 
-#define VR_ENDPOINT_IPV6_SIZE ((intptr) 16)
+#define VR_ENDPOINT_IPV6_SIZE  ((intptr) 16)
+#define VR_ENDPOINT_IPV6_EMPTY ((VR_Endpoint_IPv6) {0})
+#define VR_ENDPOINT_IPV6_LOCAL ((VR_Endpoint_IPv6) {.elem_15 = 0x01})
 
 typedef struct
 {
@@ -56,15 +60,13 @@ VR_Endpoint_IP;
 
 VR_Endpoint_IP vr_endpoint_ip_none();
 
-#define vr_endpoint_ipv4_empty() vr_endpoint_ip_empty(VR_Endpoint_IP_Kind_V4)
-#define vr_endpoint_ipv6_empty() vr_endpoint_ip_empty(VR_Endpoint_IP_Kind_V6)
-
 VR_Endpoint_IP vr_endpoint_ip_empty(VR_Endpoint_IP_Kind kind);
 
-#define vr_endpoint_ipv4_local(port) vr_endpoint_ip_local(VR_Endpoint_IP_Kind_V4, port)
-#define vr_endpoint_ipv6_local(port) vr_endpoint_ip_local(VR_Endpoint_IP_Kind_V6, port)
-
 VR_Endpoint_IP vr_endpoint_ip_local(VR_Endpoint_IP_Kind kind, uint16 port);
+
+VR_Endpoint_IP vr_endpoint_ipv4(VR_Endpoint_IPv4 ipv4, uint16 port);
+
+VR_Endpoint_IP vr_endpoint_ipv6(VR_Endpoint_IPv6 ipv6, uint16 port);
 
 bool32 vr_endpoint_ip_is_equal(VR_Endpoint_IP self, VR_Endpoint_IP other);
 

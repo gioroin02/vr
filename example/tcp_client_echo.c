@@ -28,7 +28,7 @@ int main(int args_count, char* args_array[])
     vr_socket_tcp_init(socket, VR_Endpoint_IP_Kind_V4);
 
     // Connessione a localhost alla porta 37134.
-    vr_socket_tcp_connect(socket, vr_endpoint_ipv4_local(37134));
+    vr_socket_tcp_connect(socket, vr_endpoint_ipv4(VR_ENDPOINT_IPV4_LOCAL, 37134));
 
     uint8  message[32] = {0};
     intptr count       = 0;
