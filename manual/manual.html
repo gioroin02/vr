@@ -5,7 +5,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-    <title> Manuale VR system socket </title>
+    <title> Manuale VR </title>
 
     <style>
         :root {
@@ -174,14 +174,67 @@
             }
         }
     </style>
-
 </head>
 
 <body class="markdown-body">
 
-    <h1>Manuale VR system socket</h1>
+    <h1 id="manuale-vr">Manuale VR</h1>
+    <h2 id="utilizzo-esempi-e-test">Utilizzo, esempi e test</h2>
+    <p>Nella cartella <code>test/</code> si trovano i test per la libreria mentre nella cartella <code>example/</code>
+        si trovano dei programmi di esempio. Per compilare tutto in Windows è sufficiente chiamare lo script
+        <code>build.bat</code> nella root del progetto, per compilare in Linux il processo è simile con
+        <code>build.sh</code> ma potrebbe essere necessario rendere eseguibili tutti gli script prima di chiamarli.</p>
+    <p>Il codice è stato testato su <a href="https://it.wikipedia.org/wiki/Windows_10">Windows 10</a>, <a
+            href="https://it.wikipedia.org/wiki/Windows_11">Windows 11</a>, <a
+            href="https://it.wikipedia.org/wiki/Linux_Mint_Debian_Edition">Linux Mint DE 6</a> nativi e su <a
+            href="https://it.wikipedia.org/wiki/Ubuntu">Ubuntu 24.04</a>, <a
+            href="https://en.wikipedia.org/wiki/Fedora_Linux">Fedora Linux 43</a> tramite WSL2. Al momento la libreria
+        non supporta MacOS e potrebbe dare problemi su sistemi in cui non è stata testata.</p>
+    <h1 id="vr-system-memory">VR system memory</h1>
+    <p>Modulo che permette di lavorare con il sistema operativo per ottenere e liberare memoria.</p>
+    <h2 id="tabella-dei-contenuti">Tabella dei contenuti</h2>
+    <ol>
+        <li><a href="#funzioni-libere">Funzioni libere</a>
+            <ul>
+                <li><a href="#vr_memory_page_size">vr_memory_page_size</a></li>
+                <li><a href="#vr_memory_reserve">vr_memory_reserve</a></li>
+                <li><a href="#vr_memory_release">vr_memory_release</a></li>
+            </ul>
+        </li>
+    </ol>
+    <h2 id="funzioni-libere">Funzioni libere</h2>
+    <h3 id="vr_memory_page_size">vr_memory_page_size</h3>
+    <p>Restituisce la dimensione (in byte) delle pagine usate dal sistema operativo.</p>
+    <pre><code class="lang-c"><span class="hljs-selector-tag">intptr</span> <span class="hljs-selector-tag">vr_memory_page_size</span>()
+</code></pre>
+    <h3 id="vr_memory_reserve">vr_memory_reserve</h3>
+    <p>Riserva un&#39;arena di memoria delle dimensioni richieste. La quantità riservata è sempre arrotondata per
+        eccesso alla grandezza di una pagina.</p>
+    <pre><code class="lang-c">VR_Arena_Alloc vr_memory_reserve(<span class="hljs-name">intptr</span> elem_count, intptr elem_size)
+</code></pre>
+    <p>Parametri:</p>
+    <ul>
+        <li><code>intptr elem_count</code> - La quantità di elementi da riservare, <strong>deve essere
+                positiva</strong>.</li>
+        <li><code>intptr elem_size</code> - La dimensione (in byte) degli elementi da riservare, <strong>deve essere
+                positiva</strong>.</li>
+    </ul>
+    <p>Risultato:</p>
+    <ul>
+        <li>Un&#39;arena di memoria delle dimensioni richieste se l&#39;operazione ha successo, un&#39;arena di memoria
+            vuota altrimenti.</li>
+    </ul>
+    <h3 id="vr_memory_release">vr_memory_release</h3>
+    <p>Rilascia un&#39;arena di memoria precedentemente riservata.</p>
+    <pre><code class="lang-c">void vr_memory_release(<span class="hljs-name">VR_Arena_Alloc*</span> arena)
+</code></pre>
+    <p>Parametri:</p>
+    <ul>
+        <li><code>VR_Arena_Alloc* arena</code> - L&#39;arena da rilasciare, <strong>non può essere NULL</strong>.</li>
+    </ul>
+    <h1 id="vr-system-socket">VR system socket</h1>
     <p>Modulo che permette di lavorare con il sistema operativo per comunicare tramite socket TCP e UDP.</p>
-    <h2>Tabella dei contenuti</h2>
+    <h2 id="tabella-dei-contenuti">Tabella dei contenuti</h2>
     <ol>
         <li><a href="#endpoint-ip">Endpoint IP</a>
             <ul>
@@ -220,13 +273,13 @@
             </ul>
         </li>
     </ol>
-    <h2>Endpoint IP</h2>
+    <h2 id="endpoint-ip">Endpoint IP</h2>
     <p>Classe per lavorare con endpoint IP. Un endpoint è costituito da un indirizzo IPv4 o IPv6 e da una porta.</p>
-    <pre><code class="language-c">struct VR_Endpoint_IP
+    <pre><code class="lang-c"><span class="hljs-class"><span class="hljs-keyword">struct</span> <span class="hljs-title">VR_Endpoint_IP</span></span>
 {
     VR_Endpoint_IP_Kind kind;
 
-    union {
+    <span class="hljs-class"><span class="hljs-keyword">union</span> {</span>
         VR_Endpoint_IPv4 ip_ver4;
         VR_Endpoint_IPv6 ip_ver6;
     };
@@ -244,9 +297,9 @@
         <li><code>uint16 port</code> - La porta, è sempre disposta come <strong>l&#39;endian nativo della
                 macchina</strong>.</li>
     </ul>
-    <h3>VR_Endpoint_IP_Kind</h3>
+    <h3 id="vr_endpoint_ip_kind">VR_Endpoint_IP_Kind</h3>
     <p>Elenca i vari tipi di indirizzi IP che un endpoint può rappresentare.</p>
-    <pre><code class="language-c">enum VR_Endpoint_IP_Kind
+    <pre><code class="lang-c"><span class="hljs-class"><span class="hljs-keyword">enum</span> <span class="hljs-title">VR_Endpoint_IP_Kind</span></span>
 {
     VR_Endpoint_IP_Kind_None,
     VR_Endpoint_IP_Kind_V4,
@@ -259,24 +312,24 @@
         <li><code>VR_Endpoint_IP_Kind_V4</code> - Indirizzo IPv4.</li>
         <li><code>VR_Endpoint_IP_Kind_V6</code> - Indirizzo IPv6.</li>
     </ul>
-    <h3>VR_Endpoint_IPv4</h3>
+    <h3 id="vr_endpoint_ipv4">VR_Endpoint_IPv4</h3>
     <p>Rappresenta un indirizzo IPv4. Gli elementi sono sempre disposti in <strong>big endian</strong>.</p>
-    <pre><code class="language-c">union VR_Endpoint_IPv4
+    <pre><code class="lang-c"><span class="hljs-class"><span class="hljs-keyword">union</span> <span class="hljs-title">VR_Endpoint_IPv4</span></span>
 {
-    uint8[4] elements;
+    uint8[<span class="hljs-number">4</span>] elements;
 
-    struct {
+    <span class="hljs-class"><span class="hljs-keyword">struct</span> {</span>
         uint8 elem_0, elem_1, elem_2, elem_3;
     };
 };
 </code></pre>
-    <h3>VR_Endpoint_IPv6</h3>
+    <h3 id="vr_endpoint_ipv6">VR_Endpoint_IPv6</h3>
     <p>Rappresenta un indirizzo IPv6. Gli elementi sono sempre disposti in <strong>big endian</strong>.</p>
-    <pre><code class="language-c">union VR_Endpoint_IPv6
+    <pre><code class="lang-c"><span class="hljs-class"><span class="hljs-keyword">union</span> <span class="hljs-title">VR_Endpoint_IPv6</span></span>
 {
-    uint8[16] elements;
+    uint8[<span class="hljs-number">16</span>] elements;
 
-    struct {
+    <span class="hljs-class"><span class="hljs-keyword">struct</span> {</span>
         uint8 elem_0,  elem_1,  elem_2,  elem_3;
         uint8 elem_4,  elem_5,  elem_6,  elem_7;
         uint8 elem_8,  elem_9,  elem_10, elem_11;
@@ -284,93 +337,93 @@
     };
 };
 </code></pre>
-    <h3>vr_endpoint_ip_none</h3>
+    <h3 id="vr_endpoint_ip_none">vr_endpoint_ip_none</h3>
     <p>Produce un endpoint IP invalido.</p>
-    <pre><code class="language-c">VR_Endpoint_IP vr_endpoint_ip_none()
+    <pre><code class="lang-c"><span class="hljs-selector-tag">VR_Endpoint_IP</span> <span class="hljs-selector-tag">vr_endpoint_ip_none</span>()
 </code></pre>
-    <h3>vr_endpoint_ip_empty</h3>
+    <h3 id="vr_endpoint_ip_empty">vr_endpoint_ip_empty</h3>
     <p>Produce un endpoint vuoto a partire da un tipo di indirizzo IP. Se il tipo specificato è
         <code>VR_Endpoint_IP_Kind_None</code> diventa equivalente a <a
             href="#vr_endpoint_ip_none">vr_endpoint_ip_none()</a>.</p>
-    <pre><code class="language-c">VR_Endpoint_IP vr_endpoint_ip_empty(VR_Endpoint_IP_Kind kind)
+    <pre><code class="lang-c">VR_Endpoint_IP vr_endpoint_ip_empty(<span class="hljs-name">VR_Endpoint_IP_Kind</span> kind)
 </code></pre>
-    <h3>vr_endpoint_ip_local</h3>
+    <h3 id="vr_endpoint_ip_local">vr_endpoint_ip_local</h3>
     <p>Produce un endpoint localhost a partire da un tipo di indirizzo IP e una porta. Se il tipo specificato è
         <code>VR_Endpoint_IP_Kind_None</code> diventa equivalente a <a
             href="#vr_endpoint_ip_none">vr_endpoint_ip_none()</a>.</p>
-    <pre><code class="language-c">VR_Endpoint_IP vr_endpoint_ip_local(VR_Endpoint_IP_Kind kind, uint16 port)
+    <pre><code class="lang-c">VR_Endpoint_IP vr_endpoint_ip_local(<span class="hljs-name">VR_Endpoint_IP_Kind</span> kind, uint16 port)
 </code></pre>
-    <h3>vr_endpoint_ip_ver4</h3>
+    <h3 id="vr_endpoint_ip_ver4">vr_endpoint_ip_ver4</h3>
     <p>Produce un endpoint IPv4 a partire da un indirizzo e una porta.</p>
-    <pre><code class="language-c">VR_Endpoint_IP vr_endpoint_ip_ver4(VR_Endpoint_IPv4 ipv4, uint16 port)
+    <pre><code class="lang-c">VR_Endpoint_IP vr_endpoint_ip_ver4(<span class="hljs-name">VR_Endpoint_IPv4</span> ipv4, uint16 port)
 </code></pre>
-    <h3>vr_endpoint_ip_ver6</h3>
+    <h3 id="vr_endpoint_ip_ver6">vr_endpoint_ip_ver6</h3>
     <p>Produce un endpoint IPv6 a partire da un indirizzo e una porta.</p>
-    <pre><code class="language-c">VR_Endpoint_IP vr_endpoint_ip_ver6(VR_Endpoint_IPv6 ipv6, uint16 port)
+    <pre><code class="lang-c">VR_Endpoint_IP vr_endpoint_ip_ver6(<span class="hljs-name">VR_Endpoint_IPv6</span> ipv6, uint16 port)
 </code></pre>
-    <h3>vr_endpoint_ip_is_equal</h3>
+    <h3 id="vr_endpoint_ip_is_equal">vr_endpoint_ip_is_equal</h3>
     <p>Determina se due endpoint IP contengono lo stesso indirizzo e la stessa porta.</p>
-    <pre><code class="language-c">bool32 vr_endpoint_ip_is_equal(VR_Endpoint_IP self, VR_Endpoint_IP other)
+    <pre><code class="lang-c"><span class="hljs-keyword">bool32 </span>vr_endpoint_ip_is_equal(VR_Endpoint_IP <span class="hljs-keyword">self, </span>VR_Endpoint_IP other)
 </code></pre>
     <p>Risultato:</p>
     <ul>
         <li>Zero se i due endpoint sono diversi, un valore diverso da zero altrimenti.</li>
     </ul>
-    <h2>Socket TCP</h2>
+    <h2 id="socket-tcp">Socket TCP</h2>
     <p>Classe per lavorare con socket TCP.</p>
     <p>Per utilizzare questa classe lato client è sufficiente preparare un socket e connettersi ad un certo endpoint IP.
         Ad esempio:</p>
-    <pre><code class="language-c">VR_Socket_TCP socket = vr_socket_tcp_reserve(&amp;arena);
+    <pre><code class="lang-c">VR_Socket_TCP socket = vr_socket_tcp_reserve(&amp;arena);
 
- // localhost:34137
-VR_Endpoint_IP endpoint = vr_endpoint_ip_ver4(VR_ENDPOINT_IPV4_LOCAL, 34137);
+ <span class="hljs-comment">// localhost:34137</span>
+VR_Endpoint_IP endpoint = vr_endpoint_ip_ver4(VR_ENDPOINT_IPV4_LOCAL, <span class="hljs-number">34137</span>);
 
 vr_socket_tcp_init(socket, endpoint.kind);
 vr_socket_tcp_connect(socket, endpoint);
 
-uint8 buffer[256] = {0};
+uint8 <span class="hljs-built_in">buffer</span>[<span class="hljs-number">256</span>] = {<span class="hljs-number">0</span>};
 
-intptr count = snprintf((char8*) buffer, sizeof buffer - 1, &quot;%s&quot;, &quot;Ciao!&quot;);
+intptr count = snprintf((char8*) <span class="hljs-built_in">buffer</span>, <span class="hljs-keyword">sizeof</span> <span class="hljs-built_in">buffer</span> - <span class="hljs-number">1</span>, <span class="hljs-string">"%s"</span>, <span class="hljs-string">"Ciao!"</span>);
 
-vr_socket_tcp_write(socket, buffer, count);
+vr_socket_tcp_write(socket, <span class="hljs-built_in">buffer</span>, count);
 
-count = vr_socket_tcp_read(socket, buffer, sizeof buffer);
+count = vr_socket_tcp_read(socket, <span class="hljs-built_in">buffer</span>, <span class="hljs-keyword">sizeof</span> <span class="hljs-built_in">buffer</span>);
 </code></pre>
     <p>Per utilizzare questa classe lato server invece è necessario preparare un socket <strong>bound</strong> che deve
         essere proposso a <strong>listener</strong> e successivamente riservare un socket per le connessioni che si
         intende accettare. Ad esempio:</p>
-    <pre><code class="language-c">VR_Socket_TCP listener = vr_socket_tcp_reserve(&amp;arena);
+    <pre><code class="lang-c">VR_Socket_TCP listener = vr_socket_tcp_reserve(&amp;arena);
 
-// localhost:34137
-vr_socket_tcp_init_bound(listener, VR_Endpoint_IP_Kind_4, 34137);
+<span class="hljs-comment">// localhost:34137</span>
+vr_socket_tcp_init_bound(listener, VR_Endpoint_IP_Kind_4, <span class="hljs-number">34137</span>);
 vr_socket_tcp_listen(listener);
 
 VR_Socket_TCP socket = vr_socket_tcp_reserve(&amp;arena);
 
-uint8 buffer[256] = {0};
+uint8 <span class="hljs-built_in">buffer</span>[<span class="hljs-number">256</span>] = {<span class="hljs-number">0</span>};
 
 vr_socket_tcp_accept(socket, listener);
 
-intptr count = vr_socket_tcp_read(socket, buffer, sizeof buffer);
+intptr count = vr_socket_tcp_read(socket, <span class="hljs-built_in">buffer</span>, <span class="hljs-keyword">sizeof</span> <span class="hljs-built_in">buffer</span>);
 
-vr_socket_tcp_write(socket, buffer, count);
+vr_socket_tcp_write(socket, <span class="hljs-built_in">buffer</span>, count);
 </code></pre>
     <p>Nota: È sempre possibile creare un socket bound a patto che la porta sia disponibile, nel caso di un server è
         fondamentale ma nel caso di un client è consigliato lasciare che sia il sistema operativo a selezionarne una
         libera in automatico.</p>
-    <pre><code class="language-c">struct VR_Socket_TCP { void* impl; };
+    <pre><code class="lang-c"><span class="hljs-class"><span class="hljs-keyword">struct</span> <span class="hljs-title">VR_Socket_TCP</span> </span>{ <span class="hljs-keyword">void</span>* impl; };
 </code></pre>
-    <h3>vr_socket_tcp_reserve</h3>
+    <h3 id="vr_socket_tcp_reserve">vr_socket_tcp_reserve</h3>
     <p>Riserva la memoria per un socket TCP.</p>
-    <pre><code class="language-c">VR_Socket_TCP vr_socket_tcp_reserve(VR_Alloc* alloc)
+    <pre><code class="lang-c">VR_Socket_TCP vr_socket_tcp_reserve(<span class="hljs-name">VR_Alloc*</span> alloc)
 </code></pre>
     <p>Restituisce:</p>
     <ul>
         <li>Un socket invalido se l&#39;operazione fallisce, uno valido altrimenti.</li>
     </ul>
-    <h3>vr_socket_tcp_init</h3>
+    <h3 id="vr_socket_tcp_init">vr_socket_tcp_init</h3>
     <p>Inizializza un socket a partire da un tipo di indirizzo IP.</p>
-    <pre><code class="language-c">bool32 vr_socket_tcp_init(VR_Socket_TCP self, VR_Endpoint_IP_Kind kind)
+    <pre><code class="lang-c"><span class="hljs-keyword">bool32 </span>vr_socket_tcp_init(VR_Socket_TCP <span class="hljs-keyword">self, </span>VR_Endpoint_IP_Kind kind)
 </code></pre>
     <p>Parametri:</p>
     <ul>
@@ -382,9 +435,9 @@ vr_socket_tcp_write(socket, buffer, count);
     <ul>
         <li>Zero se l&#39;operazione fallisce, un valore diverso da zero altrimenti.</li>
     </ul>
-    <h3>vr_socket_tcp_init_bound</h3>
+    <h3 id="vr_socket_tcp_init_bound">vr_socket_tcp_init_bound</h3>
     <p>Inizializza un socket <strong>bound</strong> a partire da un tipo di indirizzo IP e una porta.</p>
-    <pre><code class="language-c">bool32 vr_socket_tcp_init_bound(VR_Socket_TCP self, VR_Endpoint_IP_Kind kind, uint16 port)
+    <pre><code class="lang-c"><span class="hljs-keyword">bool32 </span>vr_socket_tcp_init_bound(VR_Socket_TCP <span class="hljs-keyword">self, </span>VR_Endpoint_IP_Kind kind, uint16 port)
 </code></pre>
     <p>Parametri:</p>
     <ul>
@@ -397,22 +450,22 @@ vr_socket_tcp_write(socket, buffer, count);
     <ul>
         <li>Zero se l&#39;operazione fallisce, un valore diverso da zero altrimenti.</li>
     </ul>
-    <h3>vr_socket_tcp_uninit</h3>
+    <h3 id="vr_socket_tcp_uninit">vr_socket_tcp_uninit</h3>
     <p>Distrugge un socket. Questa operazione chiude la connessione e dall&#39;altro capo nessun socket riuscirà più a
         scrivere o leggere.</p>
-    <pre><code class="language-c">void vr_socket_tcp_uninit(VR_Socket_TCP self)
+    <pre><code class="lang-c"><span class="hljs-literal">void</span> vr_socket_tcp_uninit(VR_Socket_TCP <span class="hljs-built_in">self</span>)
 </code></pre>
-    <h3>vr_socket_tcp_listen</h3>
+    <h3 id="vr_socket_tcp_listen">vr_socket_tcp_listen</h3>
     <p>Promuove un socket a listener.</p>
-    <pre><code class="language-c">bool32 vr_socket_tcp_listen(VR_Socket_TCP listener)
+    <pre><code class="lang-c">bool32 vr_socket_tcp_listen(<span class="hljs-name">VR_Socket_TCP</span> listener)
 </code></pre>
     <p>Restituisce:</p>
     <ul>
         <li>Zero se l&#39;operazione fallisce, un valore diverso da zero altrimenti.</li>
     </ul>
-    <h3>vr_socket_tcp_accept</h3>
+    <h3 id="vr_socket_tcp_accept">vr_socket_tcp_accept</h3>
     <p>Accetta una nuova connessione su un socket a partire da un socket listener.</p>
-    <pre><code class="language-c">bool32 vr_socket_tcp_accept(VR_Socket_TCP self, VR_Socket_TCP listener)
+    <pre><code class="lang-c"><span class="hljs-keyword">bool32 </span>vr_socket_tcp_accept(VR_Socket_TCP <span class="hljs-keyword">self, </span>VR_Socket_TCP listener)
 </code></pre>
     <p>Parametri:</p>
     <ul>
@@ -424,9 +477,9 @@ vr_socket_tcp_write(socket, buffer, count);
     <ul>
         <li>Zero se l&#39;operazione fallisce, un valore diverso da zero altrimenti.</li>
     </ul>
-    <h3>vr_socket_tcp_connect</h3>
+    <h3 id="vr_socket_tcp_connect">vr_socket_tcp_connect</h3>
     <p>Inizia una nuova connessione su un socket verso un endpoint IP.</p>
-    <pre><code class="language-c">bool32 vr_socket_tcp_connect(VR_Socket_TCP self, VR_Endpoint_IP endpoint)
+    <pre><code class="lang-c"><span class="hljs-keyword">bool32 </span>vr_socket_tcp_connect(VR_Socket_TCP <span class="hljs-keyword">self, </span>VR_Endpoint_IP endpoint)
 </code></pre>
     <p>Parametri:</p>
     <ul>
@@ -437,14 +490,14 @@ vr_socket_tcp_write(socket, buffer, count);
     <ul>
         <li>Zero se l&#39;operazione fallisce, un valore diverso da zero altrimenti.</li>
     </ul>
-    <h3>vr_socket_tcp_write</h3>
+    <h3 id="vr_socket_tcp_write">vr_socket_tcp_write</h3>
     <p>Scrive su un socket <strong>non listener</strong> il contenuto di un blocco di memoria.</p>
     <p>L&#39;operazione potrebbe non inviare tutto il blocco, in generale è consigliato controllare quanti byte sono
         stati effettivamente inviati e scrivere i rimanenti con altre chiamate. L&#39;operazione inoltre è bloccante,
         cioè attende che sia possibile scrivere almeno un byte prima di ritornare al chiamante.</p>
     <p>Nota: Se il socket è in uno stato valido e i parametri sono corretti ma l&#39;operazione comunque termina con
         zero byte scritti, può significare che la connessione dall&#39;altro lato è stata interrotta.</p>
-    <pre><code class="language-c">intptr vr_socket_tcp_write(VR_Socket_TCP self, uint8* pntr, intptr size)
+    <pre><code class="lang-c">intptr vr_socket_tcp_write(<span class="hljs-name">VR_Socket_TCP</span> self, uint8* pntr, intptr size)
 </code></pre>
     <p>Parametri:</p>
     <ul>
@@ -458,13 +511,13 @@ vr_socket_tcp_write(socket, buffer, count);
         <li>Zero se l&#39;operazione fallisce, il numero di byte scritti compreso in <code>[1, size]</code> altrimenti.
         </li>
     </ul>
-    <h3>vr_socket_tcp_read</h3>
+    <h3 id="vr_socket_tcp_read">vr_socket_tcp_read</h3>
     <p>Legge da un socket <strong>non listener</strong> e copia il contenuto in un blocco di memoria.</p>
     <p>L&#39;operazione è bloccante, cioè attende che sia possibile leggere almeno un byte prima di ritornare al
         chiamante.</p>
     <p>Nota: Se il socket è in uno stato valido e i parametri sono corretti ma l&#39;operazione comunque termina con
         zero byte letti, può significare che la connessione dall&#39;altro lato è stata interrotta.</p>
-    <pre><code class="language-c">intptr vr_socket_tcp_read(VR_Socket_TCP self, uint8* pntr, intptr size)
+    <pre><code class="lang-c">intptr vr_socket_tcp_read(<span class="hljs-name">VR_Socket_TCP</span> self, uint8* pntr, intptr size)
 </code></pre>
     <p>Parametri:</p>
     <ul>
@@ -478,51 +531,51 @@ vr_socket_tcp_write(socket, buffer, count);
         <li>Zero se l&#39;operazione fallisce, il numero di byte letti compreso in <code>[1, size]</code> altrimenti.
         </li>
     </ul>
-    <h2>Socket UDP</h2>
+    <h2 id="socket-udp">Socket UDP</h2>
     <p>Classe per lavorare con socket UDP.</p>
     <p>Per utilizzare questa classe lato client è sufficiente preparare un socket. Ad esempio:</p>
-    <pre><code class="language-c">VR_Socket_UDP  socket   = vr_socket_udp_reserve(alloc);
-VR_Endpoint_IP endpoint = vr_endpoint_ip_ver4(VR_ENDPOINT_IPV4_LOCAL, 34137);
+    <pre><code class="lang-c">VR_Socket_UDP  socket   = vr_socket_udp_reserve(alloc)<span class="hljs-comment">;</span>
+VR_Endpoint_IP endpoint = vr_endpoint_ip_ver4(VR_ENDPOINT_IPV4_LOCAL, <span class="hljs-number">34137</span>)<span class="hljs-comment">;</span>
 
-vr_socket_udp_init(socket, endpoint.kind);
+vr_socket_udp_init(socket, endpoint.kind)<span class="hljs-comment">;</span>
 
-uint8 buffer[256] = {0};
+uint8 <span class="hljs-keyword">buffer[256] </span>= {<span class="hljs-number">0</span>}<span class="hljs-comment">;</span>
 
-intptr count = snprintf((char8*) buffer, sizeof buffer - 1, &quot;%s&quot;, &quot;Ciao!&quot;);
+intptr <span class="hljs-built_in">count</span> = snprintf((char8*) <span class="hljs-keyword">buffer, </span>sizeof <span class="hljs-keyword">buffer </span>- <span class="hljs-number">1</span>, <span class="hljs-string">"%s"</span>, <span class="hljs-string">"Ciao!"</span>)<span class="hljs-comment">;</span>
 
-vr_socket_udp_write(socket, buffer, count, endpoint);
+vr_socket_udp_write(socket, <span class="hljs-keyword">buffer, </span><span class="hljs-built_in">count</span>, endpoint)<span class="hljs-comment">;</span>
 
-count = vr_socket_udp_read(socket, buffer, sizeof buffer, &amp;endpoint);
+<span class="hljs-built_in">count</span> = vr_socket_udp_read(socket, <span class="hljs-keyword">buffer, </span>sizeof <span class="hljs-keyword">buffer, </span>&amp;endpoint)<span class="hljs-comment">;</span>
 </code></pre>
     <p>Per utilizzare questa classe lato server invece è necessario preparare un socket <strong>bound</strong>. Ad
         esempio:</p>
-    <pre><code class="language-c">VR_Socket_UDP  socket   = vr_socket_udp_reserve(alloc);
-VR_Endpoint_IP endpoint = {0};
+    <pre><code class="lang-c">VR_Socket_UDP  socket   = vr_socket_udp_reserve(alloc)<span class="hljs-comment">;</span>
+VR_Endpoint_IP endpoint = {<span class="hljs-number">0</span>}<span class="hljs-comment">;</span>
 
-vr_socket_udp_init_bound(listener, VR_Endpoint_IP_Kind_4, 34137);
+vr_socket_udp_init_bound(listener, VR_Endpoint_IP_Kind_4, <span class="hljs-number">34137</span>)<span class="hljs-comment">;</span>
 
-uint8 buffer[256] = {0};
+uint8 <span class="hljs-keyword">buffer[256] </span>= {<span class="hljs-number">0</span>}<span class="hljs-comment">;</span>
 
-intptr count = vr_socket_udp_read(socket, buffer, sizeof buffer, &amp;endpoint);
+intptr <span class="hljs-built_in">count</span> = vr_socket_udp_read(socket, <span class="hljs-keyword">buffer, </span>sizeof <span class="hljs-keyword">buffer, </span>&amp;endpoint)<span class="hljs-comment">;</span>
 
-vr_socket_udp_write(socket, buffer, count, endpoint);
+vr_socket_udp_write(socket, <span class="hljs-keyword">buffer, </span><span class="hljs-built_in">count</span>, endpoint)<span class="hljs-comment">;</span>
 </code></pre>
     <p>Nota: È sempre possibile creare un socket bound a patto che la porta sia disponibile, nel caso di un server è
         fondamentale ma nel caso di un client è consigliato lasciare che sia il sistema operativo a selezionarne una
         libera in automatico.</p>
-    <pre><code class="language-c">struct VR_Socket_UDP { void* impl; };
+    <pre><code class="lang-c"><span class="hljs-class"><span class="hljs-keyword">struct</span> <span class="hljs-title">VR_Socket_UDP</span> </span>{ <span class="hljs-keyword">void</span>* impl; };
 </code></pre>
-    <h3>vr_socket_udp_reserve</h3>
+    <h3 id="vr_socket_udp_reserve">vr_socket_udp_reserve</h3>
     <p>Riserva la memoria per un socket UDP.</p>
-    <pre><code class="language-c">VR_Socket_UDP vr_socket_udp_reserve(VR_Alloc* alloc)
+    <pre><code class="lang-c">VR_Socket_UDP vr_socket_udp_reserve(<span class="hljs-name">VR_Alloc*</span> alloc)
 </code></pre>
     <p>Restituisce:</p>
     <ul>
         <li>Un socket invalido se l&#39;operazione fallisce, uno valido altrimenti.</li>
     </ul>
-    <h3>vr_socket_upd_init</h3>
+    <h3 id="vr_socket_upd_init">vr_socket_upd_init</h3>
     <p>Inizializza un socket a partire da un tipo di indirizzo IP.</p>
-    <pre><code class="language-c">bool32 vr_socket_udp_init(VR_Socket_UDP self, VR_Endpoint_IP_Kind kind)
+    <pre><code class="lang-c"><span class="hljs-keyword">bool32 </span>vr_socket_udp_init(VR_Socket_UDP <span class="hljs-keyword">self, </span>VR_Endpoint_IP_Kind kind)
 </code></pre>
     <p>Parametri:</p>
     <ul>
@@ -534,9 +587,9 @@ vr_socket_udp_write(socket, buffer, count, endpoint);
     <ul>
         <li>Zero se l&#39;operazione fallisce, un valore diverso da zero altrimenti.</li>
     </ul>
-    <h3>vr_socket_upd_init_bound</h3>
+    <h3 id="vr_socket_upd_init_bound">vr_socket_upd_init_bound</h3>
     <p>Inizializza un socket <strong>bound</strong> a partire da un tipo di indirizzo IP e una porta.</p>
-    <pre><code class="language-c">bool32 vr_socket_udp_init_bound(VR_Socket_UDP self, VR_Endpoint_IP_Kind kind, uint16 port)
+    <pre><code class="lang-c"><span class="hljs-keyword">bool32 </span>vr_socket_udp_init_bound(VR_Socket_UDP <span class="hljs-keyword">self, </span>VR_Endpoint_IP_Kind kind, uint16 port)
 </code></pre>
     <p>Parametri:</p>
     <ul>
@@ -549,18 +602,18 @@ vr_socket_udp_write(socket, buffer, count, endpoint);
     <ul>
         <li>Zero se l&#39;operazione fallisce, un valore diverso da zero altrimenti.</li>
     </ul>
-    <h3>vr_socket_upd_uninit</h3>
+    <h3 id="vr_socket_upd_uninit">vr_socket_upd_uninit</h3>
     <p>Distrugge un socket.</p>
-    <pre><code class="language-c">void vr_socket_udp_uninit(VR_Socket_UDP self)
+    <pre><code class="lang-c"><span class="hljs-literal">void</span> vr_socket_udp_uninit(VR_Socket_UDP <span class="hljs-built_in">self</span>)
 </code></pre>
-    <h3>vr_socket_udp_write</h3>
+    <h3 id="vr_socket_udp_write">vr_socket_udp_write</h3>
     <p>Scrive su un socket il contenuto di un blocco di memoria ad un certo endpoint.</p>
     <p>L&#39;operazione potrebbe non inviare tutto il blocco, in generale è consigliato controllare quanti byte sono
         stati effettivamente inviati e scrivere i rimanenti con altre chiamate. L&#39;operazione inoltre è bloccante,
         cioè attende che sia possibile scrivere almeno un byte prima di tornare al chiamante.</p>
     <p>Nota: L&#39;operazione può terminare con successo ma non è garantito che dall&#39;altro lato il contenuto venga
         ricevuto. In caso poi di più chiamate non è nemmeno garantito l&#39;ordine di arrivo delle varie parti.</p>
-    <pre><code class="language-c">intptr vr_socket_udp_write(VR_Socket_TCP self, uint8* pntr, intptr size, VR_Endpoint_IP endpoint)
+    <pre><code class="lang-c">intptr vr_socket_udp_write(<span class="hljs-name">VR_Socket_TCP</span> self, uint8* pntr, intptr size, VR_Endpoint_IP endpoint)
 </code></pre>
     <p>Parametri:</p>
     <ul>
@@ -575,14 +628,14 @@ vr_socket_udp_write(socket, buffer, count, endpoint);
         <li>Zero se l&#39;operazione fallisce, il numero di byte scritti compreso in <code>[1, size]</code> altrimenti.
         </li>
     </ul>
-    <h3>vr_socket_udp_read</h3>
+    <h3 id="vr_socket_udp_read">vr_socket_udp_read</h3>
     <p>Legge da un socket e copia il contenuto in un blocco di memoria.</p>
     <p>L&#39;operazione è bloccante, cioè attende che sia possibile leggere almeno un byte prima di ritornare al
         chiamante.</p>
     <p>Nota: L&#39;operazione può terminare con successo ma non è garantito che il contenuto sia quello inviato
         originariamente dall&#39;altro lato. In più se dall&#39;altro lato viene interrotta la comunicazione
         l&#39;operazione potrebbe attendere all&#39;infinito.</p>
-    <pre><code class="language-c">intptr vr_socket_udp_read(VR_Socket_UDP self, uint8* pntr, intptr size, VR_Endpoint_IP* endpoint)
+    <pre><code class="lang-c">intptr vr_socket_udp_read(<span class="hljs-name">VR_Socket_UDP</span> self, uint8* pntr, intptr size, VR_Endpoint_IP* endpoint)
 </code></pre>
     <p>Parametri:</p>
     <ul>

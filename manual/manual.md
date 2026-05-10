@@ -1,4 +1,62 @@
-# Manuale VR system socket
+# Manuale VR
+
+## Utilizzo, esempi e test
+
+Nella cartella `test/` si trovano i test per la libreria mentre nella cartella `example/` si trovano dei programmi di esempio. Per compilare tutto in Windows è sufficiente chiamare lo script `build.bat` nella root del progetto, per compilare in Linux il processo è simile con `build.sh` ma potrebbe essere necessario rendere eseguibili tutti gli script prima di chiamarli.
+
+Il codice è stato testato su [Windows 10](https://it.wikipedia.org/wiki/Windows_10), [Windows 11](https://it.wikipedia.org/wiki/Windows_11), [Linux Mint DE 6](https://it.wikipedia.org/wiki/Linux_Mint_Debian_Edition) nativi e su [Ubuntu 24.04](https://it.wikipedia.org/wiki/Ubuntu), [Fedora Linux 43](https://en.wikipedia.org/wiki/Fedora_Linux) tramite WSL2. Al momento la libreria non supporta MacOS e potrebbe dare problemi su sistemi in cui non è stata testata.
+
+# VR system memory
+
+Modulo che permette di lavorare con il sistema operativo per ottenere e liberare memoria.
+
+## Tabella dei contenuti
+
+1. [Funzioni libere](#funzioni-libere)
+	- [vr_memory_page_size](#vr_memory_page_size)
+	- [vr_memory_reserve](#vr_memory_reserve)
+	- [vr_memory_release](#vr_memory_release)
+
+## Funzioni libere
+
+### vr_memory_page_size
+
+Restituisce la dimensione (in byte) delle pagine usate dal sistema operativo.
+
+```c
+intptr vr_memory_page_size()
+```
+
+### vr_memory_reserve
+
+Riserva un'arena di memoria delle dimensioni richieste. La quantità riservata è sempre arrotondata per eccesso alla grandezza di una pagina.
+
+```c
+VR_Arena_Alloc vr_memory_reserve(intptr elem_count, intptr elem_size)
+```
+
+Parametri:
+
+- `intptr elem_count` - La quantità di elementi da riservare, **deve essere positiva**.
+- `intptr elem_size` - La dimensione (in byte) degli elementi da riservare, **deve essere positiva**.
+
+Risultato:
+
+- Un'arena di memoria delle dimensioni richieste se l'operazione ha successo, un'arena di memoria vuota altrimenti.
+
+### vr_memory_release
+
+Rilascia un'arena di memoria precedentemente riservata.
+
+```c
+void vr_memory_release(VR_Arena_Alloc* arena)
+```
+
+Parametri:
+
+- `VR_Arena_Alloc* arena` - L'arena da rilasciare, **non può essere NULL**.
+
+# VR system socket
 
 Modulo che permette di lavorare con il sistema operativo per comunicare tramite socket TCP e UDP.
 
