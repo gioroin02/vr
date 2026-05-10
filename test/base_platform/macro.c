@@ -1,4 +1,5 @@
 #include <vr_base_platform.h>
+
 #include <stdio.h>
 
 static const char* names_word_size[] = {"None", "32", "64"};

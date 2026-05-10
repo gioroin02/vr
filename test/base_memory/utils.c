@@ -1,4 +1,5 @@
 #include <vr_base_memory.h>
+
 #include <stdio.h>
 
 void show_memory(void* pntr, intptr size)
@@ -15,8 +16,8 @@ void show_memory(void* pntr, intptr size)
 
 void show_aligned(intptr value, intptr alignment)
 {
-    printf("[INFO] value   = %lli\n", value);
-    printf("[INFO] aligned = %lli\n", vr_memory_align_size(value, alignment));
+    printf("[INFO] value   = %li\n", value);
+    printf("[INFO] aligned = %li\n", vr_memory_align_size(value, alignment));
 }
 
 int main(int args_count, char* args_array[])
@@ -65,12 +66,12 @@ int main(int args_count, char* args_array[])
     printf("[INFO] Big endian:    %.3f\n", value_big);
     printf("\n");
 
-    printf("[INFO] write_local  = %lli\n", write_local);
-    printf("[INFO] write_little = %lli\n", write_little);
-    printf("[INFO] write_big    = %lli\n", write_big);
-    printf("[INFO] read_local   = %lli\n", read_local);
-    printf("[INFO] read_little  = %lli\n", read_little);
-    printf("[INFO] read_big     = %lli\n", read_big);
+    printf("[INFO] write_local  = %li\n", write_local);
+    printf("[INFO] write_little = %li\n", write_little);
+    printf("[INFO] write_big    = %li\n", write_big);
+    printf("[INFO] read_local   = %li\n", read_local);
+    printf("[INFO] read_little  = %li\n", read_little);
+    printf("[INFO] read_big     = %li\n", read_big);
 
     return 0;
 }

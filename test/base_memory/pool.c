@@ -1,4 +1,5 @@
 #include <vr_base_memory.h>
+
 #include <stdio.h>
 
 void show_memory_uint32(uint32* pntr)

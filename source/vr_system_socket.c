@@ -7,8 +7,6 @@
 
     #include "vr_win32_socket.c"
 
-    #define _VR_Socket_TCP_ VR_Win32_Socket_TCP
-
     #define _vr_socket_tcp_reserve_  vr_win32_socket_tcp_reserve
     #define _vr_socket_tcp_init_     vr_win32_socket_tcp_init
     #define _vr_socket_tcp_uninit_   vr_win32_socket_tcp_uninit
@@ -19,8 +17,6 @@
     #define _vr_socket_tcp_write_    vr_win32_socket_tcp_write
     #define _vr_socket_tcp_read_     vr_win32_socket_tcp_read
     #define _vr_socket_tcp_endpoint_ vr_win32_socket_tcp_endpoint
-
-    #define _VR_Socket_UDP_ VR_Win32_Socket_UDP
 
     #define _vr_socket_udp_reserve_  vr_win32_socket_udp_reserve
     #define _vr_socket_udp_init_     vr_win32_socket_udp_init
@@ -34,8 +30,6 @@
 
     #include "vr_linux_socket.c"
 
-    #define _VR_Socket_TCP_ VR_Linux_Socket_TCP
-
     #define _vr_socket_tcp_reserve_  vr_linux_socket_tcp_reserve
     #define _vr_socket_tcp_init_     vr_linux_socket_tcp_init
     #define _vr_socket_tcp_uninit_   vr_linux_socket_tcp_uninit
@@ -46,8 +40,6 @@
     #define _vr_socket_tcp_write_    vr_linux_socket_tcp_write
     #define _vr_socket_tcp_read_     vr_linux_socket_tcp_read
     #define _vr_socket_tcp_endpoint_ vr_linux_socket_tcp_endpoint
-
-    #define _VR_Socket_UDP_ VR_Linux_Socket_UDP
 
     #define _vr_socket_udp_reserve_  vr_linux_socket_udp_reserve
     #define _vr_socket_udp_init_     vr_linux_socket_udp_init

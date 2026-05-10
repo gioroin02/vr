@@ -1,4 +1,4 @@
-compiler="gcc --std=c99 -Isource -Wall -g"
+compiler="gcc --std=c99 -Isource -Wall -Wno-format -g"
 
 impl="$impl source/vr_base_platform.c"
 impl="$impl source/vr_base_memory.c"

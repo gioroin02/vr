@@ -7,15 +7,15 @@ VR_Endian vr_machine_endian()
 {
     union
     {
-        unsigned int  integer;
-        unsigned char bytes[4];
+        uint32 value;
+        uint8  bytes[4];
     }
-    value = {.integer = 0x00110022};
+    number = {.value = 0x00110022};
 
-    if (value.bytes[0] == 0x22 && value.bytes[2] == 0x11)
+    if (number.bytes[0] == 0x22 && number.bytes[2] == 0x11)
         return VR_Endian_Little;
 
-    if (value.bytes[1] == 0x11 && value.bytes[3] == 0x22)
+    if (number.bytes[1] == 0x11 && number.bytes[3] == 0x22)
         return VR_Endian_Big;
 
     return VR_Endian_None;

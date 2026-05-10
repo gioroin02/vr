@@ -355,7 +355,7 @@ struct VR_Pool_Alloc_Node
     bool32              available;
 };
 
-vr_static_assert(sizeof (VR_Pool_Alloc_Node) <= VR_MEMORY_DEFAULT_ALIGNMENT);
+vr_static_assert(sizeof (VR_Pool_Alloc_Node) <= VR_MEMORY_DEFAULT_ALIGNMENT, "");
 
 static VR_Pool_Alloc_Node vr_pool_alloc_node_make(void* next, bool32 available)
 {
@@ -479,7 +479,7 @@ struct VR_Stack_Alloc_Node
     intptr size;
 };
 
-vr_static_assert(sizeof (VR_Stack_Alloc_Node) <= VR_MEMORY_DEFAULT_ALIGNMENT);
+vr_static_assert(sizeof (VR_Stack_Alloc_Node) <= VR_MEMORY_DEFAULT_ALIGNMENT, "");
 
 static VR_Stack_Alloc_Node vr_stack_alloc_node_make(intptr size)
 {
