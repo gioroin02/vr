@@ -29,9 +29,6 @@ char8* string_suffix(char8* self, char8* prefix)
 
 int main(int args_count, char* args_array[])
 {
-    // Creazione di una "arena", un tipo di allocatore che può riservare
-    // singoli blocchi di memoria ma può rilasciarli solo in gruppo. In
-    // questo caso richiediamo 16 * 1024 byte.
     VR_Arena_Alloc arena = vr_memory_reserve(16, 1024);
 
     bool32 server_is_endless   = 0;
@@ -55,47 +52,34 @@ int main(int args_count, char* args_array[])
         return 1;
     }
 
-    // Allocazione di un socket TCP listener e uno di "sessione". Le strutture
-    // VR_*Alloc implementano l'interfaccia VR_Alloc che permette di allocare e
-    // liberare memoria in modo generico senza sapere quale allocatore si trovi
-    // dietro le quinte.
-    VR_Socket_TCP listener = vr_socket_tcp_reserve((VR_Alloc*) &arena);
-    VR_Socket_TCP socket   = vr_socket_tcp_reserve((VR_Alloc*) &arena);
+    VR_Socket_UDP socket = vr_socket_udp_reserve((VR_Alloc*) &arena);
 
-    // Inizializzazione del socket listener in questo caso con indirizzo localhost
-    // IPv4 e porta 37134.
-    vr_socket_tcp_init_bound(listener, VR_Endpoint_IP_Kind_V4, 37134);
-
-    // Promozione a listener, ora il socket può accettare connessioni in arrivo.
-    vr_socket_tcp_listen(listener);
+    vr_socket_udp_init_bound(socket, VR_Endpoint_IP_Kind_V4, 37134);
 
     // Ripete il ciclo:
     //    (1) finché non ha raggiunto il limite delle sessioni oppure
     //    (2) se è endless.
     for (intptr i = 0; (i < server_sessions_max) || (server_is_endless != 0); i += 1) {
-        // Accettazione di una nuova connessione.
-        vr_socket_tcp_accept(socket, listener);
+        VR_Endpoint_IP endpoint = {0};
 
         char8  message[32] = {0};
         intptr count       = 0;
 
         // Ricezione del messaggio dal client.
-        count = vr_socket_tcp_read(socket, (uint8*) message, sizeof message);
+        count = vr_socket_udp_read(socket,
+            (uint8*) message, sizeof message, &endpoint);
 
-        printf(INFO "Nuova sessione (%lli)\n", i);
+        printf(INFO " Nuovo messaggio (%lli)\n", i);
         printf(INFO " Ricevuto '%.*s'\n", (int) count, message);
 
         // Invio della risposta al client e chiusura della connessione.
-        vr_socket_tcp_write_all(socket, (uint8*) message, count);
+        vr_socket_udp_write_all(socket, (uint8*) message, count, endpoint);
 
         printf(INFO " Inviato '%.*s'\n", (int) count, message);
         printf("\n");
-
-        vr_socket_tcp_uninit(socket);
     }
 
-    // Chiusura del server e distruzione delle risorse acquisite.
-    vr_socket_tcp_uninit(listener);
+    vr_socket_udp_uninit(socket);
 
     return 0;
 }

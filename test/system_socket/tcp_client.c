@@ -14,16 +14,16 @@ int main(int args_count, char* args_array[])
     vr_socket_tcp_init(socket, VR_Endpoint_IP_Kind_V4);
     vr_socket_tcp_connect(socket, vr_endpoint_ip_ver4(VR_ENDPOINT_IPV4_LOCAL, 5000));
 
-    char   message[32] = "Ciao!";
+    char8  message[32] = "Ciao!";
     intptr count       = strlen(message);
 
-    vr_socket_tcp_write(socket, (uint8*) message, count);
+    vr_socket_tcp_write_all(socket, (uint8*) message, count);
 
-    printf("[INFO] Inviato '%.*s'\n", (int) count, message);
+    printf("[  INFO ] Inviato '%.*s'\n", (int) count, message);
 
     count = vr_socket_tcp_read(socket, (uint8*) message, sizeof message);
 
-    printf("[INFO] Ricevuto '%.*s'\n", (int) count, message);
+    printf("[  INFO ] Ricevuto '%.*s'\n", (int) count, message);
 
     vr_socket_tcp_uninit(socket);
 

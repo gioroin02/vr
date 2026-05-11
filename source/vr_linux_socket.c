@@ -243,22 +243,16 @@ intptr vr_linux_socket_tcp_write(VR_Linux_Socket_TCP* self, uint8* pntr, intptr 
 {
     if (pntr == NULL || size <= 0) return 0;
 
-    intptr result = 0;
-    int    count  = 0;
+    int count = 0;
 
-    for (; result < size; result += count) {
-        do {
-            count = send(self->handle, (char*) pntr, (int) size, 0);
-        }
-        while (count == -1 && errno == EINTR);
-
-        if (count <= 0 || count > size) break;
-
-        pntr += count;
-        size -= count;
+    do {
+        count = send(self->handle, (char*) pntr, (int) size, 0);
     }
+    while (count == -1 && errno == EINTR);
 
-    return result;
+    if (count <= 0 || count > size) return 0;
+
+    return count;
 }
 
 intptr vr_linux_socket_tcp_read(VR_Linux_Socket_TCP* self, uint8* pntr, intptr size)
@@ -274,7 +268,7 @@ intptr vr_linux_socket_tcp_read(VR_Linux_Socket_TCP* self, uint8* pntr, intptr s
 
     if (count <= 0 || count > size) return 0;
 
-    return (intptr) count;
+    return count;
 }
 
 VR_Endpoint_IP vr_linux_socket_tcp_endpoint(VR_Linux_Socket_TCP* self)
@@ -366,23 +360,17 @@ intptr vr_linux_socket_udp_write(VR_Linux_Socket_UDP* self, uint8* pntr, intptr 
     sockaddr_storage_t address = vr_linux_sockaddr_make(endpoint);
     socklen_t          length  = vr_linux_sockaddr_size(&address);
 
-    intptr result = 0;
-    int    count  = 0;
+    int count = 0;
 
-    for (; result < size; result += count) {
-        do {
-            count = sendto(self->handle, (char*) pntr, (int) size, 0,
-                (sockaddr_t*) &address, length);
-        }
-        while (count == -1 && errno == EINTR);
-
-        if (count <= 0 || count > size) break;
-
-        pntr += count;
-        size -= count;
+    do {
+        count = sendto(self->handle, (char*) pntr, (int) size, 0,
+            (sockaddr_t*) &address, length);
     }
+    while (count == -1 && errno == EINTR);
 
-    return result;
+    if (count <= 0 || count > size) return 0;
+
+    return count;
 }
 
 intptr vr_linux_socket_udp_read(VR_Linux_Socket_UDP* self, uint8* pntr, intptr size, VR_Endpoint_IP* endpoint)

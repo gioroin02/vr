@@ -13,16 +13,16 @@ int main(int args_count, char* args_array[])
 
     vr_socket_udp_init_bound(socket, VR_Endpoint_IP_Kind_V4, 5000);
 
-    char message[32] = {0};
+    char8 message[32] = {0};
 
     intptr count = vr_socket_udp_read(socket,
         (uint8*) message, sizeof message, &endpoint);
 
-    printf("[INFO] Ricevuto '%.*s'\n", (int) count, message);
+    printf("[  INFO ] Ricevuto '%.*s'\n", (int) count, message);
 
-    vr_socket_udp_write(socket, (uint8*) message, count, endpoint);
+    vr_socket_udp_write_all(socket, (uint8*) message, count, endpoint);
 
-    printf("[INFO] Inviato '%.*s'\n", (int) count, message);
+    printf("[  INFO ] Inviato '%.*s'\n", (int) count, message);
 
     vr_socket_udp_uninit(socket);
 

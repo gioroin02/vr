@@ -195,6 +195,24 @@ intptr vr_socket_tcp_write(VR_Socket_TCP self, uint8* pntr, intptr size)
     return _vr_socket_tcp_write_(self.impl, pntr, size);
 }
 
+intptr vr_socket_tcp_write_all(VR_Socket_TCP self, uint8* pntr, intptr size)
+{
+    intptr result = 0;
+
+    while (result < size) {
+        intptr count = _vr_socket_tcp_write_(
+            self.impl, pntr, size);
+
+        if (count <= 0 || count > size) break;
+
+        pntr   += count;
+        size   -= count;
+        result += count;
+    }
+
+    return result;
+}
+
 intptr vr_socket_tcp_read(VR_Socket_TCP self, uint8* pntr, intptr size)
 {
     return _vr_socket_tcp_read_(self.impl, pntr, size);
@@ -241,6 +259,24 @@ void vr_socket_udp_uninit(VR_Socket_UDP self)
 intptr vr_socket_udp_write(VR_Socket_UDP self, uint8* pntr, intptr size, VR_Endpoint_IP endpoint)
 {
     return _vr_socket_udp_write_(self.impl, pntr, size, endpoint);
+}
+
+intptr vr_socket_udp_write_all(VR_Socket_UDP self, uint8* pntr, intptr size, VR_Endpoint_IP endpoint)
+{
+    intptr result = 0;
+
+    while (result < size) {
+        intptr count = _vr_socket_udp_write_(
+            self.impl, pntr, size, endpoint);
+
+        if (count <= 0 || count > size) break;
+
+        pntr   += count;
+        size   -= count;
+        result += count;
+    }
+
+    return result;
 }
 
 intptr vr_socket_udp_read(VR_Socket_UDP self, uint8* pntr, intptr size, VR_Endpoint_IP* endpoint)

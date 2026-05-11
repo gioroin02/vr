@@ -305,19 +305,11 @@ intptr vr_win32_socket_tcp_write(VR_Win32_Socket_TCP* self, uint8* pntr, intptr 
 {
     if (pntr == NULL || size <= 0) return 0;
 
-    intptr result = 0;
-    int    count  = 0;
+    int count = send(self->handle, (char*) pntr, (int) size, 0);
 
-    for (; result < size; result += count) {
-        count = send(self->handle, (char*) pntr, (int) size, 0);
+    if (count <= 0 || count > size) return 0;
 
-        if (count <= 0 || count > size) break;
-
-        pntr += count;
-        size -= count;
-    }
-
-    return result;
+    return count;
 }
 
 intptr vr_win32_socket_tcp_read(VR_Win32_Socket_TCP* self, uint8* pntr, intptr size)
@@ -328,7 +320,7 @@ intptr vr_win32_socket_tcp_read(VR_Win32_Socket_TCP* self, uint8* pntr, intptr s
 
     if (count <= 0 || count > size) return 0;
 
-    return (intptr) count;
+    return count;
 }
 
 VR_Endpoint_IP vr_win32_socket_tcp_endpoint(VR_Win32_Socket_TCP* self)
@@ -403,20 +395,12 @@ intptr vr_win32_socket_udp_write(VR_Win32_Socket_UDP* self, uint8* pntr, intptr 
     sockaddr_storage_t address = vr_win32_sockaddr_make(endpoint);
     socklen_t          length  = vr_win32_sockaddr_size(&address);
 
-    intptr result = 0;
-    int    count  = 0;
+    int count = sendto(self->handle, (char*) pntr,
+        (int) size, 0, (sockaddr_t*) &address, length);
 
-    for (; result < size; result += count) {
-        count = sendto(self->handle, (char*) pntr,
-            (int) size, 0, (sockaddr_t*) &address, length);
+    if (count <= 0 || count > size) return 0;
 
-        if (count <= 0 || count > size) break;
-
-        pntr += count;
-        size -= count;
-    }
-
-    return result;
+    return count;
 }
 
 intptr vr_win32_socket_udp_read(VR_Win32_Socket_UDP* self, uint8* pntr, intptr size, VR_Endpoint_IP* endpoint)

@@ -18,22 +18,21 @@ int main(int args_count, char* args_array[])
 {
     VR_Arena_Alloc arena = vr_memory_reserve(16, 1024);
 
-    VR_Socket_TCP listener = vr_socket_tcp_reserve((VR_Alloc*) &arena);
-    VR_Socket_TCP socket   = vr_socket_tcp_reserve((VR_Alloc*) &arena);
+    VR_Socket_UDP socket = vr_socket_udp_reserve((VR_Alloc*) &arena);
 
-    vr_socket_tcp_init_bound(listener, VR_Endpoint_IP_Kind_V4, 37134);
-    vr_socket_tcp_listen(listener);
-
-    vr_socket_tcp_accept(socket, listener);
+    vr_socket_udp_init_bound(socket, VR_Endpoint_IP_Kind_V4, 37134);
 
     intptr number = 0;
 
-    while (1) {
-        char8  message[32]    = {0};
-        intptr count          = 0;
-        intptr message_number = 0;
+   while (1) {
+        VR_Endpoint_IP endpoint = {0};
 
-        count = vr_socket_tcp_read(socket, (uint8*) message, sizeof message);
+        char8  message[32]      = {0};
+        intptr count            = 0;
+        intptr message_number   = 0;
+
+        count = vr_socket_udp_read(socket,
+            (uint8*) message, sizeof message, &endpoint);
 
         printf(INFO " Ricevuto '%.*s'\n", (int) count, message);
 
@@ -42,7 +41,7 @@ int main(int args_count, char* args_array[])
 
         count = snprintf(message, sizeof message, "%lli", number);
 
-        vr_socket_tcp_write_all(socket, (uint8*) message, count);
+        vr_socket_udp_write(socket, (uint8*) message, count, endpoint);
 
         printf(INFO " Inviato '%.*s'\n", (int) count, message);
         printf("\n");
@@ -50,8 +49,7 @@ int main(int args_count, char* args_array[])
         if (message_number == 0) break;
     }
 
-    vr_socket_tcp_uninit(socket);
-    vr_socket_tcp_uninit(listener);
+    vr_socket_udp_uninit(socket);
 
     return 0;
 }

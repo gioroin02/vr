@@ -16,8 +16,8 @@ void show_memory(void* pntr, intptr size)
 
 void show_aligned(intptr value, intptr alignment)
 {
-    printf("[INFO] value   = %li\n", value);
-    printf("[INFO] aligned = %li\n", vr_memory_align_size(value, alignment));
+    printf("[  INFO ] value   = %lli\n", value);
+    printf("[  INFO ] aligned = %lli\n", vr_memory_align_size(value, alignment));
 }
 
 int main(int args_count, char* args_array[])
@@ -39,13 +39,13 @@ int main(int args_count, char* args_array[])
     intptr write_big = vr_memory_write_float32_endian(
         buffer_big, sizeof buffer_big, 2.4f, VR_Endian_Big);
 
-    printf("[INFO] Local endian:  ");
+    printf("[  INFO ] Local endian:  ");
     show_memory(buffer_local, sizeof buffer_local);
 
-    printf("[INFO] Little endian: ");
+    printf("[  INFO ] Little endian: ");
     show_memory(buffer_little, sizeof buffer_little);
 
-    printf("[INFO] Big endian:    ");
+    printf("[  INFO ] Big endian:    ");
     show_memory(buffer_big, sizeof buffer_big);
 
     float32 value_local  = 0.0f;
@@ -61,17 +61,17 @@ int main(int args_count, char* args_array[])
     intptr read_big = vr_memory_read_float32_endian(
         buffer_big, sizeof buffer_big, &value_big, VR_Endian_Big);
 
-    printf("[INFO] Local endian:  %.3f\n", value_local);
-    printf("[INFO] Little endian: %.3f\n", value_little);
-    printf("[INFO] Big endian:    %.3f\n", value_big);
+    printf("[  INFO ] Local endian:  %.3f\n", value_local);
+    printf("[  INFO ] Little endian: %.3f\n", value_little);
+    printf("[  INFO ] Big endian:    %.3f\n", value_big);
     printf("\n");
 
-    printf("[INFO] write_local  = %li\n", write_local);
-    printf("[INFO] write_little = %li\n", write_little);
-    printf("[INFO] write_big    = %li\n", write_big);
-    printf("[INFO] read_local   = %li\n", read_local);
-    printf("[INFO] read_little  = %li\n", read_little);
-    printf("[INFO] read_big     = %li\n", read_big);
+    printf("[  INFO ] write_local  = %lli\n", write_local);
+    printf("[  INFO ] write_little = %lli\n", write_little);
+    printf("[  INFO ] write_big    = %lli\n", write_big);
+    printf("[  INFO ] read_local   = %lli\n", read_local);
+    printf("[  INFO ] read_little  = %lli\n", read_little);
+    printf("[  INFO ] read_big     = %lli\n", read_big);
 
     return 0;
 }

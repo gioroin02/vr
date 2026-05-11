@@ -16,15 +16,15 @@ int main(int args_count, char* args_array[])
 
     vr_socket_tcp_accept(socket, listener);
 
-    char message[32] = {0};
+    char8 message[32] = {0};
 
     intptr count = vr_socket_tcp_read(socket, (uint8*) message, sizeof message);
 
-    printf("[INFO] Ricevuto '%.*s'\n", (int) count, message);
+    printf("[  INFO ] Ricevuto '%.*s'\n", (int) count, message);
 
-    vr_socket_tcp_write(socket, (uint8*) message, count);
+    vr_socket_tcp_write_all(socket, (uint8*) message, count);
 
-    printf("[INFO] Inviato '%.*s'\n", (int) count, message);
+    printf("[  INFO ] Inviato '%.*s'\n", (int) count, message);
 
     vr_socket_tcp_uninit(socket);
     vr_socket_tcp_uninit(listener);
