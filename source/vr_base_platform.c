@@ -3,7 +3,7 @@
 
 #include "vr_base_platform.h"
 
-VR_Endian vr_machine_endian()
+VR_Endian vr_platform_endian()
 {
     union
     {
@@ -21,24 +21,23 @@ VR_Endian vr_machine_endian()
     return VR_Endian_None;
 }
 
-VR_Word_Size vr_machine_word_size()
+VR_WordSize vr_platform_word_size()
 {
-    #if VR_WORD_SIZE == VR_WORD_SIZE_32
+    #if VR_WORD_SIZE == VR_WORD_SIZE_64
 
-        return VR_Word_Size_32;
+        return VR_WordSize_64;
 
-    #elif VR_WORD_SIZE == VR_WORD_SIZE_64
+    #elif VR_WORD_SIZE == VR_WORD_SIZE_32
 
-        return VR_Word_Size_64;
-
+        return VR_WordSize_32;
     #else
 
-        return VR_Word_Size_None;
+        return VR_WordSize_None;
 
     #endif
 }
 
-VR_Compiler vr_current_compiler()
+VR_Compiler vr_platform_compiler()
 {
     #if VR_COMPILER == VR_COMPILER_GCC
 
@@ -59,7 +58,7 @@ VR_Compiler vr_current_compiler()
     #endif
 }
 
-VR_System vr_current_system()
+VR_System vr_platform_system()
 {
     #if VR_SYSTEM == VR_SYSTEM_WINDOWS
 

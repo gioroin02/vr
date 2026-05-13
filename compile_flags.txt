@@ -1,3 +1,4 @@
 -xc
--I
-source
+-Wall
+-Wno-format
+-Isource

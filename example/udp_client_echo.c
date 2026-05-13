@@ -3,37 +3,40 @@
 
 #include <stdio.h>
 
-#define INFO "[\x1b[34m  INFO \x1b[0m]"
+#define INFO "[\x1b[34m  INFO \x1b[0m] "
 
 int main(int args_count, char* args_array[])
 {
-    VR_Arena_Alloc arena = vr_memory_reserve(16, 1024);
+    VR_ArenaAlloc arena = vr_memory_reserve(16, 1024);
 
-    VR_Socket_UDP  socket = vr_socket_udp_reserve((VR_Alloc*) &arena);
-    VR_Endpoint_IP server = vr_endpoint_ip_ver4(VR_ENDPOINT_IPV4_LOCAL, 37134);
+    VR_SocketUdp socket = vr_socket_udp_reserve((VR_Alloc*) &arena);
 
-    vr_socket_udp_init(socket, server.kind);
+    VR_NetworkIpAddr server_addr = vr_network_ip_addr_ver4(
+        VR_NETWORK_IP_ADDR_VER4_LOCAL, 37134);
+
+    vr_socket_udp_init(socket, server_addr.kind);
 
     char8  message[32] = {0};
     intptr count       = 0;
 
     count = snprintf(message, sizeof message, "%s", "Ciao, sono il client!");
 
-    vr_socket_udp_write_all(socket, (uint8*) message, count, server);
+    vr_socket_udp_write_all(socket, (uint8*) message, count, server_addr);
 
-    printf(INFO " Inviato '%.*s'\n", (int) count, message);
+    printf(INFO "Nuovo messaggio:\n");
+    printf("    Inviato '%.*s'\n", count, message);
 
-    VR_Endpoint_IP endpoint = {0};
-    bool32         success  = 0;
+    VR_NetworkIpAddr addr    = {0};
+    bool32           success = 0;
 
     while (success == 0) {
         count = vr_socket_udp_read(socket,
-            (uint8*) message, sizeof message, &endpoint);
+            (uint8*) message, sizeof message, &addr);
 
-        if (vr_endpoint_ip_is_equal(server, endpoint) == 0)
+        if (vr_network_ip_addr_is_equal(server_addr, addr) == 0)
             continue;
 
-        printf(INFO " Ricevuto '%.*s'\n", (int) count, message);
+        printf("    Ricevuto '%.*s'\n", count, message);
 
         success = 1;
     }

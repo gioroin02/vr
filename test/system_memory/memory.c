@@ -2,12 +2,13 @@
 
 #include <stdio.h>
 
-int main(int args_count, char* args_array[])
+int main(int args_count, const char* args_array[])
 {
-    VR_Arena_Alloc arena = vr_memory_reserve(1, 1);
+    VR_ArenaAlloc arena = vr_memory_reserve(1, 1);
 
-    printf("[  INFO ] arena_pntr = %p\n",   arena.memory);
-    printf("[  INFO ] arena_size = %lli\n", arena.size);
+    printf("Arena:\n");
+    printf("    arena_pntr = 0x%012llx\n", (uintptr) arena.memory);
+    printf("    arena_size = %lli\n",      arena.size);
 
     return 0;
 }

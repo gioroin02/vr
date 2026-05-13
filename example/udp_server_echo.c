@@ -24,12 +24,12 @@ char8* string_suffix(char8* self, char8* prefix)
     return self + size_prefix;
 }
 
-#define INFO  "[\x1b[34m  INFO \x1b[0m]"
-#define ERROR "[\x1b[31m ERROR \x1b[0m]"
+#define INFO  "[\x1b[34m  INFO \x1b[0m] "
+#define ERROR "[\x1b[31m ERROR \x1b[0m] "
 
 int main(int args_count, char* args_array[])
 {
-    VR_Arena_Alloc arena = vr_memory_reserve(16, 1024);
+    VR_ArenaAlloc arena = vr_memory_reserve(16, 1024);
 
     bool32 server_is_endless   = 0;
     intptr server_sessions_max = 1;
@@ -47,36 +47,35 @@ int main(int args_count, char* args_array[])
     }
 
     if (server_sessions_max != 1 && server_is_endless != 0) {
-        printf(ERROR " Il server non può essere 'endless' e rispettare anche un limite massimo di connessioni.\n");
+        printf(ERROR "Il server non può essere 'endless' e rispettare anche un limite massimo di connessioni.\n");
 
         return 1;
     }
 
-    VR_Socket_UDP socket = vr_socket_udp_reserve((VR_Alloc*) &arena);
+    VR_SocketUdp socket = vr_socket_udp_reserve((VR_Alloc*) &arena);
 
-    vr_socket_udp_init_bound(socket, VR_Endpoint_IP_Kind_V4, 37134);
+    vr_socket_udp_init_bound(socket, VR_NetworkIpAddr_Kind_Ver4, 37134);
 
     // Ripete il ciclo:
     //    (1) finché non ha raggiunto il limite delle sessioni oppure
     //    (2) se è endless.
     for (intptr i = 0; (i < server_sessions_max) || (server_is_endless != 0); i += 1) {
-        VR_Endpoint_IP endpoint = {0};
+        VR_NetworkIpAddr addr = {0};
 
         char8  message[32] = {0};
         intptr count       = 0;
 
         // Ricezione del messaggio dal client.
         count = vr_socket_udp_read(socket,
-            (uint8*) message, sizeof message, &endpoint);
+            (uint8*) message, sizeof message, &addr);
 
-        printf(INFO " Nuovo messaggio (%lli)\n", i);
-        printf(INFO " Ricevuto '%.*s'\n", (int) count, message);
+        printf(INFO "Nuovo messaggio:\n");
+        printf("    Ricevuto '%.*s'\n", count, message);
 
         // Invio della risposta al client e chiusura della connessione.
-        vr_socket_udp_write_all(socket, (uint8*) message, count, endpoint);
+        vr_socket_udp_write_all(socket, (uint8*) message, count, addr);
 
-        printf(INFO " Inviato '%.*s'\n", (int) count, message);
-        printf("\n");
+        printf("    Inviato '%.*s'\n", count, message);
     }
 
     vr_socket_udp_uninit(socket);

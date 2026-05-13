@@ -16,62 +16,70 @@ void show_memory(void* pntr, intptr size)
 
 void show_aligned(intptr value, intptr alignment)
 {
-    printf("[  INFO ] value   = %lli\n", value);
-    printf("[  INFO ] aligned = %lli\n", vr_memory_align_size(value, alignment));
+    printf("Allineamento:\n");
+    printf("    value   = %lli\n", value);
+    printf("    aligned = %lli\n", vr_memory_align_size(value, alignment));
 }
 
-int main(int args_count, char* args_array[])
+int main(int args_count, const char* args_array[])
 {
     show_aligned(VR_INTPTR_MAX - 1, VR_MEMORY_DEFAULT_ALIGNMENT);
     show_aligned(1,                 VR_MEMORY_DEFAULT_ALIGNMENT);
     printf("\n");
 
-    uint8 buffer_local[8]  = {0};
-    uint8 buffer_little[8] = {0};
-    uint8 buffer_big[8]    = {0};
+    uint8 buffer[8]    = {0};
+    uint8 buffer_le[8] = {0};
+    uint8 buffer_be[8] = {0};
 
-    intptr write_local = vr_memory_write_float32(
-        buffer_local, sizeof buffer_local, 2.4f);
+    intptr write = vr_memory_write_float32(
+        buffer, sizeof buffer, 2.4f);
 
-    intptr write_little = vr_memory_write_float32_endian(
-        buffer_little, sizeof buffer_little, 2.4f, VR_Endian_Little);
+    intptr write_le = vr_memory_write_float32_le(
+        buffer_le, sizeof buffer_le, 2.4f);
 
-    intptr write_big = vr_memory_write_float32_endian(
-        buffer_big, sizeof buffer_big, 2.4f, VR_Endian_Big);
+    intptr write_be = vr_memory_write_float32_be(
+        buffer_be, sizeof buffer_be, 2.4f);
 
-    printf("[  INFO ] Local endian:  ");
-    show_memory(buffer_local, sizeof buffer_local);
+    printf("Buffer di memoria\n");
+    printf("    host-endian   = ");
+    show_memory(buffer, sizeof buffer);
+    printf("    little-endian = ");
+    show_memory(buffer_le, sizeof buffer_le);
+    printf("    big-endian    = ");
+    show_memory(buffer_be, sizeof buffer_be);
 
-    printf("[  INFO ] Little endian: ");
-    show_memory(buffer_little, sizeof buffer_little);
+    float32 value    = 0.0f;
+    float32 value_le = 0.0f;
+    float32 value_be = 0.0f;
 
-    printf("[  INFO ] Big endian:    ");
-    show_memory(buffer_big, sizeof buffer_big);
+    intptr read = vr_memory_read_float32(
+        buffer, sizeof buffer, &value);
 
-    float32 value_local  = 0.0f;
-    float32 value_little = 0.0f;
-    float32 value_big    = 0.0f;
+    intptr read_le = vr_memory_read_float32_le(
+        buffer_le, sizeof buffer_le, &value_le);
 
-    intptr read_local = vr_memory_read_float32(
-        buffer_local, sizeof buffer_local, &value_local);
+    intptr read_be = vr_memory_read_float32_be(
+        buffer_be, sizeof buffer_be, &value_be);
 
-    intptr read_little = vr_memory_read_float32_endian(
-        buffer_little, sizeof buffer_little, &value_little, VR_Endian_Little);
+    printf("Valori scritti:\n");
+    printf("    host-endian   = %.3f\n", 2.4f);
+    printf("    little-endian = %.3f\n", 2.4f);
+    printf("    big-endian    = %.3f\n", 2.4f);
 
-    intptr read_big = vr_memory_read_float32_endian(
-        buffer_big, sizeof buffer_big, &value_big, VR_Endian_Big);
+    printf("Valori letti:\n");
+    printf("    host-endian   = %.3f\n", value);
+    printf("    little-endian = %.3f\n", value_le);
+    printf("    big-endian    = %.3f\n", value_be);
 
-    printf("[  INFO ] Local endian:  %.3f\n", value_local);
-    printf("[  INFO ] Little endian: %.3f\n", value_little);
-    printf("[  INFO ] Big endian:    %.3f\n", value_big);
-    printf("\n");
+    printf("Byte scritti:\n");
+    printf("    write    = %lli\n", write);
+    printf("    write_le = %lli\n", write_le);
+    printf("    write_be = %lli\n", write_be);
 
-    printf("[  INFO ] write_local  = %lli\n", write_local);
-    printf("[  INFO ] write_little = %lli\n", write_little);
-    printf("[  INFO ] write_big    = %lli\n", write_big);
-    printf("[  INFO ] read_local   = %lli\n", read_local);
-    printf("[  INFO ] read_little  = %lli\n", read_little);
-    printf("[  INFO ] read_big     = %lli\n", read_big);
+    printf("Byte letti:\n");
+    printf("    read    = %lli\n", read);
+    printf("    read_le = %lli\n", read_le);
+    printf("    read_be = %lli\n", read_be);
 
     return 0;
 }

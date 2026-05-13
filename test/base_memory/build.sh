@@ -1,4 +1,4 @@
-compiler="gcc --std=c99 -Isource -Wall -Wno-format -g"
+compiler="gcc --std=c99 -Wall -Wno-format -Isource -g"
 
 impl="$impl source/vr_base_platform.c"
 impl="$impl source/vr_base_memory.c"
@@ -8,7 +8,7 @@ test_arena="test/base_memory/arena.c"
 test_pool="test/base_memory/pool.c"
 test_stack="test/base_memory/stack.c"
 
-$compiler $impl $test_utils -o base_memory_utils.exe
-$compiler $impl $test_arena -o base_memory_arena.exe
-$compiler $impl $test_pool  -o base_memory_pool.exe
-$compiler $impl $test_stack -o base_memory_stack.exe
+$compiler $impl $test_utils -o temp/base_memory_utils.out
+$compiler $impl $test_arena -o temp/base_memory_arena.out
+$compiler $impl $test_pool  -o temp/base_memory_pool.out
+$compiler $impl $test_stack -o temp/base_memory_stack.out

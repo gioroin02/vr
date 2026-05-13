@@ -12,19 +12,21 @@ intptr intptr_add_safe(intptr a, intptr b)
     return a + b;
 }
 
-#define INFO "[\x1b[34m  INFO \x1b[0m]"
+#define INFO "[\x1b[34m  INFO \x1b[0m] "
 
 int main(int args_count, char* args_array[])
 {
-    VR_Arena_Alloc arena = vr_memory_reserve(16, 1024);
+    VR_ArenaAlloc arena = vr_memory_reserve(16, 1024);
 
-    VR_Socket_TCP listener = vr_socket_tcp_reserve((VR_Alloc*) &arena);
-    VR_Socket_TCP socket   = vr_socket_tcp_reserve((VR_Alloc*) &arena);
+    VR_SocketTcp listener = vr_socket_tcp_reserve((VR_Alloc*) &arena);
+    VR_SocketTcp socket   = vr_socket_tcp_reserve((VR_Alloc*) &arena);
 
-    vr_socket_tcp_init_bound(listener, VR_Endpoint_IP_Kind_V4, 37134);
+    vr_socket_tcp_init_bound(listener, VR_NetworkIpAddr_Kind_Ver4, 37134);
     vr_socket_tcp_listen(listener);
 
     vr_socket_tcp_accept(socket, listener);
+
+    printf(INFO "Sessione iniziata (%lli)\n", 0);
 
     intptr number = 0;
 
@@ -35,7 +37,8 @@ int main(int args_count, char* args_array[])
 
         count = vr_socket_tcp_read(socket, (uint8*) message, sizeof message);
 
-        printf(INFO " Ricevuto '%.*s'\n", (int) count, message);
+        printf(INFO "Nuovo messaggio:\n");
+        printf("    Ricevuto '%.*s'\n", count, message);
 
         message_number = strtoll(message, NULL, 10);
         number         = intptr_add_safe(number, message_number);
@@ -44,8 +47,7 @@ int main(int args_count, char* args_array[])
 
         vr_socket_tcp_write_all(socket, (uint8*) message, count);
 
-        printf(INFO " Inviato '%.*s'\n", (int) count, message);
-        printf("\n");
+        printf("    Inviato '%.*s'\n", count, message);
 
         if (message_number == 0) break;
     }

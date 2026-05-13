@@ -7,9 +7,12 @@
 
 #endif
 
+#define vr_static_assert(expr) \
+    extern char vr_static_assert_case[(expr) ? 1 : -1]
+
 #define VR_WORD_SIZE_NONE 0
-#define VR_WORD_SIZE_32   1
-#define VR_WORD_SIZE_64   2
+#define VR_WORD_SIZE_64   1
+#define VR_WORD_SIZE_32   2
 
 #define VR_COMPILER_NONE  0
 #define VR_COMPILER_GCC   1
@@ -84,14 +87,31 @@
 
         #define VR_SYSTEM VR_SYSTEM_WINDOWS
 
-        #define VR_WORD_SIZE_64_IS_LONG_LONG
+        #define VR_UINT64_TYPE unsigned long long
+        #define VR_UINT32_TYPE unsigned int
+        #define VR_UINT16_TYPE unsigned short
+        #define VR_UINT8_TYPE  unsigned char
+
+        #define VR_INT64_TYPE signed long long
+        #define VR_INT32_TYPE signed int
+        #define VR_INT16_TYPE signed short
+        #define VR_INT8_TYPE  signed char
 
     #elif defined __linux__ || defined __gnu_linux__
 
         #define VR_SYSTEM VR_SYSTEM_LINUX
 
-        #define VR_WORD_SIZE_64_IS_LONG
         #define _DEFAULT_SOURCE
+
+        #define VR_UINT64_TYPE unsigned long
+        #define VR_UINT32_TYPE unsigned int
+        #define VR_UINT16_TYPE unsigned short
+        #define VR_UINT8_TYPE  unsigned char
+
+        #define VR_INT64_TYPE signed long
+        #define VR_INT32_TYPE signed int
+        #define VR_INT16_TYPE signed short
+        #define VR_INT8_TYPE  signed char
 
     #else
 
@@ -101,13 +121,7 @@
 
 #endif
 
-#define vr_static_assert(expr, str) \
-    extern char vr_static_assert_case[(expr) ? 1 : -1]
-
-#define vr_min(a, b) ((a) < (b) ? (a) : (b))
-#define vr_max(a, b) ((a) < (b) ? (b) : (a))
-
-#if defined VR_USE_LIBC
+#if defined VR_USE_LIBC_TYPES
 
     #include <stdint.h>
 
@@ -121,29 +135,17 @@
     typedef int16_t int16;
     typedef int8_t  int8;
 
-#elif defined VR_WORD_SIZE_64_IS_LONG_LONG
+#elif defined VR_UINT64_TYPE
 
-    typedef unsigned long long uint64;
-    typedef unsigned int       uint32;
-    typedef unsigned short     uint16;
-    typedef unsigned char      uint8;
+    typedef VR_UINT64_TYPE uint64;
+    typedef VR_UINT32_TYPE uint32;
+    typedef VR_UINT16_TYPE uint16;
+    typedef VR_UINT8_TYPE  uint8;
 
-    typedef signed long long int64;
-    typedef signed int       int32;
-    typedef signed short     int16;
-    typedef signed char      int8;
-
-#elif defined VR_WORD_SIZE_64_IS_LONG
-
-    typedef unsigned long  uint64;
-    typedef unsigned int   uint32;
-    typedef unsigned short uint16;
-    typedef unsigned char  uint8;
-
-    typedef signed long  int64;
-    typedef signed int   int32;
-    typedef signed short int16;
-    typedef signed char  int8;
+    typedef VR_INT64_TYPE int64;
+    typedef VR_INT32_TYPE int32;
+    typedef VR_INT16_TYPE int16;
+    typedef VR_INT8_TYPE  int8;
 
 #else
 
@@ -171,19 +173,7 @@
 #define VR_INT16_MIN ((int16) -VR_INT16_MAX - 1)
 #define VR_INT8_MIN  ((int8)  -VR_INT8_MAX  - 1)
 
-typedef double float64;
-typedef float  float32;
-
-typedef uint32 char32;
-typedef uint16 char16;
-typedef char   char8;
-
-typedef uint64 bool64;
-typedef uint32 bool32;
-typedef uint16 bool16;
-typedef uint8  bool8;
-
-#if VR_WORD == VR_WORD_64
+#if VR_WORD_SIZE == VR_WORD_SIZE_64
 
     typedef uint64 uintptr;
     typedef int64  intptr;
@@ -207,41 +197,53 @@ typedef uint8  bool8;
 
 #endif
 
-#define VR_INTPTR_KILO ((intptr) 1000ll)
-#define VR_INTPTR_MEGA ((intptr) 1000000ll)
-#define VR_INTPTR_GIGA ((intptr) 1000000000ll)
+#define VR_INTPTR_KILO_10 ((intptr) 1000ll)
+#define VR_INTPTR_MEGA_10 ((intptr) 1000000ll)
+#define VR_INTPTR_GIGA_10 ((intptr) 1000000000ll)
 
-#define VR_INTPTR_KIBI ((intptr) 1024ll)
-#define VR_INTPTR_MEBI ((intptr) 1048576ll)
-#define VR_INTPTR_GIBI ((intptr) 1073741824ll)
+#define VR_INTPTR_KILO_2 ((intptr) 1024ll)
+#define VR_INTPTR_MEGA_2 ((intptr) 1048576ll)
+#define VR_INTPTR_GIGA_2 ((intptr) 1073741824ll)
 
-vr_static_assert(sizeof (uint64) == 8, "");
-vr_static_assert(sizeof (uint32) == 4, "");
-vr_static_assert(sizeof (uint16) == 2, "");
-vr_static_assert(sizeof (uint8)  == 1, "");
+typedef double float64;
+typedef float  float32;
 
-vr_static_assert(sizeof (int64) == 8, "");
-vr_static_assert(sizeof (int32) == 4, "");
-vr_static_assert(sizeof (int16) == 2, "");
-vr_static_assert(sizeof (int8)  == 1, "");
+typedef uint32 char32;
+typedef uint16 char16;
+typedef char   char8;
 
-vr_static_assert(sizeof (float64) == 8, "");
-vr_static_assert(sizeof (float32) == 4, "");
+typedef uint64 bool64;
+typedef uint32 bool32;
+typedef uint16 bool16;
+typedef uint8  bool8;
 
-vr_static_assert(sizeof (char32) == 4, "");
-vr_static_assert(sizeof (char16) == 2, "");
-vr_static_assert(sizeof (char8)  == 1, "");
+vr_static_assert(sizeof (uint64) == 8);
+vr_static_assert(sizeof (uint32) == 4);
+vr_static_assert(sizeof (uint16) == 2);
+vr_static_assert(sizeof (uint8)  == 1);
 
-vr_static_assert(sizeof (bool64) == 8, "");
-vr_static_assert(sizeof (bool32) == 4, "");
-vr_static_assert(sizeof (bool16) == 2, "");
-vr_static_assert(sizeof (bool8)  == 1, "");
+vr_static_assert(sizeof (int64) == 8);
+vr_static_assert(sizeof (int32) == 4);
+vr_static_assert(sizeof (int16) == 2);
+vr_static_assert(sizeof (int8)  == 1);
 
-vr_static_assert(sizeof (void*) == sizeof (uintptr), "");
-vr_static_assert(sizeof (void*) == sizeof (intptr), "");
-vr_static_assert(sizeof (void*) == sizeof (void (*) (void)), "");
+vr_static_assert(sizeof (float64) == 8);
+vr_static_assert(sizeof (float32) == 4);
 
-typedef enum
+vr_static_assert(sizeof (char32) == 4);
+vr_static_assert(sizeof (char16) == 2);
+vr_static_assert(sizeof (char8)  == 1);
+
+vr_static_assert(sizeof (bool64) == 8);
+vr_static_assert(sizeof (bool32) == 4);
+vr_static_assert(sizeof (bool16) == 2);
+vr_static_assert(sizeof (bool8)  == 1);
+
+vr_static_assert(sizeof (void*) == sizeof (uintptr));
+vr_static_assert(sizeof (void*) == sizeof (intptr));
+vr_static_assert(sizeof (void*) == sizeof (void (*) (void)));
+
+typedef enum VR_Endian
 {
     VR_Endian_None,
     VR_Endian_Little,
@@ -249,15 +251,15 @@ typedef enum
 }
 VR_Endian;
 
-typedef enum
+typedef enum VR_WordSize
 {
-    VR_Word_Size_None = VR_WORD_SIZE_NONE,
-    VR_Word_Size_32   = VR_WORD_SIZE_32,
-    VR_Word_Size_64   = VR_WORD_SIZE_64,
+    VR_WordSize_None = VR_WORD_SIZE_NONE,
+    VR_WordSize_64   = VR_WORD_SIZE_64,
+    VR_WordSize_32   = VR_WORD_SIZE_32,
 }
-VR_Word_Size;
+VR_WordSize;
 
-typedef enum
+typedef enum VR_Compiler
 {
     VR_Compiler_None  = VR_COMPILER_NONE,
     VR_Compiler_GCC   = VR_COMPILER_GCC,
@@ -266,7 +268,7 @@ typedef enum
 }
 VR_Compiler;
 
-typedef enum
+typedef enum VR_System
 {
     VR_System_None    = VR_SYSTEM_NONE,
     VR_System_Windows = VR_SYSTEM_WINDOWS,
@@ -274,15 +276,15 @@ typedef enum
 }
 VR_System;
 
-#define vr_is_machine_little_endian() (vr_machine_endian() == VR_Endian_Little)
-#define vr_is_machine_big_endian()    (vr_machine_endian() == VR_Endian_Big)
+#define vr_is_platform_little_endian() (vr_platform_endian() == VR_Endian_Little)
+#define vr_is_platform_big_endian()    (vr_platform_endian() == VR_Endian_Big)
 
-VR_Endian vr_machine_endian();
+VR_Endian vr_platform_endian();
 
-VR_Word_Size vr_machine_word_size();
+VR_WordSize vr_platform_word_size();
 
-VR_Compiler vr_current_compiler();
+VR_Compiler vr_platform_compiler();
 
-VR_System vr_current_system();
+VR_System vr_platform_system();
 
 #endif
