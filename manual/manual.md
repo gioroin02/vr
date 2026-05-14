@@ -12,14 +12,14 @@ Modulo che permette di lavorare con il sistema operativo per ottenere e liberare
 
 ## Tabella dei contenuti
 
-1. [Funzioni libere](#funzioni-libere)
+1. Funzioni:
 	- [vr_memory_page_size](#vr_memory_page_size)
 	- [vr_memory_reserve](#vr_memory_reserve)
 	- [vr_memory_release](#vr_memory_release)
 
-## Funzioni libere
+### Funzioni
 
-### vr_memory_page_size
+#### `vr_memory_page_size`
 
 Restituisce la dimensione (in byte) delle pagine usate dal sistema operativo.
 
@@ -27,7 +27,7 @@ Restituisce la dimensione (in byte) delle pagine usate dal sistema operativo.
 intptr vr_memory_page_size()
 ```
 
-### vr_memory_reserve
+#### `vr_memory_reserve`
 
 Riserva un'arena di memoria delle dimensioni richieste. La quantità riservata è sempre arrotondata per eccesso alla grandezza di una pagina.
 
@@ -44,7 +44,7 @@ Risultato:
 
 - Un'arena di memoria delle dimensioni richieste se l'operazione ha successo, un'arena di memoria vuota altrimenti.
 
-### vr_memory_release
+#### `vr_memory_release`
 
 Rilascia un'arena di memoria precedentemente riservata.
 
@@ -63,36 +63,49 @@ Modulo che permette di lavorare con il sistema operativo per comunicare tramite 
 ## Tabella dei contenuti
 
 1. [Network IP Address](#network-ip-address)
-    - [VR_NetworkIpAddr_Kind](#vr_networkipaddr_kind)
-    - [VR_NetworkIpAddr_Ver4](#vr_networkipaddr_ver4)
-    - [VR_NetworkIpAddr_Ver6](#vr_networkipaddr_ver6)
-    - [vr_network_ip_addr_none](#vr_network_ip_addr_none)
-    - [vr_network_ip_addr_empty](#vr_network_ip_addr_empty)
-    - [vr_network_ip_addr_local](#vr_network_ip_addr_local)
-    - [vr_network_ip_addr_ver4](#vr_network_ip_addr_ver4)
-    - [vr_network_ip_addr_ver6](#vr_network_ip_addr_ver6)
-    - [vr_network_ip_addr_is_equal](#vr_network_ip_addr_is_equal)
-2. [Socket TCP](#socket_tcp)
-    - [vr_socket_tcp_reserve](#vr_socket_tcp_reserve)
-    - [vr_socket_tcp_init](#vr_socket_tcp_init)
-    - [vr_socket_tcp_init_bound](#vr_socket_tcp_init_bound)
-    - [vr_socket_tcp_uninit](#vr_socket_tcp_uninit)
-    - [vr_socket_tcp_listen](#vr_socket_tcp_listen)
-    - [vr_socket_tcp_accept](#vr_socket_tcp_accept)
-    - [vr_socket_tcp_connect](#vr_socket_tcp_connect)
-    - [vr_socket_tcp_write](#vr_socket_tcp_write)
-    - [vr_socket_tcp_write](#vr_socket_tcp_write_all)
-    - [vr_socket_tcp_read](#vr_socket_tcp_read)
+    - Tipi:
+        - [VR_NetworkIpAddr](#vr_networkipaddr)
+        - [VR_NetworkIpAddr_Kind](#vr_networkipaddr_kind)
+        - [VR_NetworkIpAddr_Ver4](#vr_networkipaddr_ver4)
+        - [VR_NetworkIpAddr_Ver6](#vr_networkipaddr_ver6)
+    - Funzioni:
+        - [vr_network_ip_addr_none](#vr_network_ip_addr_none)
+        - [vr_network_ip_addr_empty](#vr_network_ip_addr_empty)
+        - [vr_network_ip_addr_local](#vr_network_ip_addr_local)
+        - [vr_network_ip_addr_ver4](#vr_network_ip_addr_ver4)
+        - [vr_network_ip_addr_ver6](#vr_network_ip_addr_ver6)
+        - [vr_network_ip_addr_is_equal](#vr_network_ip_addr_is_equal)
+2. [Socket TCP](#socket-tcp)
+    - Tipi:
+        - [VR_SocketTcp](#vr_sockettcp)
+    - Funzioni:
+        - [vr_socket_tcp_reserve](#vr_socket_tcp_reserve)
+        - [vr_socket_tcp_init](#vr_socket_tcp_init)
+        - [vr_socket_tcp_init_bound](#vr_socket_tcp_init_bound)
+        - [vr_socket_tcp_uninit](#vr_socket_tcp_uninit)
+        - [vr_socket_tcp_listen](#vr_socket_tcp_listen)
+        - [vr_socket_tcp_accept](#vr_socket_tcp_accept)
+        - [vr_socket_tcp_connect](#vr_socket_tcp_connect)
+        - [vr_socket_tcp_write](#vr_socket_tcp_write)
+        - [vr_socket_tcp_write_all](#vr_socket_tcp_write_all)
+        - [vr_socket_tcp_read](#vr_socket_tcp_read)
 3. [Socket UDP](#socket-udp)
-    - [vr_socket_udp_reserve](#vr_socket_udp_reserve)
-    - [vr_socket_udp_init](#vr_socket_udp_init)
-    - [vr_socket_udp_init_bound](#vr_socket_udp_init_bound)
-    - [vr_socket_udp_uninit](#vr_socket_udp_uninit)
-    - [vr_socket_udp_write](#vr_socket_udp_write)
-    - [vr_socket_udp_write](#vr_socket_udp_write_all)
-    - [vr_socket_udp_read](#vr_socket_udp_read)
+    - Tipi:
+        - [VR_SocketUdp](#vr_socketudp)
+    - Funzioni:
+        - [vr_socket_udp_reserve](#vr_socket_udp_reserve)
+        - [vr_socket_udp_init](#vr_socket_udp_init)
+        - [vr_socket_udp_init_bound](#vr_socket_udp_init_bound)
+        - [vr_socket_udp_uninit](#vr_socket_udp_uninit)
+        - [vr_socket_udp_write](#vr_socket_udp_write)
+        - [vr_socket_udp_write_all](#vr_socket_udp_write_all)
+        - [vr_socket_udp_read](#vr_socket_udp_read)
 
 ## Network IP Address
+
+## Tipi
+
+#### `VR_NetworkIpAddr`
 
 Classe per lavorare con indirizzi IP. Un indirizzo è costituito da un indirizzo IPv4 o IPv6 e da una porta.
 
@@ -117,7 +130,7 @@ Membri:
 - `VR_NetworkIpAddr_Ver6 ip_ver6` - L'indirizzo IPv6, è sempre disposto in **big endian**.
 - `uint16 port` - La porta, è sempre disposta come **l'endian nativo della macchina**.
 
-### VR_NetworkIpAddr_Kind
+#### `VR_NetworkIpAddr_Kind`
 
 Elenca i vari tipi di indirizzi IP che un indirizzo IP può rappresentare.
 
@@ -136,7 +149,7 @@ Membri:
 - `VR_NetworkIpAddr_Kind_Ver4` - Indirizzo IPv4.
 - `VR_NetworkIpAddr_Kind_Ver6` - Indirizzo IPv6.
 
-### VR_NetworkIpAddr_Ver4
+#### `VR_NetworkIpAddr_Ver4`
 
 Rappresenta un indirizzo IPv4. Gli elementi sono sempre disposti in **big endian**.
 
@@ -151,7 +164,7 @@ union VR_NetworkIpAddr_Ver4
 };
 ```
 
-### VR_NetworkIpAddr_Ver6
+#### `VR_NetworkIpAddr_Ver6`
 
 Rappresenta un indirizzo IPv6. Gli elementi sono sempre disposti in **big endian**.
 
@@ -169,7 +182,9 @@ union VR_NetworkIpAddr_Ver6
 };
 ```
 
-### vr_network_ip_addr_none
+### Funzioni
+
+#### `vr_network_ip_addr_none`
 
 Produce un indirizzo IP invalido.
 
@@ -177,7 +192,7 @@ Produce un indirizzo IP invalido.
 VR_NetworkIpAddr vr_network_ip_addr_none()
 ```
 
-### vr_network_ip_addr_empty
+#### `vr_network_ip_addr_empty`
 
 Produce un indirizzo IP vuoto a partire da un tipo. Se il tipo specificato è `VR_NetworkIpAddr_Kind_None` diventa equivalente a [vr_network_ip_addr_none()](#vr_network_ip_addr_none).
 
@@ -185,7 +200,7 @@ Produce un indirizzo IP vuoto a partire da un tipo. Se il tipo specificato è `V
 VR_NetworkIpAddr vr_network_ip_addr_empty(VR_NetworkIpAddr_Kind kind)
 ```
 
-### vr_network_ip_addr_local
+#### `vr_network_ip_addr_local`
 
 Produce un indirizzo IP localhost a partire da un tipo e una porta. Se il tipo specificato è `VR_NetworkIpAddr_Kind_None` diventa equivalente a [vr_network_ip_addr_none()](#vr_network_ip_addr_none).
 
@@ -193,7 +208,7 @@ Produce un indirizzo IP localhost a partire da un tipo e una porta. Se il tipo s
 VR_NetworkIpAddr vr_network_ip_addr_local(VR_NetworkIpAddr_Kind kind, uint16 port)
 ```
 
-### vr_network_ip_addr_ver4
+#### `vr_network_ip_addr_ver4`
 
 Produce un indirizzo IPv4 a partire da un indirizzo e una porta.
 
@@ -201,7 +216,7 @@ Produce un indirizzo IPv4 a partire da un indirizzo e una porta.
 VR_NetworkIpAddr vr_network_ip_addr_ver4(VR_NetworkIpAddr_Ver4 ipv4, uint16 port)
 ```
 
-### vr_network_ip_addr_ver6
+#### `vr_network_ip_addr_ver6`
 
 Produce un indirizzo IPv6 a partire da un indirizzo e una porta.
 
@@ -209,7 +224,7 @@ Produce un indirizzo IPv6 a partire da un indirizzo e una porta.
 VR_NetworkIpAddr vr_network_ip_addr_ver6(VR_NetworkIpAddr_Ver6 ipv6, uint16 port)
 ```
 
-### vr_network_ip_addr_is_equal
+#### `vr_network_ip_addr_is_equal`
 
 Determina se due indirizzi IP contengono lo stesso indirizzo e la stessa porta.
 
@@ -222,6 +237,10 @@ Risultato:
 - Zero se i due indirizzi sono diversi, un valore diverso da zero altrimenti.
 
 ## Socket TCP
+
+## Tipi
+
+#### `VR_SocketTcp`
 
 Classe per lavorare con socket TCP.
 
@@ -272,7 +291,9 @@ vr_socket_tcp_write(socket, buffer, count);
 struct VR_SocketTcp { void* impl; };
 ```
 
-### vr_socket_tcp_reserve
+### Funzioni
+
+#### `vr_socket_tcp_reserve`
 
 Riserva la memoria per un socket TCP.
 
@@ -284,7 +305,7 @@ Restituisce:
 
 - Un socket invalido se l'operazione fallisce, uno valido altrimenti.
 
-### vr_socket_tcp_init
+#### `vr_socket_tcp_init`
 
 Inizializza un socket a partire da un tipo di indirizzo IP.
 
@@ -301,7 +322,7 @@ Restituisce:
 
 - Zero se l'operazione fallisce, un valore diverso da zero altrimenti.
 
-### vr_socket_tcp_init_bound
+#### `vr_socket_tcp_init_bound`
 
 Inizializza un socket **bound** a partire da un tipo di indirizzo IP e una porta.
 
@@ -319,7 +340,7 @@ Restituisce:
 
 - Zero se l'operazione fallisce, un valore diverso da zero altrimenti.
 
-### vr_socket_tcp_uninit
+#### `vr_socket_tcp_uninit`
 
 Distrugge un socket. Questa operazione chiude la connessione e dall'altro capo nessun socket riuscirà più a scrivere o leggere.
 
@@ -327,7 +348,7 @@ Distrugge un socket. Questa operazione chiude la connessione e dall'altro capo n
 void vr_socket_tcp_uninit(VR_SocketTcp self)
 ```
 
-### vr_socket_tcp_listen
+#### `vr_socket_tcp_listen`
 
 Promuove un socket a listener.
 
@@ -339,7 +360,7 @@ Restituisce:
 
 - Zero se l'operazione fallisce, un valore diverso da zero altrimenti.
 
-### vr_socket_tcp_accept
+#### `vr_socket_tcp_accept`
 
 Accetta una nuova connessione su un socket a partire da un socket listener.
 
@@ -356,7 +377,7 @@ Restituisce:
 
 - Zero se l'operazione fallisce, un valore diverso da zero altrimenti.
 
-### vr_socket_tcp_connect
+#### `vr_socket_tcp_connect`
 
 Inizia una nuova connessione su un socket verso un altro host a partire da un indirizzo IP.
 
@@ -373,7 +394,7 @@ Restituisce:
 
 - Zero se l'operazione fallisce, un valore diverso da zero altrimenti.
 
-### vr_socket_tcp_write
+#### `vr_socket_tcp_write`
 
 Scrive su un socket **non listener** il contenuto di un blocco di memoria.
 
@@ -395,7 +416,7 @@ Restituisce:
 
 - Zero se l'operazione fallisce, il numero di byte scritti compreso in `[1, size]` altrimenti.
 
-### vr_socket_tcp_write_all
+#### `vr_socket_tcp_write_all`
 
 Scrive su un socket **non listener** il contenuto di un blocco di memoria.
 
@@ -417,7 +438,7 @@ Restituisce:
 
 - Zero se l'operazione fallisce, il numero di byte scritti compreso in `size` altrimenti.
 
-### vr_socket_tcp_read
+#### `vr_socket_tcp_read`
 
 Legge da un socket **non listener** e copia il contenuto in un blocco di memoria.
 
@@ -440,6 +461,10 @@ Restituisce:
 - Zero se l'operazione fallisce, il numero di byte letti compreso in `[1, size]` altrimenti.
 
 ## Socket UDP
+
+### Tipi
+
+#### `VR_SocketUdp`
 
 Classe per lavorare con socket UDP.
 
@@ -485,7 +510,9 @@ vr_socket_udp_write(socket, buffer, count, addr);
 struct VR_SocketUdp { void* impl; };
 ```
 
-### vr_socket_udp_reserve
+### Funzioni
+
+#### `vr_socket_udp_reserve`
 
 Riserva la memoria per un socket UDP.
 
@@ -497,7 +524,7 @@ Restituisce:
 
 - Un socket invalido se l'operazione fallisce, uno valido altrimenti.
 
-### vr_socket_upd_init
+#### `vr_socket_udp_init`
 
 Inizializza un socket a partire da un tipo di indirizzo IP.
 
@@ -514,7 +541,7 @@ Restituisce:
 
 - Zero se l'operazione fallisce, un valore diverso da zero altrimenti.
 
-### vr_socket_upd_init_bound
+#### `vr_socket_udp_init_bound`
 
 Inizializza un socket **bound** a partire da un tipo di indirizzo IP e una porta.
 
@@ -532,7 +559,7 @@ Restituisce:
 
 - Zero se l'operazione fallisce, un valore diverso da zero altrimenti.
 
-### vr_socket_upd_uninit
+#### `vr_socket_udp_uninit`
 
 Distrugge un socket.
 
@@ -540,7 +567,7 @@ Distrugge un socket.
 void vr_socket_udp_uninit(VR_SocketUdp self)
 ```
 
-### vr_socket_udp_write
+#### `vr_socket_udp_write`
 
 Scrive su un socket il contenuto di un blocco di memoria ad un certo addr.
 
@@ -563,7 +590,7 @@ Restituisce:
 
 - Zero se l'operazione fallisce, il numero di byte scritti compreso in `[1, size]` altrimenti.
 
-### vr_socket_udp_write_all
+#### `vr_socket_udp_write_all`
 
 Scrive su un socket il contenuto di un blocco di memoria ad un certo addr.
 
@@ -586,7 +613,7 @@ Restituisce:
 
 - Zero se l'operazione fallisce, il numero di byte scritti compreso in `[1, size]` altrimenti.
 
-### vr_socket_udp_read
+#### `vr_socket_udp_read`
 
 Legge da un socket e copia il contenuto in un blocco di memoria.
 
