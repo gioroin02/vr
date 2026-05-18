@@ -22,16 +22,16 @@ set "example_udp_client_echo=example\udp_client_echo.c"
 set "example_udp_server_add=example\udp_server_add.c"
 set "example_udp_client_add=example\udp_client_add.c"
 
-%compiler% %impl% %example_tcp_server_echo% %linker% -o temp\tcp_server_echo.exe
-%compiler% %impl% %example_tcp_client_echo% %linker% -o temp\tcp_client_echo.exe
-%compiler% %impl% %example_tcp_server_add%  %linker% -o temp\tcp_server_add.exe
-%compiler% %impl% %example_tcp_client_add%  %linker% -o temp\tcp_client_add.exe
-@rem %compiler% %impl% %example_tcp_server_file% %linker% -o temp\tcp_server_file.exe
-@rem %compiler% %impl% %example_tcp_client_file% %linker% -o temp\tcp_client_file.exe
+%compiler% %impl% %example_tcp_server_echo% %linker% -o binary\tcp_server_echo.exe
+%compiler% %impl% %example_tcp_client_echo% %linker% -o binary\tcp_client_echo.exe
+%compiler% %impl% %example_tcp_server_add%  %linker% -o binary\tcp_server_add.exe
+%compiler% %impl% %example_tcp_client_add%  %linker% -o binary\tcp_client_add.exe
+@rem %compiler% %impl% %example_tcp_server_file% %linker% -o binary\tcp_server_file.exe
+@rem %compiler% %impl% %example_tcp_client_file% %linker% -o binary\tcp_client_file.exe
 
-%compiler% %impl% %example_udp_server_echo% %linker% -o temp\udp_server_echo.exe
-%compiler% %impl% %example_udp_client_echo% %linker% -o temp\udp_client_echo.exe
-%compiler% %impl% %example_udp_server_add%  %linker% -o temp\udp_server_add.exe
-%compiler% %impl% %example_udp_client_add%  %linker% -o temp\udp_client_add.exe
+%compiler% %impl% %example_udp_server_echo% %linker% -o binary\udp_server_echo.exe
+%compiler% %impl% %example_udp_client_echo% %linker% -o binary\udp_client_echo.exe
+%compiler% %impl% %example_udp_server_add%  %linker% -o binary\udp_server_add.exe
+%compiler% %impl% %example_udp_client_add%  %linker% -o binary\udp_client_add.exe
 
 endlocal

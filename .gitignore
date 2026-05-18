@@ -4,9 +4,9 @@
 
 # Except for these
 
-!/manual
 !/source
 !/test
+!/manual
 !/example
 
 !/.gitignore

@@ -10,7 +10,7 @@ example_tcp_client_echo="example/tcp_client_echo.c"
 example_tcp_server_add="example/tcp_server_add.c"
 example_tcp_client_add="example/tcp_client_add.c"
 
-$compiler $impl $example_tcp_server_echo -o temp/tcp_server_echo.exe
-$compiler $impl $example_tcp_client_echo -o temp/tcp_client_echo.exe
-$compiler $impl $example_tcp_server_add  -o temp/tcp_server_add.exe
-$compiler $impl $example_tcp_client_add  -o temp/tcp_client_add.exe
+$compiler $impl $example_tcp_server_echo -o binary/tcp_server_echo.exe
+$compiler $impl $example_tcp_client_echo -o binary/tcp_client_echo.exe
+$compiler $impl $example_tcp_server_add  -o binary/tcp_server_add.exe
+$compiler $impl $example_tcp_client_add  -o binary/tcp_client_add.exe
