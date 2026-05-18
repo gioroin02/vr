@@ -6,12 +6,12 @@ int main(int args_count, const char* args_array[])
 {
     uint8 memory[VR_INTPTR_KILO_2] = {0};
 
-    VR_ArenaAlloc arena = vr_arena_alloc_make(memory, sizeof memory);
+    VR_Arena_Alloc arena = vr_arena_alloc_make(memory, sizeof memory);
 
-    VR_SocketUdp     socket = vr_socket_udp_reserve((VR_Alloc*) &arena);
-    VR_NetworkIpAddr addr   = {0};
+    VR_Socket_Udp      socket = vr_socket_udp_reserve((VR_Alloc*) &arena);
+    VR_Network_Ip_Addr addr   = {0};
 
-    vr_socket_udp_init_bound(socket, VR_NetworkIpAddr_Kind_Ver4, 5000);
+    vr_socket_udp_init_bound(socket, VR_Network_Ip_Addr_Kind_Ver4, 5000);
 
     char message[32] = {0};
 

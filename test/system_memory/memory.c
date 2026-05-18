@@ -4,7 +4,7 @@
 
 int main(int args_count, const char* args_array[])
 {
-    VR_ArenaAlloc arena = vr_memory_reserve(1, 1);
+    VR_Arena_Alloc arena = vr_memory_reserve(1, 1);
 
     printf("Arena:\n");
     printf("    arena_pntr = 0x%012llx\n", (uintptr) arena.memory);

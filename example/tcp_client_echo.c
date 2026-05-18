@@ -10,15 +10,15 @@ int main(int args_count, char* args_array[])
     // Creazione di una "arena", un tipo di allocatore che può riservare
     // singoli blocchi di memoria ma può rilasciarli solo in gruppo. In
     // questo caso richiediamo 16 * 1024 byte.
-    VR_ArenaAlloc arena = vr_memory_reserve(16, 1024);
+    VR_Arena_Alloc arena = vr_memory_reserve(16, 1024);
 
     // Allocazione di un socket TCP. Le strutture VR_*Alloc implementano
     // l'interfaccia VR_Alloc che permette di allocare e liberare memoria in
     // modo generico senza sapere quale allocatore si trovi dietro le quinte.
-    VR_SocketTcp socket = vr_socket_tcp_reserve((VR_Alloc*) &arena);
+    VR_Socket_Tcp socket = vr_socket_tcp_reserve((VR_Alloc*) &arena);
 
     // Indirizzo del server, rappresenta "localhost:37134".
-    VR_NetworkIpAddr server_addr = vr_network_ip_addr_ver4(
+    VR_Network_Ip_Addr server_addr = vr_network_ip_addr_ver4(
         VR_NETWORK_IP_ADDR_VER4_LOCAL, 37134);
 
     // Inizializzazione del socket con un certo tipo di indirizzo, in questo

@@ -36,8 +36,8 @@ intptr vr_memory_copy_endian(void* pntr, intptr size, void* value, VR_Endian end
             return size;
         } break;
 
-        case VR_Endian_Little:
-        case VR_Endian_Big: {
+        case VR_Endian_Big:
+        case VR_Endian_Little: {
             VR_Endian platform = vr_platform_endian();
 
             if (endian != platform && endian != VR_Endian_None) {
@@ -274,16 +274,15 @@ void vr_alloc_clear(VR_Alloc* self)
         return self->proc_clear(self);
 }
 
-VR_ArenaAlloc vr_arena_alloc_make(void* pntr, intptr size)
+VR_Arena_Alloc vr_arena_alloc_make(void* pntr, intptr size)
 {
-    VR_ArenaAlloc result = {
-        .proc_reserve = (VR_AllocProcReserve*) vr_arena_alloc_reserve,
+    VR_Arena_Alloc result = {
+        .proc_reserve = (VR_Alloc_Reserve*) vr_arena_alloc_reserve,
         .proc_release = NULL,
-        .proc_clear   = (VR_AllocProcClear*)   vr_arena_alloc_clear,
-
-        .memory = NULL,
-        .size   = 0,
-        .count  = 0,
+        .proc_clear   = (VR_Alloc_Clear*)   vr_arena_alloc_clear,
+        .memory       = NULL,
+        .size         = 0,
+        .count        = 0,
     };
 
     if (pntr == NULL || size <= 0) return result;
@@ -296,14 +295,14 @@ VR_ArenaAlloc vr_arena_alloc_make(void* pntr, intptr size)
     return result;
 }
 
-void vr_arena_alloc_clear(VR_ArenaAlloc* self)
+void vr_arena_alloc_clear(VR_Arena_Alloc* self)
 {
     vr_memory_set_zero(self->memory, self->count);
 
     self->count = 0;
 }
 
-void* vr_arena_alloc_reserve(VR_ArenaAlloc* self, intptr elem_count, intptr elem_size)
+void* vr_arena_alloc_reserve(VR_Arena_Alloc* self, intptr elem_count, intptr elem_size)
 {
     if (elem_count <= 0 || elem_size <= 0 || elem_count > VR_INTPTR_MAX / elem_size)
         return NULL;
@@ -321,7 +320,7 @@ void* vr_arena_alloc_reserve(VR_ArenaAlloc* self, intptr elem_count, intptr elem
     return pntr;
 }
 
-void vr_arena_alloc_rewind(VR_ArenaAlloc* self, void* pntr)
+void vr_arena_alloc_rewind(VR_Arena_Alloc* self, void* pntr)
 {
     if (pntr == NULL) return;
 
@@ -336,45 +335,43 @@ void vr_arena_alloc_rewind(VR_ArenaAlloc* self, void* pntr)
     self->count = delta;
 }
 
-void* vr_arena_alloc_marker(VR_ArenaAlloc* self)
+void* vr_arena_alloc_marker(VR_Arena_Alloc* self)
 {
     return self->memory + self->count;
 }
 
-#define VR_POOL_ALLOC_NODE_SIZE \
-    VR_MEMORY_DEFAULT_ALIGNMENT
+#define VR_POOL_ALLOC_NODE_SIZE VR_MEMORY_DEFAULT_ALIGNMENT
 
-typedef struct VR_PoolAlloc_Node
+typedef struct VR_Pool_Alloc_Node
 {
     bool32 available;
 
-    struct VR_PoolAlloc_Node* next;
+    struct VR_Pool_Alloc_Node* next;
 }
-VR_PoolAlloc_Node;
+VR_Pool_Alloc_Node;
 
-vr_static_assert(sizeof (VR_PoolAlloc_Node) <=
+vr_static_assert(sizeof (VR_Pool_Alloc_Node) <=
     VR_MEMORY_DEFAULT_ALIGNMENT);
 
-static VR_PoolAlloc_Node vr_pool_alloc_node_make(void* next, bool32 available)
+static VR_Pool_Alloc_Node vr_pool_alloc_node_make(void* next, bool32 available)
 {
-    return (VR_PoolAlloc_Node) {
+    return (VR_Pool_Alloc_Node) {
         .available = available,
-        .next      = (VR_PoolAlloc_Node*) next,
+        .next      = (VR_Pool_Alloc_Node*) next,
     };
 }
 
-VR_PoolAlloc vr_pool_alloc_make(void* pntr, intptr size, intptr elem_size)
+VR_Pool_Alloc vr_pool_alloc_make(void* pntr, intptr size, intptr elem_size)
 {
-    VR_PoolAlloc result = {
-        .proc_reserve = (VR_AllocProcReserve*) vr_pool_alloc_reserve,
-        .proc_release = (VR_AllocProcRelease*) vr_pool_alloc_release,
-        .proc_clear   = (VR_AllocProcClear*)   vr_pool_alloc_clear,
-
-        .memory = NULL,
-        .size   = 0,
-        .count  = 0,
-        .stride = 0,
-        .front  = NULL,
+    VR_Pool_Alloc result = {
+        .proc_reserve = (VR_Alloc_Reserve*) vr_pool_alloc_reserve,
+        .proc_release = (VR_Alloc_Release*) vr_pool_alloc_release,
+        .proc_clear   = (VR_Alloc_Clear*)   vr_pool_alloc_clear,
+        .memory       = NULL,
+        .size         = 0,
+        .count        = 0,
+        .stride       = 0,
+        .front        = NULL,
     };
 
     if (pntr == NULL || size <= 0 || elem_size <= 0)
@@ -394,7 +391,7 @@ VR_PoolAlloc vr_pool_alloc_make(void* pntr, intptr size, intptr elem_size)
     return result;
 }
 
-void vr_pool_alloc_clear(VR_PoolAlloc* self)
+void vr_pool_alloc_clear(VR_Pool_Alloc* self)
 {
     uint8* pntr       = self->memory;
     intptr node_size  = self->stride + VR_POOL_ALLOC_NODE_SIZE;
@@ -406,7 +403,7 @@ void vr_pool_alloc_clear(VR_PoolAlloc* self)
     self->front = NULL;
 
     for (intptr i = 0; i < node_count; i += 1) {
-        VR_PoolAlloc_Node* node = (VR_PoolAlloc_Node*) pntr;
+        VR_Pool_Alloc_Node* node = (VR_Pool_Alloc_Node*) pntr;
 
         *node = vr_pool_alloc_node_make(self->front, 1);
 
@@ -417,9 +414,9 @@ void vr_pool_alloc_clear(VR_PoolAlloc* self)
     self->count = node_count;
 }
 
-void* vr_pool_alloc_reserve(VR_PoolAlloc* self, intptr elem_count, intptr elem_size)
+void* vr_pool_alloc_reserve(VR_Pool_Alloc* self, intptr elem_count, intptr elem_size)
 {
-    VR_PoolAlloc_Node* node = (VR_PoolAlloc_Node*) self->front;
+    VR_Pool_Alloc_Node* node = (VR_Pool_Alloc_Node*) self->front;
 
     if (elem_count <= 0 || elem_size <= 0 || self->count <= 0)
         return NULL;
@@ -442,11 +439,11 @@ void* vr_pool_alloc_reserve(VR_PoolAlloc* self, intptr elem_count, intptr elem_s
     return pntr;
 }
 
-void vr_pool_alloc_release(VR_PoolAlloc* self, void* pntr)
+void vr_pool_alloc_release(VR_Pool_Alloc* self, void* pntr)
 {
     if (pntr == NULL) return;
 
-    VR_PoolAlloc_Node* node = (VR_PoolAlloc_Node*)
+    VR_Pool_Alloc_Node* node = (VR_Pool_Alloc_Node*)
         (((uint8*) pntr) - VR_POOL_ALLOC_NODE_SIZE);
 
     intptr alignment = self->stride + VR_POOL_ALLOC_NODE_SIZE;
@@ -465,37 +462,35 @@ void vr_pool_alloc_release(VR_PoolAlloc* self, void* pntr)
     self->count += 1;
 }
 
-#define VR_STACK_ALLOC_NODE_SIZE \
-    VR_MEMORY_DEFAULT_ALIGNMENT
+#define VR_STACK_ALLOC_NODE_SIZE VR_MEMORY_DEFAULT_ALIGNMENT
 
-typedef struct VR_StackAlloc_Node
+typedef struct VR_Stack_Alloc_Node
 {
     intptr size;
 }
-VR_StackAlloc_Node;
+VR_Stack_Alloc_Node;
 
-vr_static_assert(sizeof (VR_StackAlloc_Node) <=
+vr_static_assert(sizeof (VR_Stack_Alloc_Node) <=
     VR_MEMORY_DEFAULT_ALIGNMENT);
 
-static VR_StackAlloc_Node vr_stack_alloc_node_make(intptr size)
+static VR_Stack_Alloc_Node vr_stack_alloc_node_make(intptr size)
 {
-    VR_StackAlloc_Node result = {0};
+    VR_Stack_Alloc_Node result = {0};
 
     if (size > 0) result.size = size;
 
     return result;
 }
 
-VR_StackAlloc vr_stack_alloc_make(void* pntr, intptr size)
+VR_Stack_Alloc vr_stack_alloc_make(void* pntr, intptr size)
 {
-    VR_StackAlloc result = {
-        .proc_reserve = (VR_AllocProcReserve*) vr_stack_alloc_reserve,
-        .proc_release = (VR_AllocProcRelease*) vr_stack_alloc_release,
-        .proc_clear   = (VR_AllocProcClear*)   vr_stack_alloc_clear,
-
-        .memory = NULL,
-        .size   = 0,
-        .count  = 0,
+    VR_Stack_Alloc result = {
+        .proc_reserve = (VR_Alloc_Reserve*) vr_stack_alloc_reserve,
+        .proc_release = (VR_Alloc_Release*) vr_stack_alloc_release,
+        .proc_clear   = (VR_Alloc_Clear*)   vr_stack_alloc_clear,
+        .memory       = NULL,
+        .size         = 0,
+        .count        = 0,
     };
 
     if (pntr == NULL || size <= 0) return result;
@@ -508,16 +503,16 @@ VR_StackAlloc vr_stack_alloc_make(void* pntr, intptr size)
     return result;
 }
 
-void vr_stack_alloc_clear(VR_StackAlloc* self)
+void vr_stack_alloc_clear(VR_Stack_Alloc* self)
 {
     vr_memory_set_zero(self->memory, self->count);
 
     self->count = 0;
 }
 
-void* vr_stack_alloc_reserve(VR_StackAlloc* self, intptr elem_count, intptr elem_size)
+void* vr_stack_alloc_reserve(VR_Stack_Alloc* self, intptr elem_count, intptr elem_size)
 {
-    VR_StackAlloc_Node* node = (VR_StackAlloc_Node*) (self->memory + self->count);
+    VR_Stack_Alloc_Node* node = (VR_Stack_Alloc_Node*) (self->memory + self->count);
 
     if (elem_count <= 0 || elem_size <= 0) return NULL;
 
@@ -541,11 +536,11 @@ void* vr_stack_alloc_reserve(VR_StackAlloc* self, intptr elem_count, intptr elem
     return pntr;
 }
 
-void vr_stack_alloc_release(VR_StackAlloc* self, void* pntr)
+void vr_stack_alloc_release(VR_Stack_Alloc* self, void* pntr)
 {
     if (pntr == NULL) return;
 
-    VR_StackAlloc_Node* node = (VR_StackAlloc_Node*)
+    VR_Stack_Alloc_Node* node = (VR_Stack_Alloc_Node*)
         (((uint8*) pntr) - VR_STACK_ALLOC_NODE_SIZE);
 
     intptr alignment = VR_MEMORY_DEFAULT_ALIGNMENT;

@@ -8,11 +8,11 @@
 
 int main(int args_count, char* args_array[])
 {
-    VR_ArenaAlloc arena = vr_memory_reserve(16, 1024);
+    VR_Arena_Alloc arena = vr_memory_reserve(16, 1024);
 
-    VR_SocketUdp socket = vr_socket_udp_reserve((VR_Alloc*) &arena);
+    VR_Socket_Udp socket = vr_socket_udp_reserve((VR_Alloc*) &arena);
 
-    VR_NetworkIpAddr server_addr = vr_network_ip_addr_ver4(
+    VR_Network_Ip_Addr server_addr = vr_network_ip_addr_ver4(
         VR_NETWORK_IP_ADDR_VER4_LOCAL, 37134);
 
     vr_socket_udp_init(socket, server_addr.kind);
@@ -41,8 +41,8 @@ int main(int args_count, char* args_array[])
         printf(INFO "Nuovo messaggio:\n");
         printf("    Inviato '%.*s'\n", count, message);
 
-        VR_NetworkIpAddr addr    = {0};
-        bool32           success = 0;
+        VR_Network_Ip_Addr addr    = {0};
+        bool32             success = 0;
 
         while (success == 0) {
             count = vr_socket_udp_read(socket,

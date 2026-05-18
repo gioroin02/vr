@@ -21,18 +21,18 @@ VR_Endian vr_platform_endian()
     return VR_Endian_None;
 }
 
-VR_WordSize vr_platform_word_size()
+VR_Word_Size vr_platform_word_size()
 {
     #if VR_WORD_SIZE == VR_WORD_SIZE_64
 
-        return VR_WordSize_64;
+        return VR_Word_Size_64;
 
     #elif VR_WORD_SIZE == VR_WORD_SIZE_32
 
-        return VR_WordSize_32;
+        return VR_Word_Size_32;
     #else
 
-        return VR_WordSize_None;
+        return VR_Word_Size_None;
 
     #endif
 }

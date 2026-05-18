@@ -12,12 +12,12 @@ Modulo che permette di lavorare con il sistema operativo per ottenere e liberare
 
 ## Tabella dei contenuti
 
-1. Funzioni:
-	- [vr_memory_page_size](#vr_memory_page_size)
-	- [vr_memory_reserve](#vr_memory_reserve)
-	- [vr_memory_release](#vr_memory_release)
+1. Procedure:
+	- vr_memory_page_size
+	- vr_memory_reserve
+	- vr_memory_release
 
-### Funzioni
+### Procedure
 
 #### `vr_memory_page_size`
 
@@ -32,7 +32,7 @@ intptr vr_memory_page_size()
 Riserva un'arena di memoria delle dimensioni richieste. La quantità riservata è sempre arrotondata per eccesso alla grandezza di una pagina.
 
 ```c
-VR_ArenaAlloc vr_memory_reserve(intptr elem_count, intptr elem_size)
+VR_Arena_Alloc vr_memory_reserve(intptr elem_count, intptr elem_size)
 ```
 
 Parametri:
@@ -49,12 +49,12 @@ Risultato:
 Rilascia un'arena di memoria precedentemente riservata.
 
 ```c
-void vr_memory_release(VR_ArenaAlloc* arena)
+void vr_memory_release(VR_Arena_Alloc* arena)
 ```
 
 Parametri:
 
-- `VR_ArenaAlloc* arena` - L'arena da rilasciare, **non può essere NULL**.
+- `VR_Arena_Alloc* arena` - L'arena da rilasciare, **non può essere NULL**.
 
 # VR system socket
 
@@ -64,59 +64,59 @@ Modulo che permette di lavorare con il sistema operativo per comunicare tramite 
 
 1. [Network IP Address](#network-ip-address)
     - Tipi:
-        - [VR_NetworkIpAddr](#vr_networkipaddr)
-        - [VR_NetworkIpAddr_Kind](#vr_networkipaddr_kind)
-        - [VR_NetworkIpAddr_Ver4](#vr_networkipaddr_ver4)
-        - [VR_NetworkIpAddr_Ver6](#vr_networkipaddr_ver6)
-    - Funzioni:
-        - [vr_network_ip_addr_none](#vr_network_ip_addr_none)
-        - [vr_network_ip_addr_empty](#vr_network_ip_addr_empty)
-        - [vr_network_ip_addr_local](#vr_network_ip_addr_local)
-        - [vr_network_ip_addr_ver4](#vr_network_ip_addr_ver4)
-        - [vr_network_ip_addr_ver6](#vr_network_ip_addr_ver6)
-        - [vr_network_ip_addr_is_equal](#vr_network_ip_addr_is_equal)
+        - VR_Network_Ip_Addr
+        - VR_Network_Ip_Addr_Kind
+        - VR_Network_Ip_Addr_Ver4
+        - VR_Network_Ip_Addr_Ver6
+    - Procedure:
+        - vr_network_ip_addr_none
+        - vr_network_ip_addr_empty
+        - vr_network_ip_addr_local
+        - vr_network_ip_addr_ver4
+        - vr_network_ip_addr_ver6
+        - vr_network_ip_addr_is_equal
 2. [Socket TCP](#socket-tcp)
     - Tipi:
-        - [VR_SocketTcp](#vr_sockettcp)
-    - Funzioni:
-        - [vr_socket_tcp_reserve](#vr_socket_tcp_reserve)
-        - [vr_socket_tcp_init](#vr_socket_tcp_init)
-        - [vr_socket_tcp_init_bound](#vr_socket_tcp_init_bound)
-        - [vr_socket_tcp_uninit](#vr_socket_tcp_uninit)
-        - [vr_socket_tcp_listen](#vr_socket_tcp_listen)
-        - [vr_socket_tcp_accept](#vr_socket_tcp_accept)
-        - [vr_socket_tcp_connect](#vr_socket_tcp_connect)
-        - [vr_socket_tcp_write](#vr_socket_tcp_write)
-        - [vr_socket_tcp_write_all](#vr_socket_tcp_write_all)
-        - [vr_socket_tcp_read](#vr_socket_tcp_read)
+        - VR_Socket_Tcp
+    - Procedure:
+        - vr_socket_tcp_reserve
+        - vr_socket_tcp_init
+        - vr_socket_tcp_init_bound
+        - vr_socket_tcp_uninit
+        - vr_socket_tcp_listen
+        - vr_socket_tcp_accept
+        - vr_socket_tcp_connect
+        - vr_socket_tcp_write
+        - vr_socket_tcp_write_all
+        - vr_socket_tcp_read
 3. [Socket UDP](#socket-udp)
     - Tipi:
-        - [VR_SocketUdp](#vr_socketudp)
-    - Funzioni:
-        - [vr_socket_udp_reserve](#vr_socket_udp_reserve)
-        - [vr_socket_udp_init](#vr_socket_udp_init)
-        - [vr_socket_udp_init_bound](#vr_socket_udp_init_bound)
-        - [vr_socket_udp_uninit](#vr_socket_udp_uninit)
-        - [vr_socket_udp_write](#vr_socket_udp_write)
-        - [vr_socket_udp_write_all](#vr_socket_udp_write_all)
-        - [vr_socket_udp_read](#vr_socket_udp_read)
+        - VR_Socket_Udp
+    - Procedure:
+        - vr_socket_udp_reserve
+        - vr_socket_udp_init
+        - vr_socket_udp_init_bound
+        - vr_socket_udp_uninit
+        - vr_socket_udp_write
+        - vr_socket_udp_write_all
+        - vr_socket_udp_read
 
 ## Network IP Address
 
 ## Tipi
 
-#### `VR_NetworkIpAddr`
+#### `VR_Network_Ip_Addr`
 
 Classe per lavorare con indirizzi IP. Un indirizzo è costituito da un indirizzo IPv4 o IPv6 e da una porta.
 
 ```c
-struct VR_NetworkIpAddr
+struct VR_Network_Ip_Addr
 {
-    VR_NetworkIpAddr_Kind kind;
+    VR_Network_Ip_Addr_Kind kind;
 
     union {
-        VR_NetworkIpAddr_Ver4 ip_ver4;
-        VR_NetworkIpAddr_Ver6 ip_ver6;
+        VR_Network_Ip_Addr_Ver4 ip_ver4;
+        VR_Network_Ip_Addr_Ver6 ip_ver6;
     };
 
     uint16 port;
@@ -125,36 +125,36 @@ struct VR_NetworkIpAddr
 
 Membri:
 
-- `VR_NetworkIpAddr_Kind kind` - Il ipo di indirizzo IP.
-- `VR_NetworkIpAddr_Ver4 ip_ver4` - L'indirizzo IPv4, è sempre disposto in **big endian**.
-- `VR_NetworkIpAddr_Ver6 ip_ver6` - L'indirizzo IPv6, è sempre disposto in **big endian**.
+- `VR_Network_Ip_Addr_Kind kind` - Il ipo di indirizzo IP.
+- `VR_Network_Ip_Addr_Ver4 ip_ver4` - L'indirizzo IPv4, è sempre disposto in **big endian**.
+- `VR_Network_Ip_Addr_Ver6 ip_ver6` - L'indirizzo IPv6, è sempre disposto in **big endian**.
 - `uint16 port` - La porta, è sempre disposta come **l'endian nativo della macchina**.
 
-#### `VR_NetworkIpAddr_Kind`
+#### `VR_Network_Ip_Addr_Kind`
 
 Elenca i vari tipi di indirizzi IP che un indirizzo IP può rappresentare.
 
 ```c
-enum VR_NetworkIpAddr_Kind
+enum VR_Network_Ip_Addr_Kind
 {
-    VR_NetworkIpAddr_Kind_None,
-    VR_NetworkIpAddr_Kind_Ver4,
-    VR_NetworkIpAddr_Kind_Ver6,
+    VR_Network_Ip_Addr_Kind_None,
+    VR_Network_Ip_Addr_Kind_Ver4,
+    VR_Network_Ip_Addr_Kind_Ver6,
 };
 ```
 
 Membri:
 
-- `VR_NetworkIpAddr_Kind_None` - Indirizzo IP invalido.
-- `VR_NetworkIpAddr_Kind_Ver4` - Indirizzo IPv4.
-- `VR_NetworkIpAddr_Kind_Ver6` - Indirizzo IPv6.
+- `VR_Network_Ip_Addr_Kind_None` - Indirizzo IP invalido.
+- `VR_Network_Ip_Addr_Kind_Ver4` - Indirizzo IPv4.
+- `VR_Network_Ip_Addr_Kind_Ver6` - Indirizzo IPv6.
 
-#### `VR_NetworkIpAddr_Ver4`
+#### `VR_Network_Ip_Addr_Ver4`
 
 Rappresenta un indirizzo IPv4. Gli elementi sono sempre disposti in **big endian**.
 
 ```c
-union VR_NetworkIpAddr_Ver4
+union VR_Network_Ip_Addr_Ver4
 {
     uint8[4] elements;
 
@@ -164,12 +164,12 @@ union VR_NetworkIpAddr_Ver4
 };
 ```
 
-#### `VR_NetworkIpAddr_Ver6`
+#### `VR_Network_Ip_Addr_Ver6`
 
 Rappresenta un indirizzo IPv6. Gli elementi sono sempre disposti in **big endian**.
 
 ```c
-union VR_NetworkIpAddr_Ver6
+union VR_Network_Ip_Addr_Ver6
 {
     uint8[16] elements;
 
@@ -182,30 +182,30 @@ union VR_NetworkIpAddr_Ver6
 };
 ```
 
-### Funzioni
+### Procedure
 
 #### `vr_network_ip_addr_none`
 
 Produce un indirizzo IP invalido.
 
 ```c
-VR_NetworkIpAddr vr_network_ip_addr_none()
+VR_Network_Ip_Addr vr_network_ip_addr_none()
 ```
 
 #### `vr_network_ip_addr_empty`
 
-Produce un indirizzo IP vuoto a partire da un tipo. Se il tipo specificato è `VR_NetworkIpAddr_Kind_None` diventa equivalente a [vr_network_ip_addr_none()](#vr_network_ip_addr_none).
+Produce un indirizzo IP vuoto a partire da un tipo. Se il tipo specificato è `VR_Network_Ip_Addr_Kind_None` diventa equivalente a [vr_network_ip_addr_none()](#vr_network_ip_addr_none).
 
 ```c
-VR_NetworkIpAddr vr_network_ip_addr_empty(VR_NetworkIpAddr_Kind kind)
+VR_Network_Ip_Addr vr_network_ip_addr_empty(VR_Network_Ip_Addr_Kind kind)
 ```
 
 #### `vr_network_ip_addr_local`
 
-Produce un indirizzo IP localhost a partire da un tipo e una porta. Se il tipo specificato è `VR_NetworkIpAddr_Kind_None` diventa equivalente a [vr_network_ip_addr_none()](#vr_network_ip_addr_none).
+Produce un indirizzo IP localhost a partire da un tipo e una porta. Se il tipo specificato è `VR_Network_Ip_Addr_Kind_None` diventa equivalente a [vr_network_ip_addr_none()](#vr_network_ip_addr_none).
 
 ```c
-VR_NetworkIpAddr vr_network_ip_addr_local(VR_NetworkIpAddr_Kind kind, uint16 port)
+VR_Network_Ip_Addr vr_network_ip_addr_local(VR_Network_Ip_Addr_Kind kind, uint16 port)
 ```
 
 #### `vr_network_ip_addr_ver4`
@@ -213,7 +213,7 @@ VR_NetworkIpAddr vr_network_ip_addr_local(VR_NetworkIpAddr_Kind kind, uint16 por
 Produce un indirizzo IPv4 a partire da un indirizzo e una porta.
 
 ```c
-VR_NetworkIpAddr vr_network_ip_addr_ver4(VR_NetworkIpAddr_Ver4 ipv4, uint16 port)
+VR_Network_Ip_Addr vr_network_ip_addr_ver4(VR_Network_Ip_Addr_Ver4 ipv4, uint16 port)
 ```
 
 #### `vr_network_ip_addr_ver6`
@@ -221,7 +221,7 @@ VR_NetworkIpAddr vr_network_ip_addr_ver4(VR_NetworkIpAddr_Ver4 ipv4, uint16 port
 Produce un indirizzo IPv6 a partire da un indirizzo e una porta.
 
 ```c
-VR_NetworkIpAddr vr_network_ip_addr_ver6(VR_NetworkIpAddr_Ver6 ipv6, uint16 port)
+VR_Network_Ip_Addr vr_network_ip_addr_ver6(VR_Network_Ip_Addr_Ver6 ipv6, uint16 port)
 ```
 
 #### `vr_network_ip_addr_is_equal`
@@ -229,7 +229,7 @@ VR_NetworkIpAddr vr_network_ip_addr_ver6(VR_NetworkIpAddr_Ver6 ipv6, uint16 port
 Determina se due indirizzi IP contengono lo stesso indirizzo e la stessa porta.
 
 ```c
-bool32 vr_network_ip_addr_is_equal(VR_NetworkIpAddr self, VR_NetworkIpAddr other)
+bool32 vr_network_ip_addr_is_equal(VR_Network_Ip_Addr self, VR_Network_Ip_Addr other)
 ```
 
 Risultato:
@@ -240,17 +240,17 @@ Risultato:
 
 ## Tipi
 
-#### `VR_SocketTcp`
+#### `VR_Socket_Tcp`
 
 Classe per lavorare con socket TCP.
 
 Per utilizzare questa classe lato client è sufficiente preparare un socket e connettersi ad un certo indirizzo IP. Ad esempio:
 
 ```c
-VR_SocketTcp socket = vr_socket_tcp_reserve(&arena);
+VR_Socket_Tcp socket = vr_socket_tcp_reserve(&arena);
 
  // localhost:34137
-VR_NetworkIpAddr server_addr = vr_network_ip_addr_ver4(
+VR_Network_Ip_Addr server_addr = vr_network_ip_addr_ver4(
     VR_NETWORK_IP_ADDR_VER4_LOCAL, 34137);
 
 vr_socket_tcp_init(socket, server_addr.kind);
@@ -268,13 +268,13 @@ count = vr_socket_tcp_read(socket, buffer, sizeof buffer);
 Per utilizzare questa classe lato server invece è necessario preparare un socket **bound** che deve essere proposso a **listener** e successivamente riservare un socket per le connessioni che si intende accettare. Ad esempio:
 
 ```c
-VR_SocketTcp listener = vr_socket_tcp_reserve(&arena);
+VR_Socket_Tcp listener = vr_socket_tcp_reserve(&arena);
 
 // localhost:34137
-vr_socket_tcp_init_bound(listener, VR_NetworkIpAddr_Kind_Ver4, 34137);
+vr_socket_tcp_init_bound(listener, VR_Network_Ip_Addr_Kind_Ver4, 34137);
 vr_socket_tcp_listen(listener);
 
-VR_SocketTcp socket = vr_socket_tcp_reserve(&arena);
+VR_Socket_Tcp socket = vr_socket_tcp_reserve(&arena);
 
 uint8 buffer[256] = {0};
 
@@ -288,17 +288,17 @@ vr_socket_tcp_write(socket, buffer, count);
 **Nota**: È sempre possibile creare un socket bound a patto che la porta sia disponibile, nel caso di un server è fondamentale ma nel caso di un client è consigliato lasciare che sia il sistema operativo a selezionarne una libera in automatico.
 
 ```c
-struct VR_SocketTcp { void* impl; };
+struct VR_Socket_Tcp { void* impl; };
 ```
 
-### Funzioni
+### Procedure
 
 #### `vr_socket_tcp_reserve`
 
 Riserva la memoria per un socket TCP.
 
 ```c
-VR_SocketTcp vr_socket_tcp_reserve(VR_Alloc* alloc)
+VR_Socket_Tcp vr_socket_tcp_reserve(VR_Alloc* alloc)
 ```
 
 Restituisce:
@@ -310,13 +310,13 @@ Restituisce:
 Inizializza un socket a partire da un tipo di indirizzo IP.
 
 ```c
-bool32 vr_socket_tcp_init(VR_SocketTcp self, VR_NetworkIpAddr_Kind kind)
+bool32 vr_socket_tcp_init(VR_Socket_Tcp self, VR_Network_Ip_Addr_Kind kind)
 ```
 
 Parametri:
 
-- `VR_SocketTcp self` - Il socket da inizializzare.
-- `VR_NetworkIpAddr_Kind kind` - Il tipo di indirizzo IP, **non può essere `VR_NetworkIpAddr_Kind_None`**.
+- `VR_Socket_Tcp self` - Il socket da inizializzare.
+- `VR_Network_Ip_Addr_Kind kind` - Il tipo di indirizzo IP, **non può essere `VR_Network_Ip_Addr_Kind_None`**.
 
 Restituisce:
 
@@ -327,13 +327,13 @@ Restituisce:
 Inizializza un socket **bound** a partire da un tipo di indirizzo IP e una porta.
 
 ```c
-bool32 vr_socket_tcp_init_bound(VR_SocketTcp self, VR_NetworkIpAddr_Kind kind, uint16 port)
+bool32 vr_socket_tcp_init_bound(VR_Socket_Tcp self, VR_Network_Ip_Addr_Kind kind, uint16 port)
 ```
 
 Parametri:
 
-- `VR_SocketTcp self` - Il socket da inizializzare.
-- `VR_NetworkIpAddr_Kind kind` - Il tipo di indirizzo IP, **non può essere `VR_NetworkIpAddr_Kind_None`**.
+- `VR_Socket_Tcp self` - Il socket da inizializzare.
+- `VR_Network_Ip_Addr_Kind kind` - Il tipo di indirizzo IP, **non può essere `VR_Network_Ip_Addr_Kind_None`**.
 - `uint16 port` - La porta, **non può essere zero**.
 
 Restituisce:
@@ -345,7 +345,7 @@ Restituisce:
 Distrugge un socket. Questa operazione chiude la connessione e dall'altro capo nessun socket riuscirà più a scrivere o leggere.
 
 ```c
-void vr_socket_tcp_uninit(VR_SocketTcp self)
+void vr_socket_tcp_uninit(VR_Socket_Tcp self)
 ```
 
 #### `vr_socket_tcp_listen`
@@ -353,7 +353,7 @@ void vr_socket_tcp_uninit(VR_SocketTcp self)
 Promuove un socket a listener.
 
 ```c
-bool32 vr_socket_tcp_listen(VR_SocketTcp listener)
+bool32 vr_socket_tcp_listen(VR_Socket_Tcp listener)
 ```
 
 Restituisce:
@@ -365,13 +365,13 @@ Restituisce:
 Accetta una nuova connessione su un socket a partire da un socket listener.
 
 ```c
-bool32 vr_socket_tcp_accept(VR_SocketTcp self, VR_SocketTcp listener)
+bool32 vr_socket_tcp_accept(VR_Socket_Tcp self, VR_Socket_Tcp listener)
 ```
 
 Parametri:
 
-- `VR_SocketTcp self` - Il socket su cui accettare la nuova connessione, **deve essere riservato ma non inizializzato**.
-- `VR_SocketTcp listener` - Il socket listener.
+- `VR_Socket_Tcp self` - Il socket su cui accettare la nuova connessione, **deve essere riservato ma non inizializzato**.
+- `VR_Socket_Tcp listener` - Il socket listener.
 
 Restituisce:
 
@@ -382,13 +382,13 @@ Restituisce:
 Inizia una nuova connessione su un socket verso un altro host a partire da un indirizzo IP.
 
 ```c
-bool32 vr_socket_tcp_connect(VR_SocketTcp self, VR_NetworkIpAddr addr)
+bool32 vr_socket_tcp_connect(VR_Socket_Tcp self, VR_Network_Ip_Addr addr)
 ```
 
 Parametri:
 
-- `VR_SocketTcp self` - Il socket con cui iniziare la nuova connessione.
-- `VR_NetworkIpAddr addr` - L'addr a cui connettersi.
+- `VR_Socket_Tcp self` - Il socket con cui iniziare la nuova connessione.
+- `VR_Network_Ip_Addr addr` - L'addr a cui connettersi.
 
 Restituisce:
 
@@ -403,12 +403,12 @@ L'operazione potrebbe non inviare tutto il blocco, in generale è consigliato co
 **Nota**: Se il socket è in uno stato valido e i parametri sono corretti ma l'operazione comunque termina con zero byte scritti, può significare che la connessione dall'altro lato è stata interrotta.
 
 ```c
-intptr vr_socket_tcp_write(VR_SocketTcp self, uint8* pntr, intptr size)
+intptr vr_socket_tcp_write(VR_Socket_Tcp self, uint8* pntr, intptr size)
 ```
 
 Parametri:
 
-- `VR_SocketTcp self` - Il socket su cui scrivere.
+- `VR_Socket_Tcp self` - Il socket su cui scrivere.
 - `uint8* pntr` - Il blocco di memoria, **non può essere NULL**.
 - `intptr size` - Dimensione (in byte) del blocco di memoria, **deve essere positiva**.
 
@@ -425,12 +425,12 @@ L'operazione è bloccante, cioè attende che sia possibile scrivere almeno un by
 **Nota**: Se il socket è in uno stato valido e i parametri sono corretti ma l'operazione comunque termina con zero byte scritti, può significare che la connessione dall'altro lato è stata interrotta.
 
 ```c
-intptr vr_socket_tcp_write_all(VR_SocketTcp self, uint8* pntr, intptr size)
+intptr vr_socket_tcp_write_all(VR_Socket_Tcp self, uint8* pntr, intptr size)
 ```
 
 Parametri:
 
-- `VR_SocketTcp self` - Il socket su cui scrivere.
+- `VR_Socket_Tcp self` - Il socket su cui scrivere.
 - `uint8* pntr` - Il blocco di memoria, **non può essere NULL**.
 - `intptr size` - Dimensione (in byte) del blocco di memoria, **deve essere positiva**.
 
@@ -447,12 +447,12 @@ L'operazione è bloccante, cioè attende che sia possibile leggere almeno un byt
 **Nota**: Se il socket è in uno stato valido e i parametri sono corretti ma l'operazione comunque termina con zero byte letti, può significare che la connessione dall'altro lato è stata interrotta.
 
 ```c
-intptr vr_socket_tcp_read(VR_SocketTcp self, uint8* pntr, intptr size)
+intptr vr_socket_tcp_read(VR_Socket_Tcp self, uint8* pntr, intptr size)
 ```
 
 Parametri:
 
-- `VR_SocketTcp self` - Il socket da cui leggere.
+- `VR_Socket_Tcp self` - Il socket da cui leggere.
 - `uint8* pntr` - Il blocco di memoria, **non può essere NULL**.
 - `intptr size` - Dimensione (in byte) del blocco di memoria, **deve essere positiva**.
 
@@ -464,17 +464,17 @@ Restituisce:
 
 ### Tipi
 
-#### `VR_SocketUdp`
+#### `VR_Socket_Udp`
 
 Classe per lavorare con socket UDP.
 
 Per utilizzare questa classe lato client è sufficiente preparare un socket. Ad esempio:
 
 ```c
-VR_SocketUdp socket = vr_socket_udp_reserve(alloc);
+VR_Socket_Udp socket = vr_socket_udp_reserve(alloc);
 
 // localhost:34137
-VR_NetworkIpAddr server_addr = vr_network_ip_addr_ver4(
+VR_Network_Ip_Addr server_addr = vr_network_ip_addr_ver4(
     VR_NETWORK_IP_ADDR_VER4_LOCAL, 34137);
 
 vr_socket_udp_init(socket, server_addr.kind);
@@ -491,11 +491,11 @@ count = vr_socket_udp_read(socket, buffer, sizeof buffer, &addr);
 Per utilizzare questa classe lato server invece è necessario preparare un socket **bound**. Ad esempio:
 
 ```c
-VR_SocketUdp socket = vr_socket_udp_reserve(alloc);
+VR_Socket_Udp socket = vr_socket_udp_reserve(alloc);
 
-VR_NetworkIpAddr addr = {0};
+VR_Network_Ip_Addr addr = {0};
 
-vr_socket_udp_init_bound(listener, VR_NetworkIpAddr_Kind_Ver4, 34137);
+vr_socket_udp_init_bound(listener, VR_Network_Ip_Addr_Kind_Ver4, 34137);
 
 uint8 buffer[256] = {0};
 
@@ -507,17 +507,17 @@ vr_socket_udp_write(socket, buffer, count, addr);
 **Nota**: È sempre possibile creare un socket bound a patto che la porta sia disponibile, nel caso di un server è fondamentale ma nel caso di un client è consigliato lasciare che sia il sistema operativo a selezionarne una libera in automatico.
 
 ```c
-struct VR_SocketUdp { void* impl; };
+struct VR_Socket_Udp { void* impl; };
 ```
 
-### Funzioni
+### Procedure
 
 #### `vr_socket_udp_reserve`
 
 Riserva la memoria per un socket UDP.
 
 ```c
-VR_SocketUdp vr_socket_udp_reserve(VR_Alloc* alloc)
+VR_Socket_Udp vr_socket_udp_reserve(VR_Alloc* alloc)
 ```
 
 Restituisce:
@@ -529,13 +529,13 @@ Restituisce:
 Inizializza un socket a partire da un tipo di indirizzo IP.
 
 ```c
-bool32 vr_socket_udp_init(VR_SocketUdp self, VR_NetworkIpAddr_Kind kind)
+bool32 vr_socket_udp_init(VR_Socket_Udp self, VR_Network_Ip_Addr_Kind kind)
 ```
 
 Parametri:
 
-- `VR_SocketUdp self` - Il socket da inizializzare.
-- `VR_NetworkIpAddr_Kind kind` - Il tipo di indirizzo IP, **non può essere `VR_NetworkIpAddr_Kind_None`**.
+- `VR_Socket_Udp self` - Il socket da inizializzare.
+- `VR_Network_Ip_Addr_Kind kind` - Il tipo di indirizzo IP, **non può essere `VR_Network_Ip_Addr_Kind_None`**.
 
 Restituisce:
 
@@ -546,13 +546,13 @@ Restituisce:
 Inizializza un socket **bound** a partire da un tipo di indirizzo IP e una porta.
 
 ```c
-bool32 vr_socket_udp_init_bound(VR_SocketUdp self, VR_NetworkIpAddr_Kind kind, uint16 port)
+bool32 vr_socket_udp_init_bound(VR_Socket_Udp self, VR_Network_Ip_Addr_Kind kind, uint16 port)
 ```
 
 Parametri:
 
-- `VR_SocketUdp self` - Il socket da inizializzare.
-- `VR_NetworkIpAddr_Kind kind` - Il tipo di indirizzo specificato, **non può essere `VR_NetworkIpAddr_Kind_None`**.
+- `VR_Socket_Udp self` - Il socket da inizializzare.
+- `VR_Network_Ip_Addr_Kind kind` - Il tipo di indirizzo specificato, **non può essere `VR_Network_Ip_Addr_Kind_None`**.
 - `uint16 port` - La porta specificata, **non può essere zero**.
 
 Restituisce:
@@ -564,7 +564,7 @@ Restituisce:
 Distrugge un socket.
 
 ```c
-void vr_socket_udp_uninit(VR_SocketUdp self)
+void vr_socket_udp_uninit(VR_Socket_Udp self)
 ```
 
 #### `vr_socket_udp_write`
@@ -576,15 +576,15 @@ L'operazione potrebbe non inviare tutto il blocco, in generale è consigliato co
 **Nota**: L'operazione può terminare con successo ma non è garantito che dall'altro lato il contenuto venga ricevuto. Nel caso in cui vengano svolte più chiamate non è nemmeno garantito l'ordine di arrivo delle varie parti.
 
 ```c
-intptr vr_socket_udp_write(VR_SocketTcp self, uint8* pntr, intptr size, VR_NetworkIpAddr addr)
+intptr vr_socket_udp_write(VR_Socket_Tcp self, uint8* pntr, intptr size, VR_Network_Ip_Addr addr)
 ```
 
 Parametri:
 
-- `VR_SocketUdp self` - Il socket su cui scrivere.
+- `VR_Socket_Udp self` - Il socket su cui scrivere.
 - `uint8* pntr` - Il blocco di memoria, **non può essere NULL**.
 - `intptr size` - Dimensione (in byte) del blocco di memoria, **deve essere positiva**.
-- `VR_NetworkIpAddr addr` - Endpoint del destinatario.
+- `VR_Network_Ip_Addr addr` - Endpoint del destinatario.
 
 Restituisce:
 
@@ -599,15 +599,15 @@ L'operazione è bloccante, cioè attende che sia possibile scrivere almeno un by
 **Nota**: L'operazione può terminare con successo ma non è garantito che dall'altro lato il contenuto venga ricevuto. Nel caso in cui vengano svolte più chiamate non è nemmeno garantito l'ordine di arrivo delle varie parti.
 
 ```c
-intptr vr_socket_udp_write_all(VR_SocketTcp self, uint8* pntr, intptr size, VR_NetworkIpAddr addr)
+intptr vr_socket_udp_write_all(VR_Socket_Tcp self, uint8* pntr, intptr size, VR_Network_Ip_Addr addr)
 ```
 
 Parametri:
 
-- `VR_SocketUdp self` - Il socket su cui scrivere.
+- `VR_Socket_Udp self` - Il socket su cui scrivere.
 - `uint8* pntr` - Il blocco di memoria, **non può essere NULL**.
 - `intptr size` - Dimensione (in byte) del blocco di memoria, **deve essere positiva**.
-- `VR_NetworkIpAddr addr` - Endpoint del destinatario.
+- `VR_Network_Ip_Addr addr` - Endpoint del destinatario.
 
 Restituisce:
 
@@ -622,15 +622,15 @@ L'operazione è bloccante, cioè attende che sia possibile leggere almeno un byt
 **Nota**: L'operazione può terminare con successo ma non è garantito che il contenuto sia quello inviato originariamente dall'altro lato. In più se dall'altro lato viene interrotta la comunicazione l'operazione potrebbe attendere all'infinito.
 
 ```c
-intptr vr_socket_udp_read(VR_SocketUdp self, uint8* pntr, intptr size, VR_NetworkIpAddr* addr)
+intptr vr_socket_udp_read(VR_Socket_Udp self, uint8* pntr, intptr size, VR_Network_Ip_Addr* addr)
 ```
 
 Parametri:
 
-- `VR_SocketUdp self` - Il socket da cui leggere.
+- `VR_Socket_Udp self` - Il socket da cui leggere.
 - `uint8* pntr` - Il blocco di memoria, **non può essere NULL**.
 - `intptr size` - Dimensione (in byte) del blocco di memoria, **deve essere positiva**.
-- `VR_NetworkIpAddr* addr` - Endpoint del mittente, può essere NULL.
+- `VR_Network_Ip_Addr* addr` - Endpoint del mittente, può essere NULL.
 
 Restituisce:
 

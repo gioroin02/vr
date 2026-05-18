@@ -213,15 +213,15 @@ intptr vr_memory_read_float64_endian(void* pntr, intptr size, float64* value, VR
 
 intptr vr_memory_read_float32_endian(void* pntr, intptr size, float32* value, VR_Endian endian);
 
-typedef void* (VR_AllocProcReserve) (void* self, intptr elem_count, intptr elem_size);
-typedef void  (VR_AllocProcRelease) (void* self, void* pntr);
-typedef void  (VR_AllocProcClear)   (void* self);
+typedef void* (VR_Alloc_Reserve) (void* self, intptr elem_count, intptr elem_size);
+typedef void  (VR_Alloc_Release) (void* self, void* pntr);
+typedef void  (VR_Alloc_Clear)   (void* self);
 
 typedef struct VR_Alloc
 {
-    VR_AllocProcReserve* proc_reserve;
-    VR_AllocProcRelease* proc_release;
-    VR_AllocProcClear*   proc_clear;
+    VR_Alloc_Reserve* proc_reserve;
+    VR_Alloc_Release* proc_release;
+    VR_Alloc_Clear*   proc_clear;
 }
 VR_Alloc;
 
@@ -234,36 +234,36 @@ void vr_alloc_release(VR_Alloc* self, void* pntr);
 
 void vr_alloc_clear(VR_Alloc* self);
 
-typedef struct VR_ArenaAlloc
+typedef struct VR_Arena_Alloc
 {
-    VR_AllocProcReserve* proc_reserve;
-    VR_AllocProcRelease* proc_release;
-    VR_AllocProcClear*   proc_clear;
+    VR_Alloc_Reserve* proc_reserve;
+    VR_Alloc_Release* proc_release;
+    VR_Alloc_Clear*   proc_clear;
 
     uint8* memory;
     intptr size;
     intptr count;
 }
-VR_ArenaAlloc;
+VR_Arena_Alloc;
 
-VR_ArenaAlloc vr_arena_alloc_make(void* pntr, intptr size);
+VR_Arena_Alloc vr_arena_alloc_make(void* pntr, intptr size);
 
-void vr_arena_alloc_clear(VR_ArenaAlloc* self);
+void vr_arena_alloc_clear(VR_Arena_Alloc* self);
 
 #define vr_arena_alloc_reserve_of(self, elem_count, elem_type) \
     ((elem_type*) vr_arena_alloc_reserve((self), (elem_count), sizeof (elem_type)))
 
-void* vr_arena_alloc_reserve(VR_ArenaAlloc* self, intptr elem_count, intptr elem_size);
+void* vr_arena_alloc_reserve(VR_Arena_Alloc* self, intptr elem_count, intptr elem_size);
 
-void vr_arena_alloc_rewind(VR_ArenaAlloc* self, void* marker);
+void vr_arena_alloc_rewind(VR_Arena_Alloc* self, void* marker);
 
-void* vr_arena_alloc_marker(VR_ArenaAlloc* self);
+void* vr_arena_alloc_marker(VR_Arena_Alloc* self);
 
-typedef struct VR_PoolAlloc
+typedef struct VR_Pool_Alloc
 {
-    VR_AllocProcReserve* proc_reserve;
-    VR_AllocProcRelease* proc_release;
-    VR_AllocProcClear*   proc_clear;
+    VR_Alloc_Reserve* proc_reserve;
+    VR_Alloc_Release* proc_release;
+    VR_Alloc_Clear*   proc_clear;
 
     uint8* memory;
     intptr size;
@@ -271,40 +271,40 @@ typedef struct VR_PoolAlloc
     intptr stride;
     uint8* front;
 }
-VR_PoolAlloc;
+VR_Pool_Alloc;
 
-VR_PoolAlloc vr_pool_alloc_make(void* pntr, intptr size, intptr elem_size);
+VR_Pool_Alloc vr_pool_alloc_make(void* pntr, intptr size, intptr elem_size);
 
-void vr_pool_alloc_clear(VR_PoolAlloc* self);
+void vr_pool_alloc_clear(VR_Pool_Alloc* self);
 
 #define vr_pool_alloc_reserve_of(self, elem_count, elem_type) \
     ((elem_type*) vr_pool_alloc_reserve((self), (elem_count), sizeof (elem_type)))
 
-void* vr_pool_alloc_reserve(VR_PoolAlloc* self, intptr elem_count, intptr elem_size);
+void* vr_pool_alloc_reserve(VR_Pool_Alloc* self, intptr elem_count, intptr elem_size);
 
-void vr_pool_alloc_release(VR_PoolAlloc* self, void* pntr);
+void vr_pool_alloc_release(VR_Pool_Alloc* self, void* pntr);
 
-typedef struct VR_StackAlloc
+typedef struct VR_Stack_Alloc
 {
-    VR_AllocProcReserve* proc_reserve;
-    VR_AllocProcRelease* proc_release;
-    VR_AllocProcClear*   proc_clear;
+    VR_Alloc_Reserve* proc_reserve;
+    VR_Alloc_Release* proc_release;
+    VR_Alloc_Clear*   proc_clear;
 
     uint8* memory;
     intptr size;
     intptr count;
 }
-VR_StackAlloc;
+VR_Stack_Alloc;
 
-VR_StackAlloc vr_stack_alloc_make(void* pntr, intptr size);
+VR_Stack_Alloc vr_stack_alloc_make(void* pntr, intptr size);
 
-void vr_stack_alloc_clear(VR_StackAlloc* self);
+void vr_stack_alloc_clear(VR_Stack_Alloc* self);
 
 #define vr_stack_alloc_reserve_of(self, elem_count, elem_type) \
     ((elem_type*) vr_stack_alloc_reserve((self), (elem_count), sizeof (elem_type)))
 
-void* vr_stack_alloc_reserve(VR_StackAlloc* self, intptr elem_count, intptr elem_size);
+void* vr_stack_alloc_reserve(VR_Stack_Alloc* self, intptr elem_count, intptr elem_size);
 
-void vr_stack_alloc_release(VR_StackAlloc* self, void* pntr);
+void vr_stack_alloc_release(VR_Stack_Alloc* self, void* pntr);
 
 #endif

@@ -6,4 +6,4 @@ impl="$impl source/vr_system_memory.c"
 
 test_memory="test/system_memory/memory.c"
 
-$compiler $impl $test_memory -o temp/system_memory_memory.out
+$compiler $impl $test_memory -o binary/system_memory_memory.out

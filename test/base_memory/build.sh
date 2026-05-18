@@ -8,7 +8,7 @@ test_arena="test/base_memory/arena.c"
 test_pool="test/base_memory/pool.c"
 test_stack="test/base_memory/stack.c"
 
-$compiler $impl $test_utils -o temp/base_memory_utils.out
-$compiler $impl $test_arena -o temp/base_memory_arena.out
-$compiler $impl $test_pool  -o temp/base_memory_pool.out
-$compiler $impl $test_stack -o temp/base_memory_stack.out
+$compiler $impl $test_utils -o binary/base_memory_utils.out
+$compiler $impl $test_arena -o binary/base_memory_arena.out
+$compiler $impl $test_pool  -o binary/base_memory_pool.out
+$compiler $impl $test_stack -o binary/base_memory_stack.out

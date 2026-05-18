@@ -251,13 +251,13 @@ typedef enum VR_Endian
 }
 VR_Endian;
 
-typedef enum VR_WordSize
+typedef enum VR_Word_Size
 {
-    VR_WordSize_None = VR_WORD_SIZE_NONE,
-    VR_WordSize_64   = VR_WORD_SIZE_64,
-    VR_WordSize_32   = VR_WORD_SIZE_32,
+    VR_Word_Size_None = VR_WORD_SIZE_NONE,
+    VR_Word_Size_64   = VR_WORD_SIZE_64,
+    VR_Word_Size_32   = VR_WORD_SIZE_32,
 }
-VR_WordSize;
+VR_Word_Size;
 
 typedef enum VR_Compiler
 {
@@ -281,7 +281,7 @@ VR_System;
 
 VR_Endian vr_platform_endian();
 
-VR_WordSize vr_platform_word_size();
+VR_Word_Size vr_platform_word_size();
 
 VR_Compiler vr_platform_compiler();
 

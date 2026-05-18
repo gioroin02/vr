@@ -26,7 +26,7 @@ int main(int args_count, const char* args_array[])
 {
     uint8 memory[VR_INTPTR_KILO_2] = {0};
 
-    VR_ArenaAlloc arena = vr_arena_alloc_make(memory, sizeof memory);
+    VR_Arena_Alloc arena = vr_arena_alloc_make(memory, sizeof memory);
 
     void* marker = vr_arena_alloc_marker(&arena);
 

@@ -10,6 +10,6 @@ set "impl=%impl% source\vr_system_memory.c"
 
 set "test_memory=test\system_memory\memory.c"
 
-%compiler% %impl% %test_memory% -o temp\system_memory_memory.exe
+%compiler% %impl% %test_memory% -o binary\system_memory_memory.exe
 
 endlocal

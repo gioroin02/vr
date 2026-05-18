@@ -16,16 +16,16 @@ intptr intptr_add_safe(intptr a, intptr b)
 
 int main(int args_count, char* args_array[])
 {
-    VR_ArenaAlloc arena = vr_memory_reserve(16, 1024);
+    VR_Arena_Alloc arena = vr_memory_reserve(16, 1024);
 
-    VR_SocketUdp socket = vr_socket_udp_reserve((VR_Alloc*) &arena);
+    VR_Socket_Udp socket = vr_socket_udp_reserve((VR_Alloc*) &arena);
 
-    vr_socket_udp_init_bound(socket, VR_NetworkIpAddr_Kind_Ver4, 37134);
+    vr_socket_udp_init_bound(socket, VR_Network_Ip_Addr_Kind_Ver4, 37134);
 
     intptr number = 0;
 
    while (1) {
-        VR_NetworkIpAddr addr = {0};
+        VR_Network_Ip_Addr addr = {0};
 
         char8  message[32]      = {0};
         intptr count            = 0;

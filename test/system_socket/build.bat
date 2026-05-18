@@ -14,9 +14,9 @@ set "test_tcp_client=test\system_socket\tcp_client.c"
 set "test_udp_server=test\system_socket\udp_server.c"
 set "test_udp_client=test\system_socket\udp_client.c"
 
-%compiler% %impl% %test_tcp_server% %linker% -o temp\system_socket_tcp_server.exe
-%compiler% %impl% %test_tcp_client% %linker% -o temp\system_socket_tcp_client.exe
-%compiler% %impl% %test_udp_server% %linker% -o temp\system_socket_udp_server.exe
-%compiler% %impl% %test_udp_client% %linker% -o temp\system_socket_udp_client.exe
+%compiler% %impl% %test_tcp_server% %linker% -o binary\system_socket_tcp_server.exe
+%compiler% %impl% %test_tcp_client% %linker% -o binary\system_socket_tcp_client.exe
+%compiler% %impl% %test_udp_server% %linker% -o binary\system_socket_udp_server.exe
+%compiler% %impl% %test_udp_client% %linker% -o binary\system_socket_udp_client.exe
 
 endlocal

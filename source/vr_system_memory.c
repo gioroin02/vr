@@ -15,11 +15,11 @@
         return info.dwPageSize;
     }
 
-    VR_ArenaAlloc vr_win32_memory_reserve(intptr elem_count, intptr elem_size)
+    VR_Arena_Alloc vr_win32_memory_reserve(intptr elem_count, intptr elem_size)
     {
-        VR_ArenaAlloc result = vr_arena_alloc_make(NULL, 0);
-        intptr        page   = vr_win32_memory_page_size();
-        void*         pntr   = NULL;
+        VR_Arena_Alloc result = vr_arena_alloc_make(NULL, 0);
+        intptr         page   = vr_win32_memory_page_size();
+        void*          pntr   = NULL;
 
         if (elem_count <= 0 || elem_size <= 0 || elem_count > VR_INTPTR_MAX / elem_size)
             return result;
@@ -36,7 +36,7 @@
         return vr_arena_alloc_make(pntr, size);
     }
 
-    void vr_win32_memory_release(VR_ArenaAlloc* arena)
+    void vr_win32_memory_release(VR_Arena_Alloc* arena)
     {
         void*  pntr = arena->memory;
         intptr size = arena->size;
@@ -63,11 +63,11 @@
         return sysconf(_SC_PAGESIZE);
     }
 
-    VR_ArenaAlloc vr_linux_memory_reserve(intptr elem_count, intptr elem_size)
+    VR_Arena_Alloc vr_linux_memory_reserve(intptr elem_count, intptr elem_size)
     {
-        VR_ArenaAlloc result = vr_arena_alloc_make(NULL, 0);
-        intptr        page   = vr_linux_memory_page_size();
-        void*         pntr   = NULL;
+        VR_Arena_Alloc result = vr_arena_alloc_make(NULL, 0);
+        intptr         page   = vr_linux_memory_page_size();
+        void*          pntr   = NULL;
 
         if (elem_count <= 0 || elem_size <= 0 || elem_count > VR_INTPTR_MAX / elem_size)
             return result;
@@ -87,7 +87,7 @@
         return vr_arena_alloc_make(pntr, size);
     }
 
-    void vr_linux_memory_release(VR_ArenaAlloc* arena)
+    void vr_linux_memory_release(VR_Arena_Alloc* arena)
     {
         void*  pntr = arena->memory;
         intptr size = arena->size;
@@ -121,12 +121,12 @@ intptr vr_memory_page_size()
     return _vr_memory_page_size_();
 }
 
-VR_ArenaAlloc vr_memory_reserve(intptr elem_count, intptr elem_size)
+VR_Arena_Alloc vr_memory_reserve(intptr elem_count, intptr elem_size)
 {
     return _vr_memory_reserve_(elem_count, elem_size);
 }
 
-void vr_memory_release(VR_ArenaAlloc* arena)
+void vr_memory_release(VR_Arena_Alloc* arena)
 {
     return _vr_memory_release_(arena);
 }

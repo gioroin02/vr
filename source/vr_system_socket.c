@@ -93,12 +93,12 @@
         }
     }
 
-    sockaddr_storage_t vr_win32_sockaddr_make(VR_NetworkIpAddr addr)
+    sockaddr_storage_t vr_win32_sockaddr_make(VR_Network_Ip_Addr addr)
     {
         sockaddr_storage_t result = {0};
 
         switch (addr.kind) {
-            case VR_NetworkIpAddr_Kind_Ver4: {
+            case VR_Network_Ip_Addr_Kind_Ver4: {
                 sockaddr_ip_ver4_t* ip_ver4 = (sockaddr_ip_ver4_t*) &result;
 
                 ip_ver4->sin_family = AF_INET;
@@ -108,7 +108,7 @@
                     VR_NETWORK_IP_ADDR_VER4_SIZE, addr.ip_ver4.elements);
             } break;
 
-            case VR_NetworkIpAddr_Kind_Ver6: {
+            case VR_Network_Ip_Addr_Kind_Ver6: {
                 sockaddr_ip_ver6_t* ip_ver6 = (sockaddr_ip_ver6_t*) &result;
 
                 ip_ver6->sin6_family = AF_INET6;
@@ -124,14 +124,14 @@
         return result;
     }
 
-    sockaddr_storage_t vr_win32_sockaddr_make_any(VR_NetworkIpAddr_Kind kind, uint16 port)
+    sockaddr_storage_t vr_win32_sockaddr_make_any(VR_Network_Ip_Addr_Kind kind, uint16 port)
     {
         sockaddr_storage_t result = {0};
 
         uint32 in4addr_any = INADDR_ANY;
 
         switch (kind) {
-            case VR_NetworkIpAddr_Kind_Ver4: {
+            case VR_Network_Ip_Addr_Kind_Ver4: {
                 sockaddr_ip_ver4_t* ip_ver4 = (sockaddr_ip_ver4_t*) &result;
 
                 ip_ver4->sin_family = AF_INET;
@@ -141,7 +141,7 @@
                     VR_NETWORK_IP_ADDR_VER4_SIZE, (void*) &in4addr_any);
             } break;
 
-            case VR_NetworkIpAddr_Kind_Ver6: {
+            case VR_Network_Ip_Addr_Kind_Ver6: {
                 sockaddr_ip_ver6_t* ip_ver6 = (sockaddr_ip_ver6_t*) &result;
 
                 ip_ver6->sin6_family = AF_INET6;
@@ -169,15 +169,15 @@
         return 0;
     }
 
-    VR_NetworkIpAddr vr_win32_sockaddr_addr(sockaddr_storage_t* self)
+    VR_Network_Ip_Addr vr_win32_sockaddr_addr(sockaddr_storage_t* self)
     {
-        VR_NetworkIpAddr result = vr_network_ip_addr_none();
+        VR_Network_Ip_Addr result = vr_network_ip_addr_none();
 
         switch (self->ss_family) {
             case AF_INET: {
                 sockaddr_ip_ver4_t* ip_ver4 = (sockaddr_ip_ver4_t*) self;
 
-                result.kind = VR_NetworkIpAddr_Kind_Ver4;
+                result.kind = VR_Network_Ip_Addr_Kind_Ver4;
                 result.port = ntohs(ip_ver4->sin_port);
 
                 vr_memory_copy(result.ip_ver4.elements,
@@ -187,7 +187,7 @@
             case AF_INET6: {
                 sockaddr_ip_ver6_t* ip_ver6 = (sockaddr_ip_ver6_t*) self;
 
-                result.kind = VR_NetworkIpAddr_Kind_Ver6;
+                result.kind = VR_Network_Ip_Addr_Kind_Ver6;
                 result.port = ntohs(ip_ver6->sin6_port);
 
                 vr_memory_copy(result.ip_ver6.elements,
@@ -200,12 +200,12 @@
         return result;
     }
 
-    VR_Win32_SocketTcp* vr_win32_socket_tcp_reserve(VR_Alloc* alloc)
+    VR_Win32_Socket_Tcp* vr_win32_socket_tcp_reserve(VR_Alloc* alloc)
     {
-        return vr_alloc_reserve_of(alloc, 1, VR_Win32_SocketTcp);
+        return vr_alloc_reserve_of(alloc, 1, VR_Win32_Socket_Tcp);
     }
 
-    bool32 vr_win32_socket_tcp_init(VR_Win32_SocketTcp* self, VR_NetworkIpAddr addr)
+    bool32 vr_win32_socket_tcp_init(VR_Win32_Socket_Tcp* self, VR_Network_Ip_Addr addr)
     {
         self->handle  = INVALID_SOCKET;
         self->queue   = NULL;
@@ -234,7 +234,7 @@
         return 0;
     }
 
-    void vr_win32_socket_tcp_uninit(VR_Win32_SocketTcp* self)
+    void vr_win32_socket_tcp_uninit(VR_Win32_Socket_Tcp* self)
     {
         if (self->handle == INVALID_SOCKET) return;
 
@@ -247,7 +247,7 @@
         self->address = (sockaddr_storage_t) {0};
     }
 
-    bool32 vr_win32_socket_tcp_bind(VR_Win32_SocketTcp* self)
+    bool32 vr_win32_socket_tcp_bind(VR_Win32_Socket_Tcp* self)
     {
         sockaddr_storage_t address = self->address;
         socklen_t          length  = vr_win32_sockaddr_size(&address);
@@ -260,7 +260,7 @@
         return 1;
     }
 
-    bool32 vr_win32_socket_tcp_listen(VR_Win32_SocketTcp* listener)
+    bool32 vr_win32_socket_tcp_listen(VR_Win32_Socket_Tcp* listener)
     {
         if (listen(listener->handle, SOMAXCONN) == SOCKET_ERROR)
             return 0;
@@ -268,7 +268,7 @@
         return 1;
     }
 
-    bool32 vr_win32_socket_tcp_accept(VR_Win32_SocketTcp* self, VR_Win32_SocketTcp* listener)
+    bool32 vr_win32_socket_tcp_accept(VR_Win32_Socket_Tcp* self, VR_Win32_Socket_Tcp* listener)
     {
         self->handle  = INVALID_SOCKET;
         self->address = (sockaddr_storage_t) {0};
@@ -292,7 +292,7 @@
         return 0;
     }
 
-    bool32 vr_win32_socket_tcp_connect(VR_Win32_SocketTcp* self, VR_NetworkIpAddr addr)
+    bool32 vr_win32_socket_tcp_connect(VR_Win32_Socket_Tcp* self, VR_Network_Ip_Addr addr)
     {
         sockaddr_storage_t address = vr_win32_sockaddr_make(addr);
         socklen_t          length  = vr_win32_sockaddr_size(&address);
@@ -305,7 +305,7 @@
         return 1;
     }
 
-    intptr vr_win32_socket_tcp_write(VR_Win32_SocketTcp* self, uint8* pntr, intptr size)
+    intptr vr_win32_socket_tcp_write(VR_Win32_Socket_Tcp* self, uint8* pntr, intptr size)
     {
         if (pntr == NULL || size <= 0) return 0;
 
@@ -317,7 +317,7 @@
         return count;
     }
 
-    intptr vr_win32_socket_tcp_read(VR_Win32_SocketTcp* self, uint8* pntr, intptr size)
+    intptr vr_win32_socket_tcp_read(VR_Win32_Socket_Tcp* self, uint8* pntr, intptr size)
     {
         if (pntr == NULL || size <= 0) return 0;
 
@@ -329,7 +329,7 @@
         return count;
     }
 
-    VR_NetworkIpAddr vr_win32_socket_tcp_addr(VR_Win32_SocketTcp* self)
+    VR_Network_Ip_Addr vr_win32_socket_tcp_addr(VR_Win32_Socket_Tcp* self)
     {
         return vr_win32_sockaddr_addr(&self->address);
     }
@@ -345,12 +345,12 @@
     #define _vr_socket_tcp_read_    vr_win32_socket_tcp_read
     #define _vr_socket_tcp_addr_    vr_win32_socket_tcp_addr
 
-    VR_Win32_SocketUdp* vr_win32_socket_udp_reserve(VR_Alloc* alloc)
+    VR_Win32_Socket_Udp* vr_win32_socket_udp_reserve(VR_Alloc* alloc)
     {
-        return vr_alloc_reserve_of(alloc, 1, VR_Win32_SocketUdp);
+        return vr_alloc_reserve_of(alloc, 1, VR_Win32_Socket_Udp);
     }
 
-    bool32 vr_win32_socket_udp_init(VR_Win32_SocketUdp* self, VR_NetworkIpAddr addr)
+    bool32 vr_win32_socket_udp_init(VR_Win32_Socket_Udp* self, VR_Network_Ip_Addr addr)
     {
         self->handle  = INVALID_SOCKET;
         self->queue   = NULL;
@@ -379,7 +379,7 @@
         return 0;
     }
 
-    void vr_win32_socket_udp_uninit(VR_Win32_SocketUdp* self)
+    void vr_win32_socket_udp_uninit(VR_Win32_Socket_Udp* self)
     {
         if (self->handle == INVALID_SOCKET) return;
 
@@ -392,7 +392,7 @@
         self->address = (sockaddr_storage_t) {0};
     }
 
-    bool32 vr_win32_socket_udp_bind(VR_Win32_SocketUdp* self)
+    bool32 vr_win32_socket_udp_bind(VR_Win32_Socket_Udp* self)
     {
         sockaddr_storage_t address = self->address;
         socklen_t          length  = vr_win32_sockaddr_size(&address);
@@ -405,7 +405,7 @@
         return 1;
     }
 
-    intptr vr_win32_socket_udp_write(VR_Win32_SocketUdp* self, uint8* pntr, intptr size, VR_NetworkIpAddr addr)
+    intptr vr_win32_socket_udp_write(VR_Win32_Socket_Udp* self, uint8* pntr, intptr size, VR_Network_Ip_Addr addr)
     {
         if (pntr == NULL || size <= 0) return 0;
 
@@ -420,7 +420,7 @@
         return count;
     }
 
-    intptr vr_win32_socket_udp_read(VR_Win32_SocketUdp* self, uint8* pntr, intptr size, VR_NetworkIpAddr* addr)
+    intptr vr_win32_socket_udp_read(VR_Win32_Socket_Udp* self, uint8* pntr, intptr size, VR_Network_Ip_Addr* addr)
     {
         if (pntr == NULL || size <= 0) return 0;
 
@@ -438,7 +438,7 @@
         return count;
     }
 
-    VR_NetworkIpAddr vr_win32_socket_udp_addr(VR_Win32_SocketUdp* self)
+    VR_Network_Ip_Addr vr_win32_socket_udp_addr(VR_Win32_Socket_Udp* self)
     {
         return vr_win32_sockaddr_addr(&self->address);
     }
@@ -453,12 +453,12 @@
 
 #elif VR_SYSTEM == VR_SYSTEM_LINUX
 
-    sockaddr_storage_t vr_linux_sockaddr_make(VR_NetworkIpAddr addr)
+    sockaddr_storage_t vr_linux_sockaddr_make(VR_Network_Ip_Addr addr)
     {
         sockaddr_storage_t result = {0};
 
         switch (addr.kind) {
-            case VR_NetworkIpAddr_Kind_Ver4: {
+            case VR_Network_Ip_Addr_Kind_Ver4: {
                 sockaddr_ip_ver4_t* ip_ver4 = (sockaddr_ip_ver4_t*) &result;
 
                 ip_ver4->sin_family = AF_INET;
@@ -468,7 +468,7 @@
                     VR_NETWORK_IP_ADDR_VER4_SIZE, addr.ip_ver4.elements);
             } break;
 
-            case VR_NetworkIpAddr_Kind_Ver6: {
+            case VR_Network_Ip_Addr_Kind_Ver6: {
                 sockaddr_ip_ver6_t* ip_ver6 = (sockaddr_ip_ver6_t*) &result;
 
                 ip_ver6->sin6_family = AF_INET6;
@@ -484,14 +484,14 @@
         return result;
     }
 
-    sockaddr_storage_t vr_linux_sockaddr_make_any(VR_NetworkIpAddr_Kind kind, uint16 port)
+    sockaddr_storage_t vr_linux_sockaddr_make_any(VR_Network_Ip_Addr_Kind kind, uint16 port)
     {
         sockaddr_storage_t result = {0};
 
         uint32 in4addr_any = INADDR_ANY;
 
         switch (kind) {
-            case VR_NetworkIpAddr_Kind_Ver4: {
+            case VR_Network_Ip_Addr_Kind_Ver4: {
                 sockaddr_ip_ver4_t* ip_ver4 = (sockaddr_ip_ver4_t*) &result;
 
                 ip_ver4->sin_family = AF_INET;
@@ -501,7 +501,7 @@
                     VR_NETWORK_IP_ADDR_VER4_SIZE, (void*) &in4addr_any);
             } break;
 
-            case VR_NetworkIpAddr_Kind_Ver6: {
+            case VR_Network_Ip_Addr_Kind_Ver6: {
                 sockaddr_ip_ver6_t* ip_ver6 = (sockaddr_ip_ver6_t*) &result;
 
                 ip_ver6->sin6_family = AF_INET6;
@@ -529,15 +529,15 @@
         return 0;
     }
 
-    VR_NetworkIpAddr vr_linux_sockaddr_addr(sockaddr_storage_t* self)
+    VR_Network_Ip_Addr vr_linux_sockaddr_addr(sockaddr_storage_t* self)
     {
-        VR_NetworkIpAddr result = vr_network_ip_addr_none();
+        VR_Network_Ip_Addr result = vr_network_ip_addr_none();
 
         switch (self->ss_family) {
             case AF_INET: {
                 sockaddr_ip_ver4_t* ip_ver4 = (sockaddr_ip_ver4_t*) self;
 
-                result.kind = VR_NetworkIpAddr_Kind_Ver4;
+                result.kind = VR_Network_Ip_Addr_Kind_Ver4;
                 result.port = ntohs(ip_ver4->sin_port);
 
                 vr_memory_copy(result.ip_ver4.elements,
@@ -547,7 +547,7 @@
             case AF_INET6: {
                 sockaddr_ip_ver6_t* ip_ver6 = (sockaddr_ip_ver6_t*) self;
 
-                result.kind = VR_NetworkIpAddr_Kind_Ver6;
+                result.kind = VR_Network_Ip_Addr_Kind_Ver6;
                 result.port = ntohs(ip_ver6->sin6_port);
 
                 vr_memory_copy(result.ip_ver6.elements,
@@ -560,12 +560,12 @@
         return result;
     }
 
-    VR_Linux_SocketTcp* vr_linux_socket_tcp_reserve(VR_Alloc* alloc)
+    VR_Linux_Socket_Tcp* vr_linux_socket_tcp_reserve(VR_Alloc* alloc)
     {
-        return vr_alloc_reserve_of(alloc, 1, VR_Linux_SocketTcp);
+        return vr_alloc_reserve_of(alloc, 1, VR_Linux_Socket_Tcp);
     }
 
-    bool32 vr_linux_socket_tcp_init(VR_Linux_SocketTcp* self, VR_NetworkIpAddr addr)
+    bool32 vr_linux_socket_tcp_init(VR_Linux_Socket_Tcp* self, VR_Network_Ip_Addr addr)
     {
         self->handle  = -1;
         self->queue   = NULL;
@@ -605,7 +605,7 @@
         return 0;
     }
 
-    void vr_linux_socket_tcp_uninit(VR_Linux_SocketTcp* self)
+    void vr_linux_socket_tcp_uninit(VR_Linux_Socket_Tcp* self)
     {
         if (self->handle != -1) {
             int32 status = 0;
@@ -621,7 +621,7 @@
         self->address = (sockaddr_storage_t) {0};
     }
 
-    bool32 vr_linux_socket_tcp_bind(VR_Linux_SocketTcp* self)
+    bool32 vr_linux_socket_tcp_bind(VR_Linux_Socket_Tcp* self)
     {
         sockaddr_storage_t address = self->address;
         socklen_t          length  = vr_linux_sockaddr_size(&address);
@@ -637,7 +637,7 @@
         return status != -1 ? 1 : 0;
     }
 
-    bool32 vr_linux_socket_tcp_listen(VR_Linux_SocketTcp* listener)
+    bool32 vr_linux_socket_tcp_listen(VR_Linux_Socket_Tcp* listener)
     {
         int32 status = 0;
 
@@ -649,7 +649,7 @@
         return status != -1 ? 1 : 0;
     }
 
-    bool32 vr_linux_socket_tcp_accept(VR_Linux_SocketTcp* self, VR_Linux_SocketTcp* listener)
+    bool32 vr_linux_socket_tcp_accept(VR_Linux_Socket_Tcp* self, VR_Linux_Socket_Tcp* listener)
     {
         self->handle  = -1;
         self->address = (sockaddr_storage_t) {0};
@@ -674,7 +674,7 @@
         return 0;
     }
 
-    bool32 vr_linux_socket_tcp_connect(VR_Linux_SocketTcp* self, VR_NetworkIpAddr addr)
+    bool32 vr_linux_socket_tcp_connect(VR_Linux_Socket_Tcp* self, VR_Network_Ip_Addr addr)
     {
         sockaddr_storage_t address = vr_linux_sockaddr_make(addr);
         socklen_t          length  = vr_linux_sockaddr_size(&address);
@@ -690,7 +690,7 @@
         return status != -1 ? 1 : 0;
     }
 
-    intptr vr_linux_socket_tcp_write(VR_Linux_SocketTcp* self, uint8* pntr, intptr size)
+    intptr vr_linux_socket_tcp_write(VR_Linux_Socket_Tcp* self, uint8* pntr, intptr size)
     {
         if (pntr == NULL || size <= 0) return 0;
 
@@ -707,7 +707,7 @@
         return count;
     }
 
-    intptr vr_linux_socket_tcp_read(VR_Linux_SocketTcp* self, uint8* pntr, intptr size)
+    intptr vr_linux_socket_tcp_read(VR_Linux_Socket_Tcp* self, uint8* pntr, intptr size)
     {
         if (pntr == NULL || size <= 0) return 0;
 
@@ -724,7 +724,7 @@
         return count;
     }
 
-    VR_NetworkIpAddr vr_linux_socket_tcp_addr(VR_Linux_SocketTcp* self)
+    VR_Network_Ip_Addr vr_linux_socket_tcp_addr(VR_Linux_Socket_Tcp* self)
     {
         return vr_linux_sockaddr_addr(&self->address);
     }
@@ -740,12 +740,12 @@
     #define _vr_socket_tcp_read_    vr_linux_socket_tcp_read
     #define _vr_socket_tcp_addr_    vr_linux_socket_tcp_addr
 
-    VR_Linux_SocketUdp* vr_linux_socket_udp_reserve(VR_Alloc* alloc)
+    VR_Linux_Socket_Udp* vr_linux_socket_udp_reserve(VR_Alloc* alloc)
     {
-        return vr_alloc_reserve_of(alloc, 1, VR_Linux_SocketUdp);
+        return vr_alloc_reserve_of(alloc, 1, VR_Linux_Socket_Udp);
     }
 
-    bool32 vr_linux_socket_udp_init(VR_Linux_SocketUdp* self, VR_NetworkIpAddr addr)
+    bool32 vr_linux_socket_udp_init(VR_Linux_Socket_Udp* self, VR_Network_Ip_Addr addr)
     {
         self->handle  = -1;
         self->queue   = NULL;
@@ -785,7 +785,7 @@
         return 0;
     }
 
-    void vr_linux_socket_udp_uninit(VR_Linux_SocketUdp* self)
+    void vr_linux_socket_udp_uninit(VR_Linux_Socket_Udp* self)
     {
         if (self->handle != -1 ) {
             int32 status = 0;
@@ -801,7 +801,7 @@
         self->address = (sockaddr_storage_t) {0};
     }
 
-    bool32 vr_linux_socket_udp_bind(VR_Linux_SocketUdp* self)
+    bool32 vr_linux_socket_udp_bind(VR_Linux_Socket_Udp* self)
     {
         sockaddr_storage_t address = self->address;
         socklen_t          length  = vr_linux_sockaddr_size(&address);
@@ -817,7 +817,7 @@
         return status != -1 ? 1 : 0;
     }
 
-    intptr vr_linux_socket_udp_write(VR_Linux_SocketUdp* self, uint8* pntr, intptr size, VR_NetworkIpAddr addr)
+    intptr vr_linux_socket_udp_write(VR_Linux_Socket_Udp* self, uint8* pntr, intptr size, VR_Network_Ip_Addr addr)
     {
         if (pntr == NULL || size <= 0) return 0;
 
@@ -837,7 +837,7 @@
         return count;
     }
 
-    intptr vr_linux_socket_udp_read(VR_Linux_SocketUdp* self, uint8* pntr, intptr size, VR_NetworkIpAddr* addr)
+    intptr vr_linux_socket_udp_read(VR_Linux_Socket_Udp* self, uint8* pntr, intptr size, VR_Network_Ip_Addr* addr)
     {
         if (pntr == NULL || size <= 0) return 0;
 
@@ -860,7 +860,7 @@
         return count;
     }
 
-    VR_NetworkIpAddr vr_linux_socket_udp_addr(VR_Linux_SocketUdp* self)
+    VR_Network_Ip_Addr vr_linux_socket_udp_addr(VR_Linux_Socket_Udp* self)
     {
         return vr_linux_sockaddr_addr(&self->address);
     }
@@ -879,35 +879,35 @@
 
 #endif
 
-VR_NetworkIpAddr vr_network_ip_addr_none()
+VR_Network_Ip_Addr vr_network_ip_addr_none()
 {
-    return (VR_NetworkIpAddr) {.kind = VR_NetworkIpAddr_Kind_None};
+    return (VR_Network_Ip_Addr) {.kind = VR_Network_Ip_Addr_Kind_None};
 }
 
-VR_NetworkIpAddr vr_network_ip_addr_empty(VR_NetworkIpAddr_Kind kind)
+VR_Network_Ip_Addr vr_network_ip_addr_empty(VR_Network_Ip_Addr_Kind kind)
 {
-    return (VR_NetworkIpAddr) {.kind = kind};
+    return (VR_Network_Ip_Addr) {.kind = kind};
 }
 
-VR_NetworkIpAddr vr_network_ip_addr_local(VR_NetworkIpAddr_Kind kind, uint16 port)
+VR_Network_Ip_Addr vr_network_ip_addr_local(VR_Network_Ip_Addr_Kind kind, uint16 port)
 {
     switch (kind) {
-        case VR_NetworkIpAddr_Kind_Ver4: {
-            VR_NetworkIpAddr_Ver4 ipv4 = VR_NETWORK_IP_ADDR_VER4_LOCAL;
+        case VR_Network_Ip_Addr_Kind_Ver4: {
+            VR_Network_Ip_Addr_Ver4 ip_ver4 = VR_NETWORK_IP_ADDR_VER4_LOCAL;
 
-            return (VR_NetworkIpAddr) {
+            return (VR_Network_Ip_Addr) {
                 .kind    = kind,
-                .ip_ver4 = ipv4,
+                .ip_ver4 = ip_ver4,
                 .port    = port,
             };
         } break;
 
-        case VR_NetworkIpAddr_Kind_Ver6: {
-            VR_NetworkIpAddr_Ver6 ipv6 = VR_NETWORK_IP_ADDR_VER6_LOCAL;
+        case VR_Network_Ip_Addr_Kind_Ver6: {
+            VR_Network_Ip_Addr_Ver6 ip_ver6 = VR_NETWORK_IP_ADDR_VER6_LOCAL;
 
-            return (VR_NetworkIpAddr) {
+            return (VR_Network_Ip_Addr) {
                 .kind    = kind,
-                .ip_ver6 = ipv6,
+                .ip_ver6 = ip_ver6,
                 .port    = port,
             };
         } break;
@@ -915,34 +915,34 @@ VR_NetworkIpAddr vr_network_ip_addr_local(VR_NetworkIpAddr_Kind kind, uint16 por
         default: break;
     }
 
-    return (VR_NetworkIpAddr) {.kind = VR_NetworkIpAddr_Kind_None};
+    return (VR_Network_Ip_Addr) {.kind = VR_Network_Ip_Addr_Kind_None};
 }
 
-VR_NetworkIpAddr vr_network_ip_addr_ver4(VR_NetworkIpAddr_Ver4 ipv4, uint16 port)
+VR_Network_Ip_Addr vr_network_ip_addr_ver4(VR_Network_Ip_Addr_Ver4 ip4, uint16 port)
 {
-    return (VR_NetworkIpAddr) {
-        .kind    = VR_NetworkIpAddr_Kind_Ver4,
-        .ip_ver4 = ipv4,
+    return (VR_Network_Ip_Addr) {
+        .kind    = VR_Network_Ip_Addr_Kind_Ver4,
+        .ip_ver4 = ip4,
         .port    = port,
     };
 }
 
-VR_NetworkIpAddr vr_network_ip_addr_ver6(VR_NetworkIpAddr_Ver6 ipv6, uint16 port)
+VR_Network_Ip_Addr vr_network_ip_addr_ver6(VR_Network_Ip_Addr_Ver6 ip6, uint16 port)
 {
-    return (VR_NetworkIpAddr) {
-        .kind    = VR_NetworkIpAddr_Kind_Ver6,
-        .ip_ver6 = ipv6,
+    return (VR_Network_Ip_Addr) {
+        .kind    = VR_Network_Ip_Addr_Kind_Ver6,
+        .ip_ver6 = ip6,
         .port    = port,
     };
 }
 
-bool32 vr_network_ip_addr_is_equal(VR_NetworkIpAddr self, VR_NetworkIpAddr other)
+bool32 vr_network_ip_addr_is_equal(VR_Network_Ip_Addr self, VR_Network_Ip_Addr other)
 {
     if (self.kind != other.kind || self.port != other.port)
         return 0;
 
     switch (self.kind) {
-        case VR_NetworkIpAddr_Kind_Ver4: {
+        case VR_Network_Ip_Addr_Kind_Ver4: {
             for (intptr i = 0; i < VR_NETWORK_IP_ADDR_VER4_SIZE; i += 1) {
                 if (self.ip_ver4.elements[i] != other.ip_ver4.elements[i])
                     return 0;
@@ -951,7 +951,7 @@ bool32 vr_network_ip_addr_is_equal(VR_NetworkIpAddr self, VR_NetworkIpAddr other
             return 1;
         } break;
 
-        case VR_NetworkIpAddr_Kind_Ver6: {
+        case VR_Network_Ip_Addr_Kind_Ver6: {
             for (intptr i = 0; i < VR_NETWORK_IP_ADDR_VER6_SIZE; i += 1) {
                 if (self.ip_ver6.elements[i] != other.ip_ver6.elements[i])
                     return 0;
@@ -966,23 +966,23 @@ bool32 vr_network_ip_addr_is_equal(VR_NetworkIpAddr self, VR_NetworkIpAddr other
     return 0;
 }
 
-VR_SocketTcp vr_socket_tcp_reserve(VR_Alloc* alloc)
+VR_Socket_Tcp vr_socket_tcp_reserve(VR_Alloc* alloc)
 {
-    return (VR_SocketTcp) {
+    return (VR_Socket_Tcp) {
         .impl = _vr_socket_tcp_reserve_(alloc),
     };
 }
 
-bool32 vr_socket_tcp_init(VR_SocketTcp self, VR_NetworkIpAddr_Kind kind)
+bool32 vr_socket_tcp_init(VR_Socket_Tcp self, VR_Network_Ip_Addr_Kind kind)
 {
     return _vr_socket_tcp_init_(self.impl, vr_network_ip_addr_empty(kind));
 }
 
-bool32 vr_socket_tcp_init_bound(VR_SocketTcp self, VR_NetworkIpAddr_Kind kind, uint16 port)
+bool32 vr_socket_tcp_init_bound(VR_Socket_Tcp self, VR_Network_Ip_Addr_Kind kind, uint16 port)
 {
-    VR_NetworkIpAddr addr = vr_network_ip_addr_local(kind, port);
+    VR_Network_Ip_Addr addr = vr_network_ip_addr_local(kind, port);
 
-    if (addr.kind == VR_NetworkIpAddr_Kind_None && port <= 0)
+    if (addr.kind == VR_Network_Ip_Addr_Kind_None && port <= 0)
         return 0;
 
     bool32 status = 1;
@@ -996,32 +996,32 @@ bool32 vr_socket_tcp_init_bound(VR_SocketTcp self, VR_NetworkIpAddr_Kind kind, u
     return status;
 }
 
-void vr_socket_tcp_uninit(VR_SocketTcp self)
+void vr_socket_tcp_uninit(VR_Socket_Tcp self)
 {
     return _vr_socket_tcp_uninit_(self.impl);
 }
 
-bool32 vr_socket_tcp_listen(VR_SocketTcp listener)
+bool32 vr_socket_tcp_listen(VR_Socket_Tcp listener)
 {
     return _vr_socket_tcp_listen_(listener.impl);
 }
 
-bool32 vr_socket_tcp_accept(VR_SocketTcp self, VR_SocketTcp listener)
+bool32 vr_socket_tcp_accept(VR_Socket_Tcp self, VR_Socket_Tcp listener)
 {
     return _vr_socket_tcp_accept_(self.impl, listener.impl);
 }
 
-bool32 vr_socket_tcp_connect(VR_SocketTcp self, VR_NetworkIpAddr addr)
+bool32 vr_socket_tcp_connect(VR_Socket_Tcp self, VR_Network_Ip_Addr addr)
 {
     return _vr_socket_tcp_connect_(self.impl, addr);
 }
 
-intptr vr_socket_tcp_write(VR_SocketTcp self, uint8* pntr, intptr size)
+intptr vr_socket_tcp_write(VR_Socket_Tcp self, uint8* pntr, intptr size)
 {
     return _vr_socket_tcp_write_(self.impl, pntr, size);
 }
 
-intptr vr_socket_tcp_write_all(VR_SocketTcp self, uint8* pntr, intptr size)
+intptr vr_socket_tcp_write_all(VR_Socket_Tcp self, uint8* pntr, intptr size)
 {
     intptr result = 0;
 
@@ -1035,33 +1035,33 @@ intptr vr_socket_tcp_write_all(VR_SocketTcp self, uint8* pntr, intptr size)
     return result;
 }
 
-intptr vr_socket_tcp_read(VR_SocketTcp self, uint8* pntr, intptr size)
+intptr vr_socket_tcp_read(VR_Socket_Tcp self, uint8* pntr, intptr size)
 {
     return _vr_socket_tcp_read_(self.impl, pntr, size);
 }
 
-VR_NetworkIpAddr vr_socket_tcp_addr(VR_SocketTcp self)
+VR_Network_Ip_Addr vr_socket_tcp_addr(VR_Socket_Tcp self)
 {
     return _vr_socket_tcp_addr_(self.impl);
 }
 
-VR_SocketUdp vr_socket_udp_reserve(VR_Alloc* alloc)
+VR_Socket_Udp vr_socket_udp_reserve(VR_Alloc* alloc)
 {
-    return (VR_SocketUdp) {
+    return (VR_Socket_Udp) {
         .impl = _vr_socket_udp_reserve_(alloc),
     };
 }
 
-bool32 vr_socket_udp_init(VR_SocketUdp self, VR_NetworkIpAddr_Kind kind)
+bool32 vr_socket_udp_init(VR_Socket_Udp self, VR_Network_Ip_Addr_Kind kind)
 {
     return _vr_socket_udp_init_(self.impl, vr_network_ip_addr_empty(kind));
 }
 
-bool32 vr_socket_udp_init_bound(VR_SocketUdp self, VR_NetworkIpAddr_Kind kind, uint16 port)
+bool32 vr_socket_udp_init_bound(VR_Socket_Udp self, VR_Network_Ip_Addr_Kind kind, uint16 port)
 {
-    VR_NetworkIpAddr addr = vr_network_ip_addr_local(kind, port);
+    VR_Network_Ip_Addr addr = vr_network_ip_addr_local(kind, port);
 
-    if (addr.kind == VR_NetworkIpAddr_Kind_None && port <= 0)
+    if (addr.kind == VR_Network_Ip_Addr_Kind_None && port <= 0)
         return 0;
 
     bool32 status = 1;
@@ -1075,17 +1075,17 @@ bool32 vr_socket_udp_init_bound(VR_SocketUdp self, VR_NetworkIpAddr_Kind kind, u
     return status;
 }
 
-void vr_socket_udp_uninit(VR_SocketUdp self)
+void vr_socket_udp_uninit(VR_Socket_Udp self)
 {
     return _vr_socket_udp_uninit_(self.impl);
 }
 
-intptr vr_socket_udp_write(VR_SocketUdp self, uint8* pntr, intptr size, VR_NetworkIpAddr addr)
+intptr vr_socket_udp_write(VR_Socket_Udp self, uint8* pntr, intptr size, VR_Network_Ip_Addr addr)
 {
     return _vr_socket_udp_write_(self.impl, pntr, size, addr);
 }
 
-intptr vr_socket_udp_write_all(VR_SocketUdp self, uint8* pntr, intptr size, VR_NetworkIpAddr addr)
+intptr vr_socket_udp_write_all(VR_Socket_Udp self, uint8* pntr, intptr size, VR_Network_Ip_Addr addr)
 {
     intptr result = 0;
 
@@ -1099,12 +1099,12 @@ intptr vr_socket_udp_write_all(VR_SocketUdp self, uint8* pntr, intptr size, VR_N
     return result;
 }
 
-intptr vr_socket_udp_read(VR_SocketUdp self, uint8* pntr, intptr size, VR_NetworkIpAddr* addr)
+intptr vr_socket_udp_read(VR_Socket_Udp self, uint8* pntr, intptr size, VR_Network_Ip_Addr* addr)
 {
     return _vr_socket_udp_read_(self.impl, pntr, size, addr);
 }
 
-VR_NetworkIpAddr vr_socket_udp_addr(VR_SocketUdp self)
+VR_Network_Ip_Addr vr_socket_udp_addr(VR_Socket_Udp self)
 {
     return _vr_socket_udp_addr_(self.impl);
 }

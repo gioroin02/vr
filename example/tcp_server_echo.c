@@ -32,7 +32,7 @@ int main(int args_count, const char* args_array[])
     // Creazione di una "arena", un tipo di allocatore che può riservare
     // singoli blocchi di memoria ma può rilasciarli solo in gruppo. In
     // questo caso richiediamo 16 * 1024 byte.
-    VR_ArenaAlloc arena = vr_memory_reserve(16, 1024);
+    VR_Arena_Alloc arena = vr_memory_reserve(16, 1024);
 
     bool32 server_is_endless   = 0;
     intptr server_sessions_max = 1;
@@ -59,12 +59,12 @@ int main(int args_count, const char* args_array[])
     // VR_*Alloc implementano l'interfaccia VR_Alloc che permette di allocare e
     // liberare memoria in modo generico senza sapere quale allocatore si trovi
     // dietro le quinte.
-    VR_SocketTcp listener = vr_socket_tcp_reserve((VR_Alloc*) &arena);
-    VR_SocketTcp socket   = vr_socket_tcp_reserve((VR_Alloc*) &arena);
+    VR_Socket_Tcp listener = vr_socket_tcp_reserve((VR_Alloc*) &arena);
+    VR_Socket_Tcp socket   = vr_socket_tcp_reserve((VR_Alloc*) &arena);
 
     // Inizializzazione del socket listener in questo caso con indirizzo localhost
     // IPv4 e porta 37134.
-    vr_socket_tcp_init_bound(listener, VR_NetworkIpAddr_Kind_Ver4, 37134);
+    vr_socket_tcp_init_bound(listener, VR_Network_Ip_Addr_Kind_Ver4, 37134);
 
     // Promozione a listener, ora il socket può accettare connessioni in arrivo.
     vr_socket_tcp_listen(listener);

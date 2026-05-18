@@ -26,7 +26,7 @@ int main(int args_count, const char* args_array[])
 {
     uint8 memory[VR_INTPTR_KILO_2] = {0};
 
-    VR_StackAlloc stack = vr_stack_alloc_make(memory, sizeof memory);
+    VR_Stack_Alloc stack = vr_stack_alloc_make(memory, sizeof memory);
 
     uint32* p0 = vr_stack_alloc_reserve_of(&stack, 1, uint32);
     uint32* p1 = vr_stack_alloc_reserve_of(&stack, 1, uint32);

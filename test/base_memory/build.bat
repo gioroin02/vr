@@ -12,9 +12,9 @@ set "test_arena=test\base_memory\arena.c"
 set "test_pool=test\base_memory\pool.c"
 set "test_stack=test\base_memory\stack.c"
 
-%compiler% %impl% %test_utils% -o temp\base_memory_utils.exe
-%compiler% %impl% %test_arena% -o temp\base_memory_arena.exe
-%compiler% %impl% %test_pool%  -o temp\base_memory_pool.exe
-%compiler% %impl% %test_stack% -o temp\base_memory_stack.exe
+%compiler% %impl% %test_utils% -o binary\base_memory_utils.exe
+%compiler% %impl% %test_arena% -o binary\base_memory_arena.exe
+%compiler% %impl% %test_pool%  -o binary\base_memory_pool.exe
+%compiler% %impl% %test_stack% -o binary\base_memory_stack.exe
 
 endlocal

@@ -29,7 +29,7 @@ char8* string_suffix(char8* self, char8* prefix)
 
 int main(int args_count, char* args_array[])
 {
-    VR_ArenaAlloc arena = vr_memory_reserve(16, 1024);
+    VR_Arena_Alloc arena = vr_memory_reserve(16, 1024);
 
     bool32 server_is_endless   = 0;
     intptr server_sessions_max = 1;
@@ -52,15 +52,15 @@ int main(int args_count, char* args_array[])
         return 1;
     }
 
-    VR_SocketUdp socket = vr_socket_udp_reserve((VR_Alloc*) &arena);
+    VR_Socket_Udp socket = vr_socket_udp_reserve((VR_Alloc*) &arena);
 
-    vr_socket_udp_init_bound(socket, VR_NetworkIpAddr_Kind_Ver4, 37134);
+    vr_socket_udp_init_bound(socket, VR_Network_Ip_Addr_Kind_Ver4, 37134);
 
     // Ripete il ciclo:
     //    (1) finché non ha raggiunto il limite delle sessioni oppure
     //    (2) se è endless.
     for (intptr i = 0; (i < server_sessions_max) || (server_is_endless != 0); i += 1) {
-        VR_NetworkIpAddr addr = {0};
+        VR_Network_Ip_Addr addr = {0};
 
         char8  message[32] = {0};
         intptr count       = 0;

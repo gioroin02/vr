@@ -26,7 +26,7 @@ int main(int args_count, const char* args_array[])
 {
     uint8 memory[VR_INTPTR_KILO_2] = {0};
 
-    VR_PoolAlloc pool = vr_pool_alloc_make(memory, sizeof memory, 16);
+    VR_Pool_Alloc pool = vr_pool_alloc_make(memory, sizeof memory, 16);
 
     uint32* p0 = vr_pool_alloc_reserve_of(&pool, 1, uint32);
     uint32* p1 = vr_pool_alloc_reserve_of(&pool, 1, uint32);
