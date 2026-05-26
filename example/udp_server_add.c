@@ -1,12 +1,12 @@
-#include <vr_system_memory.h>
-#include <vr_system_socket.h>
+#include <vr_platform_memory.h>
+#include <vr_platform_socket.h>
 
 #include <stdio.h>
 #include <stdlib.h>
 
-intptr intptr_add_safe(intptr a, intptr b)
+VrSint intptr_add_safe(VrSint a, VrSint b)
 {
-    if (b <= 0 || a > VR_INTPTR_MAX - b)
+    if (b <= 0 || a > VR_SINT_MAX - b)
         return a;
 
     return a + b;
@@ -14,25 +14,24 @@ intptr intptr_add_safe(intptr a, intptr b)
 
 #define INFO "[\x1b[34m  INFO \x1b[0m] "
 
-int main(int args_count, char* args_array[])
+int main(int args_count, char** args_array)
 {
-    VR_Arena_Alloc arena = vr_memory_reserve(16, 1024);
+    VrArenaAlloc arena = vr_memory_reserve(16, 1024);
 
-    VR_Socket_Udp socket = vr_socket_udp_reserve((VR_Alloc*) &arena);
+    VrUdpSocket socket = vr_udp_socket_reserve((VrAlloc*) &arena);
 
-    vr_socket_udp_init_bound(socket, VR_Network_Ip_Addr_Kind_Ver4, 37134);
+    vr_udp_socket_init(socket, vr_address_ip_ver4_local(37134));
+    vr_udp_socket_bind(socket);
 
-    intptr number = 0;
+    VrSint number = 0;
 
    while (1) {
-        VR_Network_Ip_Addr addr = {0};
+        VrAddressIp addr           = {0};
+        VrChar8     message[32]    = {0};
+        VrSint      count          = 0;
+        VrSint      message_number = 0;
 
-        char8  message[32]      = {0};
-        intptr count            = 0;
-        intptr message_number   = 0;
-
-        count = vr_socket_udp_read(socket,
-            (uint8*) message, sizeof message, &addr);
+        count = vr_udp_socket_read(socket, (VrUint8*) message, sizeof message, &addr);
 
         printf(INFO "Nuovo messaggio:\n");
         printf("    Ricevuto '%.*s'\n", count, message);
@@ -42,14 +41,14 @@ int main(int args_count, char* args_array[])
 
         count = snprintf(message, sizeof message, "%lli", number);
 
-        vr_socket_udp_write(socket, (uint8*) message, count, addr);
+        vr_udp_socket_write_all(socket, (VrUint8*) message, count, addr);
 
         printf("    Inviato '%.*s'\n", count, message);
 
         if (message_number == 0) break;
     }
 
-    vr_socket_udp_uninit(socket);
+    vr_udp_socket_uninit(socket);
 
     return 0;
 }

@@ -2,18 +2,25 @@
 
 setlocal
 
-set "compiler=zig cc --std=c99 -Isource -Wall -Wno-format -g"
-set "linker=-lws2_32"
+set "comp_name=zig cc"
+set "comp_version=99"
+set "comp_include=-Isource"
+set "comp_linking=-lws2_32"
+set "comp_warning=-Wall -Wpedantic -Wextra -Werror -Wfloat-conversion -Wimplicit-fallthrough -Wno-format -Wno-unused-parameter -Wno-unused-variable -Wno-unused-function"
+set "comp_flag=-O0 -g"
+
+set "comp=%comp_name% -std=c%comp_version% %comp_flag% %comp_linking% %comp_include% %comp_warning%"
 
 set "impl=%impl% source\vr_base_platform.c"
 set "impl=%impl% source\vr_base_memory.c"
-set "impl=%impl% source\vr_system_memory.c"
-set "impl=%impl% source\vr_system_socket.c"
+set "impl=%impl% source\vr_platform_memory.c"
+set "impl=%impl% source\vr_platform_socket.c"
 
 set "example_tcp_server_echo=example\tcp_server_echo.c"
 set "example_tcp_client_echo=example\tcp_client_echo.c"
 set "example_tcp_server_add=example\tcp_server_add.c"
 set "example_tcp_client_add=example\tcp_client_add.c"
+
 set "example_tcp_server_file=example\tcp_server_file.c"
 set "example_tcp_client_file=example\tcp_client_file.c"
 
@@ -22,16 +29,17 @@ set "example_udp_client_echo=example\udp_client_echo.c"
 set "example_udp_server_add=example\udp_server_add.c"
 set "example_udp_client_add=example\udp_client_add.c"
 
-%compiler% %impl% %example_tcp_server_echo% %linker% -o binary\tcp_server_echo.exe
-%compiler% %impl% %example_tcp_client_echo% %linker% -o binary\tcp_client_echo.exe
-%compiler% %impl% %example_tcp_server_add%  %linker% -o binary\tcp_server_add.exe
-%compiler% %impl% %example_tcp_client_add%  %linker% -o binary\tcp_client_add.exe
-@rem %compiler% %impl% %example_tcp_server_file% %linker% -o binary\tcp_server_file.exe
-@rem %compiler% %impl% %example_tcp_client_file% %linker% -o binary\tcp_client_file.exe
+%comp% -o output\tcp_server_echo.exe %impl% %example_tcp_server_echo%
+%comp% -o output\tcp_client_echo.exe %impl% %example_tcp_client_echo%
+%comp% -o output\tcp_server_add.exe  %impl% %example_tcp_server_add%
+%comp% -o output\tcp_client_add.exe  %impl% %example_tcp_client_add%
 
-%compiler% %impl% %example_udp_server_echo% %linker% -o binary\udp_server_echo.exe
-%compiler% %impl% %example_udp_client_echo% %linker% -o binary\udp_client_echo.exe
-%compiler% %impl% %example_udp_server_add%  %linker% -o binary\udp_server_add.exe
-%compiler% %impl% %example_udp_client_add%  %linker% -o binary\udp_client_add.exe
+@rem %comp% -o output\tcp_server_file.exe %impl% %example_tcp_server_file%
+@rem %comp% -o output\tcp_client_file.exe %impl% %example_tcp_client_file%
+
+%comp% -o output\udp_server_echo.exe %impl% %example_udp_server_echo%
+%comp% -o output\udp_client_echo.exe %impl% %example_udp_client_echo%
+%comp% -o output\udp_server_add.exe  %impl% %example_udp_server_add%
+%comp% -o output\udp_client_add.exe  %impl% %example_udp_client_add%
 
 endlocal

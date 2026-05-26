@@ -2,21 +2,21 @@
 
 #include <stdio.h>
 
-int main(int args_count, const char* args_array[])
+int main(void)
 {
     printf("Unsigned types:\n");
-    printf("    uintptr = [%20llu, %20llu]\n", VR_UINTPTR_MIN, VR_UINTPTR_MAX);
-    printf("    uint64  = [%20llu, %20llu]\n", VR_UINT64_MIN,  VR_UINT64_MAX);
-    printf("    uint32  = [%20u, %20u]\n",     VR_UINT32_MIN,  VR_UINT32_MAX);
-    printf("    uint16  = [%20u, %20u]\n",     VR_UINT16_MIN,  VR_UINT16_MAX);
-    printf("    uint8   = [%20u, %20u]\n",     VR_UINT8_MIN,   VR_UINT8_MAX);
+    printf("    Uint   = [%20llu, %20llu]\n", VR_UINT_MIN,   VR_UINT_MAX);
+    printf("    Uint64 = [%20llu, %20llu]\n", VR_UINT64_MIN, VR_UINT64_MAX);
+    printf("    Uint32 = [%20u, %20u]\n",     VR_UINT32_MIN, VR_UINT32_MAX);
+    printf("    Uint16 = [%20u, %20u]\n",     VR_UINT16_MIN, VR_UINT16_MAX);
+    printf("    Uint8  = [%20u, %20u]\n",     VR_UINT8_MIN,  VR_UINT8_MAX);
 
     printf("Signed types:\n");
-    printf("    intptr  = [%20lli, %20lli]\n", VR_INTPTR_MIN,  VR_INTPTR_MAX);
-    printf("    int64   = [%20lli, %20lli]\n", VR_INT64_MIN,   VR_INT64_MAX);
-    printf("    int32   = [%20i, %20i]\n",     VR_INT32_MIN,   VR_INT32_MAX);
-    printf("    int16   = [%20i, %20i]\n",     VR_INT16_MIN,   VR_INT16_MAX);
-    printf("    int8    = [%20i, %20i]\n",     VR_INT8_MIN,    VR_INT8_MAX);
+    printf("    Sint   = [%20lli, %20lli]\n", VR_SINT_MIN,   VR_SINT_MAX);
+    printf("    Sint64 = [%20lli, %20lli]\n", VR_SINT64_MIN, VR_SINT64_MAX);
+    printf("    Sint32 = [%20i, %20i]\n",     VR_SINT32_MIN, VR_SINT32_MAX);
+    printf("    Sint16 = [%20i, %20i]\n",     VR_SINT16_MIN, VR_SINT16_MAX);
+    printf("    Sint8  = [%20i, %20i]\n",     VR_SINT8_MIN,  VR_SINT8_MAX);
 
     return 0;
 }

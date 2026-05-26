@@ -70,7 +70,7 @@ Modulo che permette di lavorare con il sistema operativo per comunicare tramite 
         - VR_Network_Ip_Addr_Ver6
     - Procedure:
         - vr_network_ip_addr_none
-        - vr_network_ip_addr_empty
+        - vr_network_ip_addr_any
         - vr_network_ip_addr_local
         - vr_network_ip_addr_ver4
         - vr_network_ip_addr_ver6
@@ -192,12 +192,12 @@ Produce un indirizzo IP invalido.
 VR_Network_Ip_Addr vr_network_ip_addr_none()
 ```
 
-#### `vr_network_ip_addr_empty`
+#### `vr_network_ip_addr_any`
 
 Produce un indirizzo IP vuoto a partire da un tipo. Se il tipo specificato è `VR_Network_Ip_Addr_Kind_None` diventa equivalente a [vr_network_ip_addr_none()](#vr_network_ip_addr_none).
 
 ```c
-VR_Network_Ip_Addr vr_network_ip_addr_empty(VR_Network_Ip_Addr_Kind kind)
+VR_Network_Ip_Addr vr_network_ip_addr_any(VR_Network_Ip_Addr_Kind kind)
 ```
 
 #### `vr_network_ip_addr_local`

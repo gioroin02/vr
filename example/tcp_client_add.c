@@ -1,30 +1,27 @@
-#include <vr_system_memory.h>
-#include <vr_system_socket.h>
+#include <vr_platform_memory.h>
+#include <vr_platform_socket.h>
 
 #include <stdio.h>
 #include <stdlib.h>
 
 #define INFO "[\x1b[34m  INFO \x1b[0m] "
 
-int main(int args_count, char* args_array[])
+int main(int args_count, char** args_array)
 {
-    VR_Arena_Alloc arena = vr_memory_reserve(16, 1024);
+    VrArenaAlloc arena = vr_memory_reserve(16, 1024);
 
-    VR_Socket_Tcp socket = vr_socket_tcp_reserve((VR_Alloc*) &arena);
+    VrTcpSocket socket = vr_tcp_socket_reserve((VrAlloc*) &arena);
 
-    VR_Network_Ip_Addr server_addr = vr_network_ip_addr_ver4(
-        VR_NETWORK_IP_ADDR_VER4_LOCAL, 37134);
-
-    vr_socket_tcp_init(socket, server_addr.kind);
-    vr_socket_tcp_connect(socket, server_addr);
+    vr_tcp_socket_init(socket, vr_address_ip_ver4_any());
+    vr_tcp_socket_connect(socket, vr_address_ip_ver4_local(37134));
 
     printf(INFO "Sessione iniziata\n");
 
     while (1) {
-        char8  message[32]      = {0};
-        intptr count            = 0;
-        char8* message_end_pntr = message;
-        intptr message_number   = 0;
+        VrChar8  message[32]      = {0};
+        VrSint   count            = 0;
+        VrChar8* message_end_pntr = message;
+        VrSint   message_number   = 0;
 
         while (message == message_end_pntr) {
             printf("$ ");
@@ -39,19 +36,19 @@ int main(int args_count, char* args_array[])
 
         count = snprintf(message, sizeof message, "%lli", message_number);
 
-        vr_socket_tcp_write_all(socket, (uint8*) message, count);
+        vr_tcp_socket_write_all(socket, (VrUint8*) message, count);
 
         printf(INFO "Nuovo messaggio:\n");
         printf("    Inviato '%.*s'\n", count, message);
 
-        count = vr_socket_tcp_read(socket, (uint8*) message, sizeof message);
+        count = vr_tcp_socket_read(socket, (VrUint8*) message, sizeof message);
 
         printf("    Ricevuto '%.*s'\n", count, message);
 
         if (message_number == 0) break;
     }
 
-    vr_socket_tcp_uninit(socket);
+    vr_tcp_socket_uninit(socket);
 
     return 0;
 }

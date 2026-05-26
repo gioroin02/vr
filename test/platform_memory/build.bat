@@ -12,11 +12,11 @@ set "comp_flag=-O0 -g"
 set "comp=%comp_name% -std=c%comp_version% %comp_flag% %comp_linking% %comp_include% %comp_warning%"
 
 set "impl=%impl% source\vr_base_platform.c"
+set "impl=%impl% source\vr_base_memory.c"
+set "impl=%impl% source\vr_platform_memory.c"
 
-set "test_type=test\base_platform\type.c"
-set "test_macro=test\base_platform\macro.c"
+set "test_memory=test\platform_memory\memory.c"
 
-%comp% -o output\base_platform_type.exe  %impl% %test_type%
-%comp% -o output\base_platform_macro.exe %impl% %test_macro%
+%comp% -o output\platform_memory.exe %impl% %test_memory%
 
 endlocal

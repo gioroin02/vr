@@ -3,308 +3,326 @@
 
 #include "vr_base_platform.h"
 
-#define VR_MEMORY_DEFAULT_ALIGNMENT ((intptr) 16)
+#define VR_MEMORY_DEFAULT_ALIGNMENT ((VrSint) 16)
 
 #define vr_memory_set_zero(pntr, size) vr_memory_set(pntr, size, 0)
 
-intptr vr_memory_set(void* pntr, intptr size, uint8 value);
+VrSint vr_memory_set(void* pntr, VrSint size, VrUint8 value);
 
-intptr vr_memory_copy(void* pntr, intptr size, void* value);
+VrSint vr_memory_copy(void* pntr, VrSint size, void* value);
 
-intptr vr_memory_copy_endian(void* pntr, intptr size, void* value, VR_Endian endian);
+VrSint vr_memory_copy_endian(void* pntr, VrSint size, void* value, VrEndian endian);
 
-void* vr_memory_align_pntr(void* pntr, intptr alignment);
+void* vr_memory_align_pntr(void* pntr, VrSint alignment);
 
-intptr vr_memory_align_size(intptr size, intptr alignment);
+VrSint vr_memory_align_size(VrSint size, VrSint alignment);
 
 #define vr_memory_write_uint64(pntr, size, value) \
-    vr_memory_write_uint64_endian(pntr, size, value, VR_Endian_None)
+    vr_memory_write_uint64_endian(pntr, size, value, VrEndian_None)
 
 #define vr_memory_write_uint32(pntr, size, value) \
-    vr_memory_write_uint32_endian(pntr, size, value, VR_Endian_None)
+    vr_memory_write_uint32_endian(pntr, size, value, VrEndian_None)
 
 #define vr_memory_write_uint16(pntr, size, value) \
-    vr_memory_write_uint16_endian(pntr, size, value, VR_Endian_None)
+    vr_memory_write_uint16_endian(pntr, size, value, VrEndian_None)
 
 #define vr_memory_write_uint8(pntr, size, value) \
-    vr_memory_write_uint8_endian(pntr, size, value, VR_Endian_None)
+    vr_memory_write_uint8_endian(pntr, size, value, VrEndian_None)
 
 #define vr_memory_write_uint64_le(pntr, size, value) \
-    vr_memory_write_uint64_endian(pntr, size, value, VR_Endian_Little)
+    vr_memory_write_uint64_endian(pntr, size, value, VrEndian_Little)
 
 #define vr_memory_write_uint32_le(pntr, size, value) \
-    vr_memory_write_uint32_endian(pntr, size, value, VR_Endian_Little)
+    vr_memory_write_uint32_endian(pntr, size, value, VrEndian_Little)
 
 #define vr_memory_write_uint16_le(pntr, size, value) \
-    vr_memory_write_uint16_endian(pntr, size, value, VR_Endian_Little)
+    vr_memory_write_uint16_endian(pntr, size, value, VrEndian_Little)
 
 #define vr_memory_write_uint64_be(pntr, size, value) \
-    vr_memory_write_uint64_endian(pntr, size, value, VR_Endian_Big)
+    vr_memory_write_uint64_endian(pntr, size, value, VrEndian_Big)
 
 #define vr_memory_write_uint32_be(pntr, size, value) \
-    vr_memory_write_uint32_endian(pntr, size, value, VR_Endian_Big)
+    vr_memory_write_uint32_endian(pntr, size, value, VrEndian_Big)
 
 #define vr_memory_write_uint16_be(pntr, size, value) \
-    vr_memory_write_uint16_endian(pntr, size, value, VR_Endian_Big)
+    vr_memory_write_uint16_endian(pntr, size, value, VrEndian_Big)
 
-intptr vr_memory_write_uint64_endian(void* pntr, intptr size, uint64 value, VR_Endian endian);
+VrSint vr_memory_write_uint64_endian(void* pntr, VrSint size, VrUint64 value, VrEndian endian);
 
-intptr vr_memory_write_uint32_endian(void* pntr, intptr size, uint32 value, VR_Endian endian);
+VrSint vr_memory_write_uint32_endian(void* pntr, VrSint size, VrUint32 value, VrEndian endian);
 
-intptr vr_memory_write_uint16_endian(void* pntr, intptr size, uint16 value, VR_Endian endian);
+VrSint vr_memory_write_uint16_endian(void* pntr, VrSint size, VrUint16 value, VrEndian endian);
 
-intptr vr_memory_write_uint8_endian(void* pntr, intptr size, uint8 value, VR_Endian endian);
+VrSint vr_memory_write_uint8_endian(void* pntr, VrSint size, VrUint8 value, VrEndian endian);
 
-#define vr_memory_write_int64(pntr, size, value) \
-    vr_memory_write_int64_endian(pntr, size, value, VR_Endian_None)
+#define vr_memory_write_sint64(pntr, size, value) \
+    vr_memory_write_sint64_endian(pntr, size, value, VrEndian_None)
 
-#define vr_memory_write_int32(pntr, size, value) \
-    vr_memory_write_int32_endian(pntr, size, value, VR_Endian_None)
+#define vr_memory_write_sint32(pntr, size, value) \
+    vr_memory_write_sint32_endian(pntr, size, value, VrEndian_None)
 
-#define vr_memory_write_int16(pntr, size, value) \
-    vr_memory_write_int16_endian(pntr, size, value, VR_Endian_None)
+#define vr_memory_write_sint16(pntr, size, value) \
+    vr_memory_write_sint16_endian(pntr, size, value, VrEndian_None)
 
-#define vr_memory_write_int8(pntr, size, value) \
-    vr_memory_write_int8_endian(pntr, size, value, VR_Endian_None)
+#define vr_memory_write_sint8(pntr, size, value) \
+    vr_memory_write_sint8_endian(pntr, size, value, VrEndian_None)
 
-#define vr_memory_write_int64_le(pntr, size, value) \
-    vr_memory_write_int64_endian(pntr, size, value, VR_Endian_Little)
+#define vr_memory_write_sint64_le(pntr, size, value) \
+    vr_memory_write_sint64_endian(pntr, size, value, VrEndian_Little)
 
-#define vr_memory_write_int32_le(pntr, size, value) \
-    vr_memory_write_int32_endian(pntr, size, value, VR_Endian_Little)
+#define vr_memory_write_sint32_le(pntr, size, value) \
+    vr_memory_write_sint32_endian(pntr, size, value, VrEndian_Little)
 
-#define vr_memory_write_int16_le(pntr, size, value) \
-    vr_memory_write_int16_endian(pntr, size, value, VR_Endian_Little)
+#define vr_memory_write_sint16_le(pntr, size, value) \
+    vr_memory_write_sint16_endian(pntr, size, value, VrEndian_Little)
 
-#define vr_memory_write_int64_be(pntr, size, value) \
-    vr_memory_write_int64_endian(pntr, size, value, VR_Endian_Big)
+#define vr_memory_write_sint64_be(pntr, size, value) \
+    vr_memory_write_sint64_endian(pntr, size, value, VrEndian_Big)
 
-#define vr_memory_write_int32_be(pntr, size, value) \
-    vr_memory_write_int32_endian(pntr, size, value, VR_Endian_Big)
+#define vr_memory_write_sint32_be(pntr, size, value) \
+    vr_memory_write_sint32_endian(pntr, size, value, VrEndian_Big)
 
-#define vr_memory_write_int16_be(pntr, size, value) \
-    vr_memory_write_int16_endian(pntr, size, value, VR_Endian_Big)
+#define vr_memory_write_sint16_be(pntr, size, value) \
+    vr_memory_write_sint16_endian(pntr, size, value, VrEndian_Big)
 
-intptr vr_memory_write_int64_endian(void* pntr, intptr size, int64 value, VR_Endian endian);
+VrSint vr_memory_write_sint64_endian(void* pntr, VrSint size, VrSint64 value, VrEndian endian);
 
-intptr vr_memory_write_int32_endian(void* pntr, intptr size, int32 value, VR_Endian endian);
+VrSint vr_memory_write_sint32_endian(void* pntr, VrSint size, VrSint32 value, VrEndian endian);
 
-intptr vr_memory_write_int16_endian(void* pntr, intptr size, int16 value, VR_Endian endian);
+VrSint vr_memory_write_sint16_endian(void* pntr, VrSint size, VrSint16 value, VrEndian endian);
 
-intptr vr_memory_write_int8_endian(void* pntr, intptr size, int8 value, VR_Endian endian);
+VrSint vr_memory_write_sint8_endian(void* pntr, VrSint size, VrSint8 value, VrEndian endian);
 
 #define vr_memory_write_float64(pntr, size, value) \
-    vr_memory_write_float64_endian(pntr, size, value, VR_Endian_None)
+    vr_memory_write_float64_endian(pntr, size, value, VrEndian_None)
 
 #define vr_memory_write_float32(pntr, size, value) \
-    vr_memory_write_float32_endian(pntr, size, value, VR_Endian_None)
+    vr_memory_write_float32_endian(pntr, size, value, VrEndian_None)
 
 #define vr_memory_write_float64_le(pntr, size, value) \
-    vr_memory_write_float64_endian(pntr, size, value, VR_Endian_Little)
+    vr_memory_write_float64_endian(pntr, size, value, VrEndian_Little)
 
 #define vr_memory_write_float32_le(pntr, size, value) \
-    vr_memory_write_float32_endian(pntr, size, value, VR_Endian_Little)
+    vr_memory_write_float32_endian(pntr, size, value, VrEndian_Little)
 
 #define vr_memory_write_float64_be(pntr, size, value) \
-    vr_memory_write_float64_endian(pntr, size, value, VR_Endian_Big)
+    vr_memory_write_float64_endian(pntr, size, value, VrEndian_Big)
 
 #define vr_memory_write_float32_be(pntr, size, value) \
-    vr_memory_write_float32_endian(pntr, size, value, VR_Endian_Big)
+    vr_memory_write_float32_endian(pntr, size, value, VrEndian_Big)
 
-intptr vr_memory_write_float64_endian(void* pntr, intptr size, float64 value, VR_Endian endian);
+VrSint vr_memory_write_float64_endian(void* pntr, VrSint size, VrFloat64 value, VrEndian endian);
 
-intptr vr_memory_write_float32_endian(void* pntr, intptr size, float32 value, VR_Endian endian);
+VrSint vr_memory_write_float32_endian(void* pntr, VrSint size, VrFloat32 value, VrEndian endian);
 
 #define vr_memory_read_uint64(pntr, size, value) \
-    vr_memory_read_uint64_endian(pntr, size, value, VR_Endian_None)
+    vr_memory_read_uint64_endian(pntr, size, value, VrEndian_None)
 
 #define vr_memory_read_uint32(pntr, size, value) \
-    vr_memory_read_uint32_endian(pntr, size, value, VR_Endian_None)
+    vr_memory_read_uint32_endian(pntr, size, value, VrEndian_None)
 
 #define vr_memory_read_uint16(pntr, size, value) \
-    vr_memory_read_uint16_endian(pntr, size, value, VR_Endian_None)
+    vr_memory_read_uint16_endian(pntr, size, value, VrEndian_None)
 
 #define vr_memory_read_uint8(pntr, size, value) \
-    vr_memory_read_uint8_endian(pntr, size, value, VR_Endian_None)
+    vr_memory_read_uint8_endian(pntr, size, value, VrEndian_None)
 
 #define vr_memory_read_uint64_le(pntr, size, value) \
-    vr_memory_read_uint64_endian(pntr, size, value, VR_Endian_Little)
+    vr_memory_read_uint64_endian(pntr, size, value, VrEndian_Little)
 
 #define vr_memory_read_uint32_le(pntr, size, value) \
-    vr_memory_read_uint32_endian(pntr, size, value, VR_Endian_Little)
+    vr_memory_read_uint32_endian(pntr, size, value, VrEndian_Little)
 
 #define vr_memory_read_uint16_le(pntr, size, value) \
-    vr_memory_read_uint16_endian(pntr, size, value, VR_Endian_Little)
+    vr_memory_read_uint16_endian(pntr, size, value, VrEndian_Little)
 
 #define vr_memory_read_uint64_be(pntr, size, value) \
-    vr_memory_read_uint64_endian(pntr, size, value, VR_Endian_Big)
+    vr_memory_read_uint64_endian(pntr, size, value, VrEndian_Big)
 
 #define vr_memory_read_uint32_be(pntr, size, value) \
-    vr_memory_read_uint32_endian(pntr, size, value, VR_Endian_Big)
+    vr_memory_read_uint32_endian(pntr, size, value, VrEndian_Big)
 
 #define vr_memory_read_uint16_be(pntr, size, value) \
-    vr_memory_read_uint16_endian(pntr, size, value, VR_Endian_Big)
+    vr_memory_read_uint16_endian(pntr, size, value, VrEndian_Big)
 
-intptr vr_memory_read_uint64_endian(void* pntr, intptr size, uint64* value, VR_Endian endian);
+VrSint vr_memory_read_uint64_endian(void* pntr, VrSint size, VrUint64* value, VrEndian endian);
 
-intptr vr_memory_read_uint32_endian(void* pntr, intptr size, uint32* value, VR_Endian endian);
+VrSint vr_memory_read_uint32_endian(void* pntr, VrSint size, VrUint32* value, VrEndian endian);
 
-intptr vr_memory_read_uint16_endian(void* pntr, intptr size, uint16* value, VR_Endian endian);
+VrSint vr_memory_read_uint16_endian(void* pntr, VrSint size, VrUint16* value, VrEndian endian);
 
-intptr vr_memory_read_uint8_endian(void* pntr, intptr size, uint8* value, VR_Endian endian);
+VrSint vr_memory_read_uint8_endian(void* pntr, VrSint size, VrUint8* value, VrEndian endian);
 
-#define vr_memory_read_int64(pntr, size, value) \
-    vr_memory_read_int64_endian(pntr, size, value, VR_Endian_None)
+#define vr_memory_read_sint64(pntr, size, value) \
+    vr_memory_read_sint64_endian(pntr, size, value, VrEndian_None)
 
-#define vr_memory_read_int32(pntr, size, value) \
-    vr_memory_read_int32_endian(pntr, size, value, VR_Endian_None)
+#define vr_memory_read_sint32(pntr, size, value) \
+    vr_memory_read_sint32_endian(pntr, size, value, VrEndian_None)
 
-#define vr_memory_read_int16(pntr, size, value) \
-    vr_memory_read_int16_endian(pntr, size, value, VR_Endian_None)
+#define vr_memory_read_sint16(pntr, size, value) \
+    vr_memory_read_sint16_endian(pntr, size, value, VrEndian_None)
 
-#define vr_memory_read_int8(pntr, size, value) \
-    vr_memory_read_int8_endian(pntr, size, value, VR_Endian_None)
+#define vr_memory_read_sint8(pntr, size, value) \
+    vr_memory_read_sint8_endian(pntr, size, value, VrEndian_None)
 
-#define vr_memory_read_int64_le(pntr, size, value) \
-    vr_memory_read_int64_endian(pntr, size, value, VR_Endian_Little)
+#define vr_memory_read_sint64_le(pntr, size, value) \
+    vr_memory_read_sint64_endian(pntr, size, value, VrEndian_Little)
 
-#define vr_memory_read_int32_le(pntr, size, value) \
-    vr_memory_read_int32_endian(pntr, size, value, VR_Endian_Little)
+#define vr_memory_read_sint32_le(pntr, size, value) \
+    vr_memory_read_sint32_endian(pntr, size, value, VrEndian_Little)
 
-#define vr_memory_read_int16_le(pntr, size, value) \
-    vr_memory_read_int16_endian(pntr, size, value, VR_Endian_Little)
+#define vr_memory_read_sint16_le(pntr, size, value) \
+    vr_memory_read_sint16_endian(pntr, size, value, VrEndian_Little)
 
-#define vr_memory_read_int64_be(pntr, size, value) \
-    vr_memory_read_int64_endian(pntr, size, value, VR_Endian_Big)
+#define vr_memory_read_sint64_be(pntr, size, value) \
+    vr_memory_read_sint64_endian(pntr, size, value, VrEndian_Big)
 
-#define vr_memory_read_int32_be(pntr, size, value) \
-    vr_memory_read_int32_endian(pntr, size, value, VR_Endian_Big)
+#define vr_memory_read_sint32_be(pntr, size, value) \
+    vr_memory_read_sint32_endian(pntr, size, value, VrEndian_Big)
 
-#define vr_memory_read_int16_be(pntr, size, value) \
-    vr_memory_read_int16_endian(pntr, size, value, VR_Endian_Big)
+#define vr_memory_read_sint16_be(pntr, size, value) \
+    vr_memory_read_sint16_endian(pntr, size, value, VrEndian_Big)
 
-intptr vr_memory_read_int64_endian(void* pntr, intptr size, int64* value, VR_Endian endian);
+VrSint vr_memory_read_sint64_endian(void* pntr, VrSint size, VrSint64* value, VrEndian endian);
 
-intptr vr_memory_read_int32_endian(void* pntr, intptr size, int32* value, VR_Endian endian);
+VrSint vr_memory_read_sint32_endian(void* pntr, VrSint size, VrSint32* value, VrEndian endian);
 
-intptr vr_memory_read_int16_endian(void* pntr, intptr size, int16* value, VR_Endian endian);
+VrSint vr_memory_read_sint16_endian(void* pntr, VrSint size, VrSint16* value, VrEndian endian);
 
-intptr vr_memory_read_int8_endian(void* pntr, intptr size, int8* value, VR_Endian endian);
+VrSint vr_memory_read_sint8_endian(void* pntr, VrSint size, VrSint8* value, VrEndian endian);
 
 #define vr_memory_read_float64(pntr, size, value) \
-    vr_memory_read_float64_endian(pntr, size, value, VR_Endian_None)
+    vr_memory_read_float64_endian(pntr, size, value, VrEndian_None)
 
 #define vr_memory_read_float32(pntr, size, value) \
-    vr_memory_read_float32_endian(pntr, size, value, VR_Endian_None)
+    vr_memory_read_float32_endian(pntr, size, value, VrEndian_None)
 
 #define vr_memory_read_float64_le(pntr, size, value) \
-    vr_memory_read_float64_endian(pntr, size, value, VR_Endian_Little)
+    vr_memory_read_float64_endian(pntr, size, value, VrEndian_Little)
 
 #define vr_memory_read_float32_le(pntr, size, value) \
-    vr_memory_read_float32_endian(pntr, size, value, VR_Endian_Little)
+    vr_memory_read_float32_endian(pntr, size, value, VrEndian_Little)
 
 #define vr_memory_read_float64_be(pntr, size, value) \
-    vr_memory_read_float64_endian(pntr, size, value, VR_Endian_Big)
+    vr_memory_read_float64_endian(pntr, size, value, VrEndian_Big)
 
 #define vr_memory_read_float32_be(pntr, size, value) \
-    vr_memory_read_float32_endian(pntr, size, value, VR_Endian_Big)
+    vr_memory_read_float32_endian(pntr, size, value, VrEndian_Big)
 
-intptr vr_memory_read_float64_endian(void* pntr, intptr size, float64* value, VR_Endian endian);
+VrSint vr_memory_read_float64_endian(void* pntr, VrSint size, VrFloat64* value, VrEndian endian);
 
-intptr vr_memory_read_float32_endian(void* pntr, intptr size, float32* value, VR_Endian endian);
+VrSint vr_memory_read_float32_endian(void* pntr, VrSint size, VrFloat32* value, VrEndian endian);
 
-typedef void* (VR_Alloc_Reserve) (void* self, intptr elem_count, intptr elem_size);
-typedef void  (VR_Alloc_Release) (void* self, void* pntr);
-typedef void  (VR_Alloc_Clear)   (void* self);
+typedef void* (*VrAllocProcReserve) (void* self, VrSint elem_count, VrSint elem_size);
+typedef void  (*VrAllocProcRelease) (void* self, void* pntr);
+typedef void  (*VrAllocProcClear)   (void* self);
 
-typedef struct VR_Alloc
+typedef struct VrAlloc
 {
-    VR_Alloc_Reserve* proc_reserve;
-    VR_Alloc_Release* proc_release;
-    VR_Alloc_Clear*   proc_clear;
+    VrAllocProcReserve proc_reserve;
+    VrAllocProcRelease proc_release;
+    VrAllocProcClear   proc_clear;
 }
-VR_Alloc;
+VrAlloc;
 
 #define vr_alloc_reserve_of(self, elem_count, elem_type) \
     ((elem_type*) vr_alloc_reserve((self), (elem_count), sizeof (elem_type)))
 
-void* vr_alloc_reserve(VR_Alloc* self, intptr elem_count, intptr elem_size);
+void* vr_alloc_reserve(VrAlloc* self, VrSint elem_count, VrSint elem_size);
 
-void vr_alloc_release(VR_Alloc* self, void* pntr);
+void vr_alloc_release(VrAlloc* self, void* pntr);
 
-void vr_alloc_clear(VR_Alloc* self);
+void vr_alloc_clear(VrAlloc* self);
 
-typedef struct VR_Arena_Alloc
+typedef struct VrArenaAlloc
 {
-    VR_Alloc_Reserve* proc_reserve;
-    VR_Alloc_Release* proc_release;
-    VR_Alloc_Clear*   proc_clear;
+    VrAllocProcReserve proc_reserve;
+    VrAllocProcRelease proc_release;
+    VrAllocProcClear   proc_clear;
 
-    uint8* memory;
-    intptr size;
-    intptr count;
+    VrAlloc* alloc;
+    VrUint8* memory;
+    VrSint   size;
+    VrSint   count;
 }
-VR_Arena_Alloc;
+VrArenaAlloc;
 
-VR_Arena_Alloc vr_arena_alloc_make(void* pntr, intptr size);
+VrArenaAlloc vr_arena_alloc_make(void* pntr, VrSint size);
 
-void vr_arena_alloc_clear(VR_Arena_Alloc* self);
+VrBool32 vr_arena_alloc_init(VrArenaAlloc* self, VrAlloc* alloc, VrSint size);
+
+void vr_arena_alloc_uninit(VrArenaAlloc* self);
+
+void vr_arena_alloc_clear(VrArenaAlloc* self);
 
 #define vr_arena_alloc_reserve_of(self, elem_count, elem_type) \
     ((elem_type*) vr_arena_alloc_reserve((self), (elem_count), sizeof (elem_type)))
 
-void* vr_arena_alloc_reserve(VR_Arena_Alloc* self, intptr elem_count, intptr elem_size);
+void* vr_arena_alloc_reserve(VrArenaAlloc* self, VrSint elem_count, VrSint elem_size);
 
-void vr_arena_alloc_rewind(VR_Arena_Alloc* self, void* marker);
+void vr_arena_alloc_rewind(VrArenaAlloc* self, void* marker);
 
-void* vr_arena_alloc_marker(VR_Arena_Alloc* self);
+void* vr_arena_alloc_marker(VrArenaAlloc* self);
 
-typedef struct VR_Pool_Alloc
+typedef struct VrPoolAlloc
 {
-    VR_Alloc_Reserve* proc_reserve;
-    VR_Alloc_Release* proc_release;
-    VR_Alloc_Clear*   proc_clear;
+    VrAllocProcReserve proc_reserve;
+    VrAllocProcRelease proc_release;
+    VrAllocProcClear   proc_clear;
 
-    uint8* memory;
-    intptr size;
-    intptr count;
-    intptr stride;
-    uint8* front;
+    VrAlloc* alloc;
+    VrUint8* memory;
+    VrSint   size;
+    VrSint   count;
+    VrSint   stride;
+    VrSint   front;
 }
-VR_Pool_Alloc;
+VrPoolAlloc;
 
-VR_Pool_Alloc vr_pool_alloc_make(void* pntr, intptr size, intptr elem_size);
+VrPoolAlloc vr_pool_alloc_make(void* pntr, VrSint size, VrSint elem_size);
 
-void vr_pool_alloc_clear(VR_Pool_Alloc* self);
+#define vr_pool_alloc_init_of(self, alloc, size, type) \
+    vr_pool_alloc_init((self), (alloc), (size), sizeof (type))
+
+VrBool32 vr_pool_alloc_init(VrPoolAlloc* self, VrAlloc* alloc, VrSint size, VrSint elem_size);
+
+void vr_pool_alloc_uninit(VrPoolAlloc* self);
+
+void vr_pool_alloc_clear(VrPoolAlloc* self);
 
 #define vr_pool_alloc_reserve_of(self, elem_count, elem_type) \
     ((elem_type*) vr_pool_alloc_reserve((self), (elem_count), sizeof (elem_type)))
 
-void* vr_pool_alloc_reserve(VR_Pool_Alloc* self, intptr elem_count, intptr elem_size);
+void* vr_pool_alloc_reserve(VrPoolAlloc* self, VrSint elem_count, VrSint elem_size);
 
-void vr_pool_alloc_release(VR_Pool_Alloc* self, void* pntr);
+void vr_pool_alloc_release(VrPoolAlloc* self, void* pntr);
 
-typedef struct VR_Stack_Alloc
+typedef struct VrStackAlloc
 {
-    VR_Alloc_Reserve* proc_reserve;
-    VR_Alloc_Release* proc_release;
-    VR_Alloc_Clear*   proc_clear;
+    VrAllocProcReserve proc_reserve;
+    VrAllocProcRelease proc_release;
+    VrAllocProcClear   proc_clear;
 
-    uint8* memory;
-    intptr size;
-    intptr count;
+    VrAlloc* alloc;
+    VrUint8* memory;
+    VrSint   size;
+    VrSint   count;
 }
-VR_Stack_Alloc;
+VrStackAlloc;
 
-VR_Stack_Alloc vr_stack_alloc_make(void* pntr, intptr size);
+VrStackAlloc vr_stack_alloc_make(void* pntr, VrSint size);
 
-void vr_stack_alloc_clear(VR_Stack_Alloc* self);
+VrBool32 vr_stack_alloc_init(VrStackAlloc* self, VrAlloc* alloc, VrSint size);
+
+void vr_stack_alloc_uninit(VrStackAlloc* self);
+
+void vr_stack_alloc_clear(VrStackAlloc* self);
 
 #define vr_stack_alloc_reserve_of(self, elem_count, elem_type) \
     ((elem_type*) vr_stack_alloc_reserve((self), (elem_count), sizeof (elem_type)))
 
-void* vr_stack_alloc_reserve(VR_Stack_Alloc* self, intptr elem_count, intptr elem_size);
+void* vr_stack_alloc_reserve(VrStackAlloc* self, VrSint elem_count, VrSint elem_size);
 
-void vr_stack_alloc_release(VR_Stack_Alloc* self, void* pntr);
+void vr_stack_alloc_release(VrStackAlloc* self, void* pntr);
 
 #endif

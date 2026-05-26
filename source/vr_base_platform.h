@@ -10,6 +10,9 @@
 #define vr_static_assert(expr) \
     extern char vr_static_assert_case[(expr) ? 1 : -1]
 
+#define vr_static_array_count(expr) \
+    ((VrSint) (sizeof (expr) / (sizeof *(expr))))
+
 #define VR_WORD_SIZE_NONE 0
 #define VR_WORD_SIZE_64   1
 #define VR_WORD_SIZE_32   2
@@ -92,10 +95,10 @@
         #define VR_UINT16_TYPE unsigned short
         #define VR_UINT8_TYPE  unsigned char
 
-        #define VR_INT64_TYPE signed long long
-        #define VR_INT32_TYPE signed int
-        #define VR_INT16_TYPE signed short
-        #define VR_INT8_TYPE  signed char
+        #define VR_SINT64_TYPE signed long long
+        #define VR_SINT32_TYPE signed int
+        #define VR_SINT16_TYPE signed short
+        #define VR_SINT8_TYPE  signed char
 
     #elif defined __linux__ || defined __gnu_linux__
 
@@ -108,10 +111,10 @@
         #define VR_UINT16_TYPE unsigned short
         #define VR_UINT8_TYPE  unsigned char
 
-        #define VR_INT64_TYPE signed long
-        #define VR_INT32_TYPE signed int
-        #define VR_INT16_TYPE signed short
-        #define VR_INT8_TYPE  signed char
+        #define VR_SINT64_TYPE signed long
+        #define VR_SINT32_TYPE signed int
+        #define VR_SINT16_TYPE signed short
+        #define VR_SINT8_TYPE  signed char
 
     #else
 
@@ -125,27 +128,27 @@
 
     #include <stdint.h>
 
-    typedef uint64_t uint64;
-    typedef uint32_t uint32;
-    typedef uint16_t uint16;
-    typedef uint8_t  uint8;
+    typedef uint64_t VrUint64;
+    typedef uint32_t VrUint32;
+    typedef uint16_t VrUint16;
+    typedef uint8_t  VrUint8;
 
-    typedef int64_t int64;
-    typedef int32_t int32;
-    typedef int16_t int16;
-    typedef int8_t  int8;
+    typedef int64_t VrSint64;
+    typedef int32_t VrSint32;
+    typedef int16_t VrSint16;
+    typedef int8_t  VrSint8;
 
 #elif defined VR_UINT64_TYPE
 
-    typedef VR_UINT64_TYPE uint64;
-    typedef VR_UINT32_TYPE uint32;
-    typedef VR_UINT16_TYPE uint16;
-    typedef VR_UINT8_TYPE  uint8;
+    typedef VR_UINT64_TYPE VrUint64;
+    typedef VR_UINT32_TYPE VrUint32;
+    typedef VR_UINT16_TYPE VrUint16;
+    typedef VR_UINT8_TYPE  VrUint8;
 
-    typedef VR_INT64_TYPE int64;
-    typedef VR_INT32_TYPE int32;
-    typedef VR_INT16_TYPE int16;
-    typedef VR_INT8_TYPE  int8;
+    typedef VR_SINT64_TYPE VrSint64;
+    typedef VR_SINT32_TYPE VrSint32;
+    typedef VR_SINT16_TYPE VrSint16;
+    typedef VR_SINT8_TYPE  VrSint8;
 
 #else
 
@@ -153,138 +156,140 @@
 
 #endif
 
-#define VR_UINT64_MAX ((uint64) 18446744073709551615llu)
-#define VR_UINT32_MAX ((uint32) 4294967295u)
-#define VR_UINT16_MAX ((uint16) 65535u)
-#define VR_UINT8_MAX  ((uint8)  255u)
+#define VR_UINT64_MAX ((VrUint64) 18446744073709551615llu)
+#define VR_UINT32_MAX ((VrUint32) 4294967295u)
+#define VR_UINT16_MAX ((VrUint16) 65535u)
+#define VR_UINT8_MAX  ((VrUint8)  255u)
 
-#define VR_UINT64_MIN ((uint64) 0)
-#define VR_UINT32_MIN ((uint32) 0)
-#define VR_UINT16_MIN ((uint16) 0)
-#define VR_UINT8_MIN  ((uint8)  0)
+#define VR_UINT64_MIN ((VrUint64) 0)
+#define VR_UINT32_MIN ((VrUint32) 0)
+#define VR_UINT16_MIN ((VrUint16) 0)
+#define VR_UINT8_MIN  ((VrUint8)  0)
 
-#define VR_INT64_MAX ((int64) 9223372036854775807ll)
-#define VR_INT32_MAX ((int32) 2147483647)
-#define VR_INT16_MAX ((int16) 32767)
-#define VR_INT8_MAX  ((int8)  127)
+#define VR_SINT64_MAX ((VrSint64) 9223372036854775807ll)
+#define VR_SINT32_MAX ((VrSint32) 2147483647)
+#define VR_SINT16_MAX ((VrSint16) 32767)
+#define VR_SINT8_MAX  ((VrSint8)  127)
 
-#define VR_INT64_MIN ((int64) -VR_INT64_MAX - 1)
-#define VR_INT32_MIN ((int32) -VR_INT32_MAX - 1)
-#define VR_INT16_MIN ((int16) -VR_INT16_MAX - 1)
-#define VR_INT8_MIN  ((int8)  -VR_INT8_MAX  - 1)
+#define VR_SINT64_MIN ((VrSint64) -VR_SINT64_MAX - 1)
+#define VR_SINT32_MIN ((VrSint32) -VR_SINT32_MAX - 1)
+#define VR_SINT16_MIN ((VrSint16) -VR_SINT16_MAX - 1)
+#define VR_SINT8_MIN  ((VrSint8)  -VR_SINT8_MAX  - 1)
 
 #if VR_WORD_SIZE == VR_WORD_SIZE_64
 
-    typedef uint64 uintptr;
-    typedef int64  intptr;
+    typedef VrUint64 VrUint;
+    typedef VrSint64 VrSint;
 
-    #define VR_UINTPTR_MAX VR_UINT64_MAX
-    #define VR_UINTPTR_MIN VR_UINT64_MIN
+    #define VR_UINT_MAX VR_UINT64_MAX
+    #define VR_UINT_MIN VR_UINT64_MIN
 
-    #define VR_INTPTR_MAX VR_INT64_MAX
-    #define VR_INTPTR_MIN VR_INT64_MIN
+    #define VR_SINT_MAX VR_SINT64_MAX
+    #define VR_SINT_MIN VR_SINT64_MIN
 
 #else
 
-    typedef uint32 uintptr;
-    typedef int32  intptr;
+    typedef VrUint32 VrUint;
+    typedef VrSint32 VrSint;
 
-    #define VR_UINTPTR_MAX VR_UINT32_MAX
-    #define VR_UINTPTR_MIN VR_UINT32_MIN
+    #define VR_UINT_MAX VR_UINT32_MAX
+    #define VR_UINT_MIN VR_UINT32_MIN
 
-    #define VR_INTPTR_MAX VR_INT32_MAX
-    #define VR_INTPTR_MIN VR_INT32_MIN
+    #define VR_SINT_MAX VR_SINT32_MAX
+    #define VR_SINT_MIN VR_SINT32_MIN
 
 #endif
 
-#define VR_INTPTR_KILO_10 ((intptr) 1000ll)
-#define VR_INTPTR_MEGA_10 ((intptr) 1000000ll)
-#define VR_INTPTR_GIGA_10 ((intptr) 1000000000ll)
+#define VR_SINT_KILO_10 ((VrSint) 1000ll)
+#define VR_SINT_MEGA_10 ((VrSint) 1000000ll)
+#define VR_SINT_GIGA_10 ((VrSint) 1000000000ll)
 
-#define VR_INTPTR_KILO_2 ((intptr) 1024ll)
-#define VR_INTPTR_MEGA_2 ((intptr) 1048576ll)
-#define VR_INTPTR_GIGA_2 ((intptr) 1073741824ll)
+#define VR_SINT_KILO_2 ((VrSint) 1024ll)
+#define VR_SINT_MEGA_2 ((VrSint) 1048576ll)
+#define VR_SINT_GIGA_2 ((VrSint) 1073741824ll)
 
-typedef double float64;
-typedef float  float32;
+typedef double VrFloat64;
+typedef float  VrFloat32;
 
-typedef uint32 char32;
-typedef uint16 char16;
-typedef char   char8;
+typedef VrUint32 VrChar32;
+typedef VrUint16 VrChar16;
+typedef char     VrChar8;
 
-typedef uint64 bool64;
-typedef uint32 bool32;
-typedef uint16 bool16;
-typedef uint8  bool8;
+typedef VrUint64 VrBool64;
+typedef VrUint32 VrBool32;
+typedef VrUint16 VrBool16;
+typedef VrUint8  VrBool8;
 
-vr_static_assert(sizeof (uint64) == 8);
-vr_static_assert(sizeof (uint32) == 4);
-vr_static_assert(sizeof (uint16) == 2);
-vr_static_assert(sizeof (uint8)  == 1);
+typedef void (*VrProc) (void);
 
-vr_static_assert(sizeof (int64) == 8);
-vr_static_assert(sizeof (int32) == 4);
-vr_static_assert(sizeof (int16) == 2);
-vr_static_assert(sizeof (int8)  == 1);
+vr_static_assert(sizeof (VrUint64) == 8);
+vr_static_assert(sizeof (VrUint32) == 4);
+vr_static_assert(sizeof (VrUint16) == 2);
+vr_static_assert(sizeof (VrUint8)  == 1);
 
-vr_static_assert(sizeof (float64) == 8);
-vr_static_assert(sizeof (float32) == 4);
+vr_static_assert(sizeof (VrSint64) == 8);
+vr_static_assert(sizeof (VrSint32) == 4);
+vr_static_assert(sizeof (VrSint16) == 2);
+vr_static_assert(sizeof (VrSint8)  == 1);
 
-vr_static_assert(sizeof (char32) == 4);
-vr_static_assert(sizeof (char16) == 2);
-vr_static_assert(sizeof (char8)  == 1);
+vr_static_assert(sizeof (VrFloat64) == 8);
+vr_static_assert(sizeof (VrFloat32) == 4);
 
-vr_static_assert(sizeof (bool64) == 8);
-vr_static_assert(sizeof (bool32) == 4);
-vr_static_assert(sizeof (bool16) == 2);
-vr_static_assert(sizeof (bool8)  == 1);
+vr_static_assert(sizeof (VrChar32) == 4);
+vr_static_assert(sizeof (VrChar16) == 2);
+vr_static_assert(sizeof (VrChar8)  == 1);
 
-vr_static_assert(sizeof (void*) == sizeof (uintptr));
-vr_static_assert(sizeof (void*) == sizeof (intptr));
-vr_static_assert(sizeof (void*) == sizeof (void (*) (void)));
+vr_static_assert(sizeof (VrBool64) == 8);
+vr_static_assert(sizeof (VrBool32) == 4);
+vr_static_assert(sizeof (VrBool16) == 2);
+vr_static_assert(sizeof (VrBool8)  == 1);
 
-typedef enum VR_Endian
+vr_static_assert(sizeof (void*) == sizeof (VrUint));
+vr_static_assert(sizeof (void*) == sizeof (VrSint));
+vr_static_assert(sizeof (void*) == sizeof (VrProc));
+
+typedef enum VrEndian
 {
-    VR_Endian_None,
-    VR_Endian_Little,
-    VR_Endian_Big,
+    VrEndian_None,
+    VrEndian_Little,
+    VrEndian_Big,
 }
-VR_Endian;
+VrEndian;
 
-typedef enum VR_Word_Size
+typedef enum VrWordSize
 {
-    VR_Word_Size_None = VR_WORD_SIZE_NONE,
-    VR_Word_Size_64   = VR_WORD_SIZE_64,
-    VR_Word_Size_32   = VR_WORD_SIZE_32,
+    VrWordSize_None = VR_WORD_SIZE_NONE,
+    VrWordSize_64   = VR_WORD_SIZE_64,
+    VrWordSize_32   = VR_WORD_SIZE_32,
 }
-VR_Word_Size;
+VrWordSize;
 
-typedef enum VR_Compiler
+typedef enum VrCompiler
 {
-    VR_Compiler_None  = VR_COMPILER_NONE,
-    VR_Compiler_GCC   = VR_COMPILER_GCC,
-    VR_Compiler_Clang = VR_COMPILER_CLANG,
-    VR_Compiler_MSVC  = VR_COMPILER_MSVC,
+    VrCompiler_None  = VR_COMPILER_NONE,
+    VrCompiler_GCC   = VR_COMPILER_GCC,
+    VrCompiler_Clang = VR_COMPILER_CLANG,
+    VrCompiler_MSVC  = VR_COMPILER_MSVC,
 }
-VR_Compiler;
+VrCompiler;
 
-typedef enum VR_System
+typedef enum VrSystem
 {
-    VR_System_None    = VR_SYSTEM_NONE,
-    VR_System_Windows = VR_SYSTEM_WINDOWS,
-    VR_System_Linux   = VR_SYSTEM_LINUX,
+    VrSystem_None    = VR_SYSTEM_NONE,
+    VrSystem_Windows = VR_SYSTEM_WINDOWS,
+    VrSystem_Linux   = VR_SYSTEM_LINUX,
 }
-VR_System;
+VrSystem;
 
-#define vr_is_platform_little_endian() (vr_platform_endian() == VR_Endian_Little)
-#define vr_is_platform_big_endian()    (vr_platform_endian() == VR_Endian_Big)
+#define vr_is_platform_little_endian() (vr_platform_endian() == VrEndian_Little)
+#define vr_is_platform_big_endian()    (vr_platform_endian() == VrEndian_Big)
 
-VR_Endian vr_platform_endian();
+VrEndian vr_platform_endian(void);
 
-VR_Word_Size vr_platform_word_size();
+VrWordSize vr_platform_word_size(void);
 
-VR_Compiler vr_platform_compiler();
+VrCompiler vr_platform_compiler(void);
 
-VR_System vr_platform_system();
+VrSystem vr_platform_system(void);
 
 #endif

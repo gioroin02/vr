@@ -1,4 +1,12 @@
 -xc
--Wall
--Wno-format
 -Isource
+-Wall
+-Wpedantic
+-Wextra
+-Werror
+-Wimplicit-fallthrough
+-Wfloat-conversion
+-Wno-format
+-Wno-unused-parameter
+-Wno-unused-variable
+-Wno-unused-function

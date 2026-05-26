@@ -9,13 +9,8 @@ comp="$comp_name -std=c$comp_version $comp_flag $comp_linking $comp_include $com
 
 impl="$impl source/vr_base_platform.c"
 impl="$impl source/vr_base_memory.c"
+impl="$impl source/vr_platform_memory.c"
 
-test_utils="test/base_memory/utils.c"
-test_arena="test/base_memory/arena.c"
-test_pool="test/base_memory/pool.c"
-test_stack="test/base_memory/stack.c"
+test_memory="test/platform_memory/memory.c"
 
-$comp -o output/base_memory_utils.out $impl $test_utils
-$comp -o output/base_memory_arena.out $impl $test_arena
-$comp -o output/base_memory_pool.out  $impl $test_pool
-$comp -o output/base_memory_stack.out $impl $test_stack
+$comp -o output/platform_memory.out $impl $test_memory

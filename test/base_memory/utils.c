@@ -2,10 +2,10 @@
 
 #include <stdio.h>
 
-void show_memory(void* pntr, intptr size)
+void show_memory(void* pntr, VrSint size)
 {
-    for (intptr i = 0; i < size; i += 1) {
-        printf("%03u", ((uint8*) pntr)[i]);
+    for (VrSint i = 0; i < size; i += 1) {
+        printf("%03u", ((VrUint8*) pntr)[i]);
 
         if ((i + 1) % 16 == 0 || i + 1 == size)
             printf("\n");
@@ -14,30 +14,30 @@ void show_memory(void* pntr, intptr size)
     }
 }
 
-void show_aligned(intptr value, intptr alignment)
+void show_aligned(VrSint value, VrSint alignment)
 {
     printf("Allineamento:\n");
     printf("    value   = %lli\n", value);
     printf("    aligned = %lli\n", vr_memory_align_size(value, alignment));
 }
 
-int main(int args_count, const char* args_array[])
+int main(void)
 {
-    show_aligned(VR_INTPTR_MAX - 1, VR_MEMORY_DEFAULT_ALIGNMENT);
-    show_aligned(1,                 VR_MEMORY_DEFAULT_ALIGNMENT);
+    show_aligned(VR_SINT_MAX - 1, VR_MEMORY_DEFAULT_ALIGNMENT);
+    show_aligned(1,               VR_MEMORY_DEFAULT_ALIGNMENT);
     printf("\n");
 
-    uint8 buffer[8]    = {0};
-    uint8 buffer_le[8] = {0};
-    uint8 buffer_be[8] = {0};
+    VrUint8 buffer[8]    = {0};
+    VrUint8 buffer_le[8] = {0};
+    VrUint8 buffer_be[8] = {0};
 
-    intptr write = vr_memory_write_float32(
+    VrSint write = vr_memory_write_float32(
         buffer, sizeof buffer, 2.4f);
 
-    intptr write_le = vr_memory_write_float32_le(
+    VrSint write_le = vr_memory_write_float32_le(
         buffer_le, sizeof buffer_le, 2.4f);
 
-    intptr write_be = vr_memory_write_float32_be(
+    VrSint write_be = vr_memory_write_float32_be(
         buffer_be, sizeof buffer_be, 2.4f);
 
     printf("Buffer di memoria\n");
@@ -48,17 +48,17 @@ int main(int args_count, const char* args_array[])
     printf("    big-endian    = ");
     show_memory(buffer_be, sizeof buffer_be);
 
-    float32 value    = 0.0f;
-    float32 value_le = 0.0f;
-    float32 value_be = 0.0f;
+    VrFloat32 value    = 0.0f;
+    VrFloat32 value_le = 0.0f;
+    VrFloat32 value_be = 0.0f;
 
-    intptr read = vr_memory_read_float32(
+    VrSint read = vr_memory_read_float32(
         buffer, sizeof buffer, &value);
 
-    intptr read_le = vr_memory_read_float32_le(
+    VrSint read_le = vr_memory_read_float32_le(
         buffer_le, sizeof buffer_le, &value_le);
 
-    intptr read_be = vr_memory_read_float32_be(
+    VrSint read_be = vr_memory_read_float32_be(
         buffer_be, sizeof buffer_be, &value_be);
 
     printf("Valori scritti:\n");

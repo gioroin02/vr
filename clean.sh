@@ -1,3 +1,3 @@
-rm binary/*
+rm output/*
 
 clear

@@ -1,5 +1,5 @@
 @echo off
 
-del /F /Q binary\*
+del /Q output\*
 
 cls
