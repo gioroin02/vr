@@ -14,7 +14,7 @@ int main(void)
     VrAddressIp addr = vr_address_ip_ver4(
         VR_ADDRESS_IP_VER4_LOCAL, 5000);
 
-    vr_tcp_socket_init(socket, vr_address_ip_ver4_any());
+    vr_tcp_socket_init(socket, vr_address_ip_ver4_empty());
     vr_tcp_socket_connect(socket, addr);
 
     VrChar8 message[32] = "Ciao!";

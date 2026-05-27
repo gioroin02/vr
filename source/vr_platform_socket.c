@@ -1044,7 +1044,7 @@ VrAddressIp vr_address_ip_none(void)
     return (VrAddressIp) {.kind = VrAddressIpKind_None};
 }
 
-VrAddressIp vr_address_ip_any(VrAddressIpKind kind)
+VrAddressIp vr_address_ip_empty(VrAddressIpKind kind)
 {
     return (VrAddressIp) {.kind = kind};
 }
@@ -1138,7 +1138,7 @@ void vr_tcp_listener_uninit(VrTcpListener self)
     _vr_tcp_listener_uninit_(self.impl);
 }
 
-VrBool32 vr_tcp_listener_bind(VrTcpListener self)
+VrBool32 vr_tcp_listener_bind_and_listen(VrTcpListener self)
 {
     VrBool32 status = 1;
 

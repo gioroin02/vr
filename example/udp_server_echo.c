@@ -61,9 +61,9 @@ int main(int args_count, char** args_array)
     // generico senza sapere quale allocatore si trovi dietro alle quinte.
     VrUdpSocket socket = vr_udp_socket_reserve((VrAlloc*) &arena);
 
-    // Inizializzazione del socket all'indirizzo "localhost:37134", successivamente
+    // Inizializzazione del socket all'indirizzo "localhost:50000", successivamente
     // facciamo in modo che il listener si leghi alla porta.
-    vr_udp_socket_init(socket, vr_address_ip_ver4_local(37134));
+    vr_udp_socket_init(socket, vr_address_ip_ver4_local(50000));
     vr_udp_socket_bind(socket);
 
     // Ripete il ciclo:

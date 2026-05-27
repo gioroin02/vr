@@ -11,9 +11,9 @@ int main(int args_count, char** args_array)
     VrArenaAlloc arena = vr_memory_reserve(16, 1024);
 
     VrUdpSocket socket      = vr_udp_socket_reserve((VrAlloc*) &arena);
-    VrAddressIp server_addr = vr_address_ip_ver4_local(37134);
+    VrAddressIp server_addr = vr_address_ip_ver4_local(50000);
 
-    vr_udp_socket_init(socket, vr_address_ip_ver4_any());
+    vr_udp_socket_init(socket, vr_address_ip_ver4_empty());
 
     while (1) {
         VrChar8  message[32]      = {0};

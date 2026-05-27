@@ -75,13 +75,13 @@ VrAddressIp;
 
 VrAddressIp vr_address_ip_none(void);
 
-#define vr_address_ip_ver4_any() \
-    vr_address_ip_any(VrAddressIpKind_Ver4)
+#define vr_address_ip_ver4_empty() \
+    vr_address_ip_empty(VrAddressIpKind_Ver4)
 
-#define vr_address_ip_ver6_any() \
-    vr_address_ip_any(VrAddressIpKind_Ver6)
+#define vr_address_ip_ver6_empty() \
+    vr_address_ip_empty(VrAddressIpKind_Ver6)
 
-VrAddressIp vr_address_ip_any(VrAddressIpKind kind);
+VrAddressIp vr_address_ip_empty(VrAddressIpKind kind);
 
 #define vr_address_ip_ver4_local(port) \
     vr_address_ip_local(VrAddressIpKind_Ver4, (port))
@@ -109,7 +109,7 @@ VrBool32 vr_tcp_listener_init(VrTcpListener self, VrAddressIp addr);
 
 void vr_tcp_listener_uninit(VrTcpListener self);
 
-VrBool32 vr_tcp_listener_bind(VrTcpListener self);
+VrBool32 vr_tcp_listener_bind_and_listen(VrTcpListener self);
 
 VrAddressIp vr_tcp_listener_addr(VrTcpListener self);
 

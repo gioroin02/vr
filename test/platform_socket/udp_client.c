@@ -14,7 +14,7 @@ int main(void)
     VrAddressIp addr = vr_address_ip_ver4(
         VR_ADDRESS_IP_VER4_LOCAL, 5000);
 
-    vr_udp_socket_init(socket, vr_address_ip_ver4_any());
+    vr_udp_socket_init(socket, vr_address_ip_ver4_empty());
 
     VrChar8 message[32] = "Ciao";
     VrSint  count       = strlen(message);

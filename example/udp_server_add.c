@@ -20,7 +20,7 @@ int main(int args_count, char** args_array)
 
     VrUdpSocket socket = vr_udp_socket_reserve((VrAlloc*) &arena);
 
-    vr_udp_socket_init(socket, vr_address_ip_ver4_local(37134));
+    vr_udp_socket_init(socket, vr_address_ip_ver4_local(50000));
     vr_udp_socket_bind(socket);
 
     VrSint number = 0;

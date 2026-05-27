@@ -1,1042 +1,870 @@
 <!doctype html>
 <html lang="en">
-    <head>
-        <meta charset="UTF-8" />
-        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
-        <title>Manuale VR</title>
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
-        <style>
-            :root {
-                --bg: #fcfcfc;
-                --body-bg: #ffffff;
-                --text: #333333;
-                --text-light: #555555;
-                --accent: #2980b9;
-                --accent-hover: #1f5f8c;
-                --border: #e0e0e0;
-                --code-bg: #f6f8fa;
-                --heading: #2c3e50;
-            }
+    <title>Manuale VR</title>
 
-            body {
-                font-family:
-                    -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto,
-                    Helvetica, Arial, sans-serif;
-                line-height: 1.68;
-                color: var(--text);
-                background: var(--bg);
-                margin: 0;
-                padding: 0;
-            }
+    <style>
+        :root {
+            --bg: #f9fafb;
+            --text: #1f2937;
+            --accent: #2563eb;
+            --card: #ffffff;
+            --border: #e5e7eb;
+        }
 
-            .markdown-body {
-                max-width: 820px;
-                margin: 40px auto;
-                padding: 40px 45px;
-                background: var(--body-bg);
-                box-shadow: 0 0 30px rgba(0, 0, 0, 0.07);
-                border-radius: 8px;
-            }
+        body {
+            font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+            background: var(--bg);
+            color: var(--text);
+            line-height: 1.7;
+            padding: 2rem 1rem;
+            max-width: 860px;
+            margin: 0 auto;
+        }
 
-            /* Intestazioni */
-            h1,
-            h2,
-            h3,
-            h4,
-            h5,
-            h6 {
-                color: var(--heading);
-                font-weight: 600;
-                margin-top: 2.4rem;
-                margin-bottom: 0.9rem;
-                line-height: 1.3;
-            }
+        h1 {
+            margin-bottom: 1.5rem;
+            font-weight: 600;
+        }
 
-            h1 {
-                font-size: 2.5rem;
-                border-bottom: 3px solid var(--border);
-                padding-bottom: 14px;
-                margin-top: 0;
-            }
+        h2 {
+            margin: 2.5rem 0 1rem 0;
+            padding-bottom: 0.5rem;
+            border-bottom: 2px solid var(--border);
+            font-weight: 600;
+        }
 
-            h2 {
-                font-size: 1.85rem;
-                border-bottom: 1px solid var(--border);
-                padding-bottom: 10px;
-            }
+        h3 {
+            margin: 2rem 0 0.8rem 0;
+            font-weight: 600;
+        }
 
-            h3 {
-                font-size: 1.55rem;
-            }
+        p {
+            margin-bottom: 1.1rem;
+        }
 
-            h4 {
-                font-size: 1.3rem;
-            }
+        a {
+            color: var(--accent);
+            text-decoration: none;
+        }
 
-            /* Link */
-            a {
-                color: var(--accent);
-                text-decoration: none;
-            }
+        a:hover {
+            text-decoration: underline;
+        }
 
-            a:hover {
-                color: var(--accent-hover);
-                text-decoration: underline;
-            }
+        .content {
+            background: var(--card);
+            padding: 2.5rem;
+            border-radius: 12px;
+            border: 1px solid var(--border);
+            box-shadow: 0 4px 15px -4px rgba(0, 0, 0, 0.06);
+        }
 
-            /* Codice - Ottimo per C99 */
-            pre {
-                background: var(--code-bg);
-                border: 1px solid #d4d4d4;
-                border-radius: 8px;
-                padding: 18px;
-                overflow-x: auto;
-                font-size: 0.93rem;
-                line-height: 1.55;
-                margin: 1.6em 0;
-            }
+        pre {
+            background: #f1f5f9;
+            padding: 1.4rem;
+            border-radius: 10px;
+            overflow-x: auto;
+            border: 1px solid var(--border);
+            margin: 1.6rem 0;
+        }
 
-            code {
-                font-family:
-                    ui-monospace, SFMono-Regular, Consolas, "Liberation Mono",
-                    monospace;
-                background: #f1f1f1;
-                padding: 0.2em 0.45em;
-                border-radius: 4px;
-                font-size: 0.9em;
-            }
+        code {
+            font-family: ui-monospace, Menlo, Monaco, Consolas, monospace;
+            line-height: 1.55;
+        }
+    </style>
+</head>
 
-            pre code {
-                background: transparent;
-                padding: 0;
-            }
+<body>
+    <h1 id="manuale-vr">Manuale VR</h1>
+    <h2 id="utilizzo-esempi-e-test">Utilizzo, esempi e test</h2>
+    <p>Nella cartella <code>test/</code> si trovano dei programmi di test
+        per la libreria mentre nella cartella <code>example/</code> si trovano
+        degli esempi di uso. Per compilare sia test che esempi in Windows è
+        sufficiente chiamare lo script <code>build.bat</code> presente nella
+        root del progetto, analogamente in Linux è sufficiente chiamare il
+        corrispettivo <code>build.sh</code>.</p>
+    <p><strong>Nota</strong>: Dato che gli script di compilazione generali
+        si basano sugli script dei test e degli esempi, su linux potrebbe essere
+        necessario rendere eseguibili tutti questi script prima di
+        chiamarli.</p>
+    <p>Il codice è stato testato su <a href="https://it.wikipedia.org/wiki/Microsoft_Windows">Windows
+            10/11</a>, <a href="https://it.wikipedia.org/wiki/Linux_Mint_Debian_Edition">Linux
+            Mint DE 7</a> e <a href="https://en.wikipedia.org/wiki/Fedora_Linux">Fedora Linux 43</a>
+        nativi e su <a href="https://it.wikipedia.org/wiki/Ubuntu">Ubuntu
+            24.04</a> tramite WSL2. Al momento la libreria non supporta MacOS e
+        potrebbe dare problemi su sistemi in cui non è mai stata testata.</p>
+    <h1 id="vr-system-memory">VR system memory</h1>
+    <p>Modulo che permette di lavorare con il sistema operativo per ottenere
+        e liberare memoria.</p>
+    <h2 id="tabella-dei-contenuti">Tabella dei contenuti</h2>
+    <ol type="1">
+        <li>Procedure:
+            <ul>
+                <li>vr_memory_page_size</li>
+                <li>vr_memory_reserve</li>
+                <li>vr_memory_release</li>
+            </ul>
+        </li>
+    </ol>
+    <h3 id="procedure">Procedure</h3>
+    <h4 id="vr_memory_page_size"><code>vr_memory_page_size</code></h4>
+    <p>Restituisce la dimensione (in byte) delle pagine usate dal sistema
+        operativo.</p>
+    <div class="sourceCode" id="cb1">
+        <pre
+            class="sourceCode c"><code class="sourceCode c"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a>VrSint vr_memory_page_size<span class="op">(</span><span class="dt">void</span><span class="op">)</span></span></code></pre>
+    </div>
+    <h4 id="vr_memory_reserve"><code>vr_memory_reserve</code></h4>
+    <p>Riserva un’arena di memoria delle dimensioni richieste. La quantità
+        riservata è sempre arrotondata per eccesso alla grandezza di una
+        pagina.</p>
+    <div class="sourceCode" id="cb2">
+        <pre
+            class="sourceCode c"><code class="sourceCode c"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a>VrArenaAlloc vr_memory_reserve<span class="op">(</span>VrSint elem_count<span class="op">,</span> VrSint elem_size<span class="op">)</span></span></code></pre>
+    </div>
+    <p>Parametri:</p>
+    <ul>
+        <li><code>VrSint elem_count</code> - La quantità di elementi da
+            riservare, <strong>deve essere positiva</strong>.</li>
+        <li><code>VrSint elem_size</code> - La dimensione (in byte) degli
+            elementi da riservare, <strong>deve essere positiva</strong>.</li>
+    </ul>
+    <p>Risultato:</p>
+    <ul>
+        <li>Un’arena di memoria delle dimensioni richieste se l’operazione ha
+            successo, un’arena di memoria vuota altrimenti.</li>
+    </ul>
+    <h4 id="vr_memory_release"><code>vr_memory_release</code></h4>
+    <p>Rilascia un’arena di memoria precedentemente riservata.</p>
+    <div class="sourceCode" id="cb3">
+        <pre
+            class="sourceCode c"><code class="sourceCode c"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="dt">void</span> vr_memory_release<span class="op">(</span>VrArenaAlloc<span class="op">*</span> arena<span class="op">)</span></span></code></pre>
+    </div>
+    <p>Parametri:</p>
+    <ul>
+        <li><code>VrArenaAlloc* arena</code> - L’arena da rilasciare,
+            <strong>non può essere NULL</strong>.
+        </li>
+    </ul>
+    <h1 id="vr-system-socket">VR system socket</h1>
+    <p>Modulo che permette di lavorare con il sistema operativo per
+        comunicare tramite socket TCP e UDP.</p>
+    <h2 id="tabella-dei-contenuti-1">Tabella dei contenuti</h2>
+    <ol type="1">
+        <li><a href="#address-ip">Address IP</a>
+            <ul>
+                <li>Tipi:
+                    <ul>
+                        <li>VrAddressIp</li>
+                        <li>VrAddressIpKind</li>
+                        <li>VrAddressIpVer4</li>
+                        <li>VrAddressIpVer6</li>
+                    </ul>
+                </li>
+                <li>Procedure:
+                    <ul>
+                        <li>vr_address_ip_none</li>
+                        <li>vr_address_ip_empty</li>
+                        <li>vr_address_ip_local</li>
+                        <li>vr_address_ip_ver4_empty</li>
+                        <li>vr_address_ip_ver4_empty</li>
+                        <li>vr_address_ip_ver4</li>
+                        <li>vr_address_ip_ver6_empty</li>
+                        <li>vr_address_ip_ver6_empty</li>
+                        <li>vr_address_ip_ver6</li>
+                        <li>vr_address_ip_is_equal</li>
+                    </ul>
+                </li>
+            </ul>
+        </li>
+        <li><a href="#socket-tcp">Socket TCP</a>
+            <ul>
+                <li>Tipi:
+                    <ul>
+                        <li>VrTcpListener</li>
+                        <li>VrTcpSocket</li>
+                    </ul>
+                </li>
+                <li>Procedure:
+                    <ul>
+                        <li>vr_tcp_listener_reserve</li>
+                        <li>vr_tcp_listener_init</li>
+                        <li>vr_tcp_listener_uninit</li>
+                        <li>vr_tcp_listener_bind</li>
+                        <li>vr_tcp_socket_reserve</li>
+                        <li>vr_tcp_socket_init</li>
+                        <li>vr_tcp_socket_uninit</li>
+                        <li>vr_tcp_socket_bind</li>
+                        <li>vr_tcp_socket_listen</li>
+                        <li>vr_tcp_socket_connect</li>
+                        <li>vr_tcp_socket_write</li>
+                        <li>vr_tcp_socket_write_all</li>
+                        <li>vr_tcp_socket_read</li>
+                    </ul>
+                </li>
+            </ul>
+        </li>
+        <li><a href="#socket-udp">Socket UDP</a>
+            <ul>
+                <li>Tipi:
+                    <ul>
+                        <li>VrUdpSocket</li>
+                    </ul>
+                </li>
+                <li>Procedure:
+                    <ul>
+                        <li>vr_udp_socket_reserve</li>
+                        <li>vr_udp_socket_init</li>
+                        <li>vr_udp_socket_uninit</li>
+                        <li>vr_udp_socket_bind</li>
+                        <li>vr_udp_socket_write</li>
+                        <li>vr_udp_socket_write_all</li>
+                        <li>vr_udp_socket_read</li>
+                    </ul>
+                </li>
+            </ul>
+        </li>
+    </ol>
+    <h2 id="network-ip-address">Network IP Address</h2>
+    <h2 id="tipi">Tipi</h2>
+    <h4 id="vraddressip"><code>VrAddressIp</code></h4>
+    <p>Classe per lavorare con indirizzi IP. Un indirizzo è costituito da un
+        indirizzo IPv4 o IPv6 e da una porta.</p>
+    <div class="sourceCode" id="cb4">
+        <pre class="sourceCode c"><code class="sourceCode c"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="kw">struct</span> VrAddressIp</span>
+<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a><span class="op">{</span></span>
+<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a>    VrAddressIpKind kind<span class="op">;</span></span>
+<span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-5"><a href="#cb4-5" aria-hidden="true" tabindex="-1"></a>    <span class="kw">union</span></span>
+<span id="cb4-6"><a href="#cb4-6" aria-hidden="true" tabindex="-1"></a>    <span class="op">{</span></span>
+<span id="cb4-7"><a href="#cb4-7" aria-hidden="true" tabindex="-1"></a>        VrAddressIpVer4 ver4<span class="op">;</span></span>
+<span id="cb4-8"><a href="#cb4-8" aria-hidden="true" tabindex="-1"></a>        VrAddressIpVer6 ver6<span class="op">;</span></span>
+<span id="cb4-9"><a href="#cb4-9" aria-hidden="true" tabindex="-1"></a>    <span class="op">}</span></span>
+<span id="cb4-10"><a href="#cb4-10" aria-hidden="true" tabindex="-1"></a>    ip<span class="op">;</span></span>
+<span id="cb4-11"><a href="#cb4-11" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-12"><a href="#cb4-12" aria-hidden="true" tabindex="-1"></a>    VrUint16 port<span class="op">;</span></span>
+<span id="cb4-13"><a href="#cb4-13" aria-hidden="true" tabindex="-1"></a><span class="op">};</span></span></code></pre>
+    </div>
+    <p>Membri:</p>
+    <ul>
+        <li><code>VrAddressIpKind kind</code> - Il tipo di indirizzo IP.</li>
+        <li><code>VrAddressIpVer4 ip.ver4</code> - L’indirizzo IPv4, è sempre
+            disposto in <strong>big endian</strong>.</li>
+        <li><code>VrAddressIpVer6 ip.ver6</code> - L’indirizzo IPv6, è sempre
+            disposto in <strong>big endian</strong>.</li>
+        <li><code>VrUint16 port</code> - La porta, è sempre disposta come
+            <strong>l’endian nativo della macchina</strong>.
+        </li>
+    </ul>
+    <h4 id="vraddressipkind"><code>VrAddressIpKind</code></h4>
+    <p>Elenca i vari tipi di indirizzi IP che un indirizzo IP può
+        rappresentare.</p>
+    <div class="sourceCode" id="cb5">
+        <pre class="sourceCode c"><code class="sourceCode c"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="kw">enum</span> VrAddressIpKind</span>
+<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a><span class="op">{</span></span>
+<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a>    VrAddressIpKind_None<span class="op">,</span></span>
+<span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a>    VrAddressIpKind_Ver4<span class="op">,</span></span>
+<span id="cb5-5"><a href="#cb5-5" aria-hidden="true" tabindex="-1"></a>    VrAddressIpKind_Ver6<span class="op">,</span></span>
+<span id="cb5-6"><a href="#cb5-6" aria-hidden="true" tabindex="-1"></a><span class="op">};</span></span></code></pre>
+    </div>
+    <p>Membri:</p>
+    <ul>
+        <li><code>VrAddressIpKind_None</code> - Indirizzo IP invalido.</li>
+        <li><code>VrAddressIpKind_Ver4</code> - Indirizzo IPv4.</li>
+        <li><code>VrAddressIpKind_Ver6</code> - Indirizzo IPv6.</li>
+    </ul>
+    <h4 id="vraddressipver4"><code>VrAddressIpVer4</code></h4>
+    <p>Rappresenta un indirizzo IPv4. Gli elementi sono sempre disposti in
+        <strong>big endian</strong>.
+    </p>
+    <div class="sourceCode" id="cb6">
+        <pre class="sourceCode c"><code class="sourceCode c"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="kw">struct</span> VrAddressIpVer4</span>
+<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a><span class="op">{</span></span>
+<span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a>    <span class="kw">union</span></span>
+<span id="cb6-4"><a href="#cb6-4" aria-hidden="true" tabindex="-1"></a>    <span class="op">{</span></span>
+<span id="cb6-5"><a href="#cb6-5" aria-hidden="true" tabindex="-1"></a>        VrUint8<span class="op">[</span><span class="dv">4</span><span class="op">]</span> array<span class="op">;</span></span>
+<span id="cb6-6"><a href="#cb6-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-7"><a href="#cb6-7" aria-hidden="true" tabindex="-1"></a>        <span class="kw">struct</span></span>
+<span id="cb6-8"><a href="#cb6-8" aria-hidden="true" tabindex="-1"></a>        <span class="op">{</span></span>
+<span id="cb6-9"><a href="#cb6-9" aria-hidden="true" tabindex="-1"></a>            VrUint8 elem_0<span class="op">,</span> elem_1<span class="op">,</span> elem_2<span class="op">,</span> elem_3<span class="op">;</span></span>
+<span id="cb6-10"><a href="#cb6-10" aria-hidden="true" tabindex="-1"></a>        <span class="op">}</span></span>
+<span id="cb6-11"><a href="#cb6-11" aria-hidden="true" tabindex="-1"></a>        members<span class="op">;</span></span>
+<span id="cb6-12"><a href="#cb6-12" aria-hidden="true" tabindex="-1"></a>    <span class="op">}</span></span>
+<span id="cb6-13"><a href="#cb6-13" aria-hidden="true" tabindex="-1"></a>    elements<span class="op">;</span></span>
+<span id="cb6-14"><a href="#cb6-14" aria-hidden="true" tabindex="-1"></a><span class="op">};</span></span></code></pre>
+    </div>
+    <h4 id="vraddressipver6"><code>VrAddressIpVer6</code></h4>
+    <p>Rappresenta un indirizzo IPv6. Gli elementi sono sempre disposti in
+        <strong>big endian</strong>.
+    </p>
+    <div class="sourceCode" id="cb7">
+        <pre class="sourceCode c"><code class="sourceCode c"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="kw">struct</span> VrAddressIpVer6</span>
+<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a><span class="op">{</span></span>
+<span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a>    <span class="kw">union</span></span>
+<span id="cb7-4"><a href="#cb7-4" aria-hidden="true" tabindex="-1"></a>    <span class="op">{</span></span>
+<span id="cb7-5"><a href="#cb7-5" aria-hidden="true" tabindex="-1"></a>        VrUint8<span class="op">[</span><span class="dv">16</span><span class="op">]</span> array<span class="op">;</span></span>
+<span id="cb7-6"><a href="#cb7-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-7"><a href="#cb7-7" aria-hidden="true" tabindex="-1"></a>        <span class="kw">struct</span></span>
+<span id="cb7-8"><a href="#cb7-8" aria-hidden="true" tabindex="-1"></a>        <span class="op">{</span></span>
+<span id="cb7-9"><a href="#cb7-9" aria-hidden="true" tabindex="-1"></a>            VrUint8 elem_0<span class="op">,</span>  elem_1<span class="op">,</span>  elem_2<span class="op">,</span>  elem_3<span class="op">;</span></span>
+<span id="cb7-10"><a href="#cb7-10" aria-hidden="true" tabindex="-1"></a>            VrUint8 elem_4<span class="op">,</span>  elem_5<span class="op">,</span>  elem_6<span class="op">,</span>  elem_7<span class="op">;</span></span>
+<span id="cb7-11"><a href="#cb7-11" aria-hidden="true" tabindex="-1"></a>            VrUint8 elem_8<span class="op">,</span>  elem_9<span class="op">,</span>  elem_10<span class="op">,</span> elem_11<span class="op">;</span></span>
+<span id="cb7-12"><a href="#cb7-12" aria-hidden="true" tabindex="-1"></a>            VrUint8 elem_12<span class="op">,</span> elem_13<span class="op">,</span> elem_14<span class="op">,</span> elem_15<span class="op">;</span></span>
+<span id="cb7-13"><a href="#cb7-13" aria-hidden="true" tabindex="-1"></a>        <span class="op">}</span></span>
+<span id="cb7-14"><a href="#cb7-14" aria-hidden="true" tabindex="-1"></a>        members<span class="op">;</span></span>
+<span id="cb7-15"><a href="#cb7-15" aria-hidden="true" tabindex="-1"></a>    <span class="op">}</span></span>
+<span id="cb7-16"><a href="#cb7-16" aria-hidden="true" tabindex="-1"></a>    elements<span class="op">;</span></span>
+<span id="cb7-17"><a href="#cb7-17" aria-hidden="true" tabindex="-1"></a><span class="op">};</span></span></code></pre>
+    </div>
+    <h3 id="procedure-1">Procedure</h3>
+    <h4 id="vr_address_ip_none"><code>vr_address_ip_none</code></h4>
+    <p>Produce un indirizzo IP invalido.</p>
+    <div class="sourceCode" id="cb8">
+        <pre
+            class="sourceCode c"><code class="sourceCode c"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a>VrAddressIp vr_address_ip_none<span class="op">(</span><span class="dt">void</span><span class="op">)</span></span></code></pre>
+    </div>
+    <h4 id="vr_address_ip_ver4_empty"><code>vr_address_ip_ver4_empty</code></h4>
+    <p>Produce un indirizzo IPv4 vuoto.</p>
+    <div class="sourceCode" id="cb9">
+        <pre
+            class="sourceCode c"><code class="sourceCode c"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="pp">#define vr_address_ip_ver4_empty</span><span class="op">()</span><span class="pp"> </span><span class="op">\</span></span>
+<span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a><span class="pp">    vr_address_ip_empty</span><span class="op">(</span><span class="pp">VrAddressIpKind_Ver4</span><span class="op">)</span></span></code></pre>
+    </div>
+    <h4 id="vr_address_ip_ver6_empty"><code>vr_address_ip_ver6_empty</code></h4>
+    <p>Produce un indirizzo IPv6 vuoto.</p>
+    <div class="sourceCode" id="cb10">
+        <pre
+            class="sourceCode c"><code class="sourceCode c"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="pp">#define vr_address_ip_ver6_empty</span><span class="op">()</span><span class="pp"> </span><span class="op">\</span></span>
+<span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a><span class="pp">    vr_address_ip_empty</span><span class="op">(</span><span class="pp">VrAddressIpKind_Ver6</span><span class="op">)</span></span></code></pre>
+    </div>
+    <h4 id="vr_address_ip_empty"><code>vr_address_ip_empty</code></h4>
+    <p>Produce un indirizzo IP vuoto a partire da un tipo. Se il tipo
+        specificato è <a href="#vraddressipkind"><code>VrAddressIpKind_None</code></a> diventa
+        equivalente a <a href="#vr_address_ip_none"><code>vr_address_ip_none</code></a>.</p>
+    <div class="sourceCode" id="cb11">
+        <pre
+            class="sourceCode c"><code class="sourceCode c"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a>VrAddressIp vr_address_ip_empty<span class="op">(</span>VrAddressIpKind kind<span class="op">)</span></span></code></pre>
+    </div>
+    <h4 id="vr_address_ip_ver4_local"><code>vr_address_ip_ver4_local</code></h4>
+    <p>Produce un indirizzo IPv4 localhost a partire da una porta.</p>
+    <div class="sourceCode" id="cb12">
+        <pre
+            class="sourceCode c"><code class="sourceCode c"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a><span class="pp">#define vr_address_ip_ver4_local</span><span class="op">(</span><span class="pp">port</span><span class="op">)</span><span class="pp"> </span><span class="op">\</span></span>
+<span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a><span class="pp">    vr_address_ip_local</span><span class="op">(</span><span class="pp">VrAddressIpKind_Ver4</span><span class="op">,</span><span class="pp"> port</span><span class="op">)</span></span></code></pre>
+    </div>
+    <h4 id="vr_address_ip_ver6_local"><code>vr_address_ip_ver6_local</code></h4>
+    <p>Produce un indirizzo IPv6 localhost a partire da una porta.</p>
+    <div class="sourceCode" id="cb13">
+        <pre
+            class="sourceCode c"><code class="sourceCode c"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a><span class="pp">#define vr_address_ip_ver6_local</span><span class="op">(</span><span class="pp">port</span><span class="op">)</span><span class="pp"> </span><span class="op">\</span></span>
+<span id="cb13-2"><a href="#cb13-2" aria-hidden="true" tabindex="-1"></a><span class="pp">    vr_address_ip_local</span><span class="op">(</span><span class="pp">VrAddressIpKind_Ver6</span><span class="op">,</span><span class="pp"> port</span><span class="op">)</span></span></code></pre>
+    </div>
+    <h4 id="vr_address_ip_local"><code>vr_address_ip_local</code></h4>
+    <p>Produce un indirizzo IP localhost a partire da un tipo e una porta.
+        Se il tipo specificato è <a href="#vraddressipkind"><code>VrAddressIpKind_None</code></a> diventa
+        equivalente a <a href="#vr_address_ip_none"><code>vr_address_ip_none</code></a>.</p>
+    <div class="sourceCode" id="cb14">
+        <pre
+            class="sourceCode c"><code class="sourceCode c"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a>VrAddressIp vr_address_ip_local<span class="op">(</span>VrAddressIpKind kind<span class="op">,</span> VrUint16 port<span class="op">)</span></span></code></pre>
+    </div>
+    <h4 id="vr_address_ip_ver4"><code>vr_address_ip_ver4</code></h4>
+    <p>Produce un indirizzo IPv4 a partire da un indirizzo e una porta.</p>
+    <div class="sourceCode" id="cb15">
+        <pre
+            class="sourceCode c"><code class="sourceCode c"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a>VrAddressIp vr_address_ip_ver4<span class="op">(</span>VrAddressIpVer4 ipv4<span class="op">,</span> VrUint16 port<span class="op">)</span></span></code></pre>
+    </div>
+    <h4 id="vr_address_ip_ver6"><code>vr_address_ip_ver6</code></h4>
+    <p>Produce un indirizzo IPv6 a partire da un indirizzo e una porta.</p>
+    <div class="sourceCode" id="cb16">
+        <pre
+            class="sourceCode c"><code class="sourceCode c"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a>VrAddressIp vr_address_ip_ver6<span class="op">(</span>VrAddressIpVer6 ipv6<span class="op">,</span> VrUint16 port<span class="op">)</span></span></code></pre>
+    </div>
+    <h4 id="vr_address_ip_is_equal"><code>vr_address_ip_is_equal</code></h4>
+    <p>Determina se due indirizzi IP contengono lo stesso indirizzo e la
+        stessa porta.</p>
+    <div class="sourceCode" id="cb17">
+        <pre
+            class="sourceCode c"><code class="sourceCode c"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a>VrBool32 vr_address_ip_is_equal<span class="op">(</span>VrAddressIp self<span class="op">,</span> VrAddressIp other<span class="op">)</span></span></code></pre>
+    </div>
+    <p>Risultato:</p>
+    <ul>
+        <li>Zero se i due indirizzi sono diversi, un valore diverso da zero
+            altrimenti.</li>
+    </ul>
+    <h2 id="socket-tcp">Socket TCP</h2>
+    <h2 id="tipi-1">Tipi</h2>
+    <h4 id="vrtcplistener"><code>VrTcpListener</code></h4>
+    <p>Classe per lavorare con listener TCP.</p>
+    <div class="sourceCode" id="cb18">
+        <pre
+            class="sourceCode c"><code class="sourceCode c"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a><span class="kw">struct</span> VrTcpListener <span class="op">{</span> <span class="dt">void</span><span class="op">*</span> impl<span class="op">;</span> <span class="op">};</span></span></code></pre>
+    </div>
+    <p>Per utilizzare questa classe è necessario inizializzare un listener,
+        svolgere la <a href="#vr_tcp_listener_bind_and_listen"><code>bind_and_listen</code></a>
+        e successivamente riservare un socket per le connessioni che si intende
+        accettare. Ad esempio:</p>
+    <div class="sourceCode" id="cb19">
+        <pre
+            class="sourceCode c"><code class="sourceCode c"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a>VrArenaAlloc arena <span class="op">=</span> <span class="co">/* ... */</span><span class="op">;</span></span>
+<span id="cb19-2"><a href="#cb19-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb19-3"><a href="#cb19-3" aria-hidden="true" tabindex="-1"></a>VrTcpListener listener <span class="op">=</span> vr_tcp_listener_reserve<span class="op">((</span>VrAlloc<span class="op">*)</span> <span class="op">&amp;</span>arena<span class="op">);</span></span>
+<span id="cb19-4"><a href="#cb19-4" aria-hidden="true" tabindex="-1"></a>VrTcpSocket   socket   <span class="op">=</span> vr_tcp_socket_reserve<span class="op">((</span>VrAlloc<span class="op">*)</span> <span class="op">&amp;</span>arena<span class="op">);</span></span>
+<span id="cb19-5"><a href="#cb19-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb19-6"><a href="#cb19-6" aria-hidden="true" tabindex="-1"></a><span class="co">// localhost:50000</span></span>
+<span id="cb19-7"><a href="#cb19-7" aria-hidden="true" tabindex="-1"></a>vr_tcp_listener_init<span class="op">(</span>listener<span class="op">,</span> vr_address_ip_ver4_local<span class="op">(</span><span class="dv">50000</span><span class="op">));</span></span>
+<span id="cb19-8"><a href="#cb19-8" aria-hidden="true" tabindex="-1"></a>vr_tcp_listener_bind_and_listen<span class="op">(</span>listener<span class="op">);</span></span>
+<span id="cb19-9"><a href="#cb19-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb19-10"><a href="#cb19-10" aria-hidden="true" tabindex="-1"></a>vr_tcp_socket_accept<span class="op">(</span>socket<span class="op">,</span> listener<span class="op">);</span></span>
+<span id="cb19-11"><a href="#cb19-11" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb19-12"><a href="#cb19-12" aria-hidden="true" tabindex="-1"></a>VrUint8 msg_buffer<span class="op">[</span><span class="dv">256</span><span class="op">]</span> <span class="op">=</span> <span class="op">{</span><span class="dv">0</span><span class="op">};</span></span>
+<span id="cb19-13"><a href="#cb19-13" aria-hidden="true" tabindex="-1"></a>VrSint msg_size         <span class="op">=</span> <span class="op">(</span>VrSint<span class="op">)</span> <span class="kw">sizeof</span> msg_buffer<span class="op">;</span></span>
+<span id="cb19-14"><a href="#cb19-14" aria-hidden="true" tabindex="-1"></a>VrSint msg_count        <span class="op">=</span> <span class="dv">0</span><span class="op">;</span></span>
+<span id="cb19-15"><a href="#cb19-15" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb19-16"><a href="#cb19-16" aria-hidden="true" tabindex="-1"></a>msg_count <span class="op">=</span> vr_tcp_socket_read<span class="op">(</span>socket<span class="op">,</span> msg_buffer<span class="op">,</span> msg_size<span class="op">);</span></span>
+<span id="cb19-17"><a href="#cb19-17" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb19-18"><a href="#cb19-18" aria-hidden="true" tabindex="-1"></a>vr_tcp_socket_write_all<span class="op">(</span>socket<span class="op">,</span> msg_buffer<span class="op">,</span> msg_count<span class="op">);</span></span></code></pre>
+    </div>
+    <h4 id="vrtcpsocket"><code>VrTcpSocket</code></h4>
+    <p>Classe per lavorare con socket TCP.</p>
+    <div class="sourceCode" id="cb20">
+        <pre
+            class="sourceCode c"><code class="sourceCode c"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true" tabindex="-1"></a><span class="kw">struct</span> VrTcpSocket <span class="op">{</span> <span class="dt">void</span><span class="op">*</span> impl<span class="op">;</span> <span class="op">};</span></span></code></pre>
+    </div>
+    <p>Per utilizzare questa classe lato client è sufficiente inizializare
+        un socket e successivamente connettersi con un certo indirizzo IP. Ad
+        esempio:</p>
+    <div class="sourceCode" id="cb21">
+        <pre
+            class="sourceCode c"><code class="sourceCode c"><span id="cb21-1"><a href="#cb21-1" aria-hidden="true" tabindex="-1"></a>VrArenaAlloc arena <span class="op">=</span> <span class="co">/* ... */</span><span class="op">;</span></span>
+<span id="cb21-2"><a href="#cb21-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb21-3"><a href="#cb21-3" aria-hidden="true" tabindex="-1"></a>VrTcpSocket socket <span class="op">=</span> vr_tcp_socket_reserve<span class="op">((</span>VrAlloc<span class="op">*)</span> <span class="op">&amp;</span>arena<span class="op">);</span></span>
+<span id="cb21-4"><a href="#cb21-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb21-5"><a href="#cb21-5" aria-hidden="true" tabindex="-1"></a>vr_tcp_socket_init<span class="op">(</span>socket<span class="op">,</span> vr_address_ip_ver4_empty<span class="op">());</span></span>
+<span id="cb21-6"><a href="#cb21-6" aria-hidden="true" tabindex="-1"></a>vr_tcp_socket_connect<span class="op">(</span>socket<span class="op">,</span> vr_address_ip_ver4_local<span class="op">(</span><span class="dv">50000</span><span class="op">));</span></span>
+<span id="cb21-7"><a href="#cb21-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb21-8"><a href="#cb21-8" aria-hidden="true" tabindex="-1"></a>VrUint8 msg_buffer<span class="op">[</span><span class="dv">256</span><span class="op">]</span> <span class="op">=</span> <span class="op">{</span><span class="dv">0</span><span class="op">};</span></span>
+<span id="cb21-9"><a href="#cb21-9" aria-hidden="true" tabindex="-1"></a>VrSint msg_size         <span class="op">=</span> <span class="op">(</span>VrSint<span class="op">)</span> <span class="kw">sizeof</span> msg_buffer<span class="op">;</span></span>
+<span id="cb21-10"><a href="#cb21-10" aria-hidden="true" tabindex="-1"></a>VrSint msg_count        <span class="op">=</span> <span class="dv">0</span><span class="op">;</span></span>
+<span id="cb21-11"><a href="#cb21-11" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb21-12"><a href="#cb21-12" aria-hidden="true" tabindex="-1"></a>msg_count <span class="op">=</span> snprintf<span class="op">((</span>VrChar8<span class="op">*)</span> msg_buffer<span class="op">,</span></span>
+<span id="cb21-13"><a href="#cb21-13" aria-hidden="true" tabindex="-1"></a>    msg_size <span class="op">-</span> <span class="dv">1</span><span class="op">,</span> <span class="st">&quot;</span><span class="sc">%s</span><span class="st">&quot;</span><span class="op">,</span> <span class="st">&quot;Ciao!&quot;</span><span class="op">);</span></span>
+<span id="cb21-14"><a href="#cb21-14" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb21-15"><a href="#cb21-15" aria-hidden="true" tabindex="-1"></a>vr_tcp_socket_write_all<span class="op">(</span>socket<span class="op">,</span> msg_buffer<span class="op">,</span> msg_count<span class="op">);</span></span>
+<span id="cb21-16"><a href="#cb21-16" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb21-17"><a href="#cb21-17" aria-hidden="true" tabindex="-1"></a>msg_count <span class="op">=</span> vr_tcp_socket_read<span class="op">(</span>socket<span class="op">,</span> msg_buffer<span class="op">,</span> msg_size<span class="op">);</span></span></code></pre>
+    </div>
+    <p><strong>Nota</strong>: È sempre possibile eseguire la <a href="#vr_tcp_socket_bind"><code>bind</code></a> di un
+        socket ad una
+        porta libera, ma è consigliato lasciare che sia il sistema operativo a
+        selezionarne una libera in automatico.</p>
+    <h3 id="procedure-2">Procedure</h3>
+    <h4 id="vr_tcp_listener_reserve"><code>vr_tcp_listener_reserve</code></h4>
+    <p>Riserva la memoria per un listener TCP.</p>
+    <div class="sourceCode" id="cb22">
+        <pre
+            class="sourceCode c"><code class="sourceCode c"><span id="cb22-1"><a href="#cb22-1" aria-hidden="true" tabindex="-1"></a>VrTcpListener vr_tcp_listener_reserve<span class="op">(</span>VrAlloc<span class="op">*</span> alloc<span class="op">)</span></span></code></pre>
+    </div>
+    <p>Restituisce:</p>
+    <ul>
+        <li>Un listener invalido se l’operazione fallisce, uno valido
+            altrimenti.</li>
+    </ul>
+    <h4 id="vr_tcp_listener_init"><code>vr_tcp_listener_init</code></h4>
+    <p>Inizializza un listener a partire da un indirizzo IP.</p>
+    <div class="sourceCode" id="cb23">
+        <pre
+            class="sourceCode c"><code class="sourceCode c"><span id="cb23-1"><a href="#cb23-1" aria-hidden="true" tabindex="-1"></a>VrBool32 vr_tcp_listener_init<span class="op">(</span>VrTcpListener self<span class="op">,</span> VrAddressIp addr<span class="op">)</span></span></code></pre>
+    </div>
+    <p>Parametri:</p>
+    <ul>
+        <li><code>VrTcpListener self</code> - Il listener da inizializzare.</li>
+        <li><code>VrAddressIp addr</code> - L’indirizzo IP, <strong>non può
+                essere <a href="#vr_address_ip_none"><code>vr_address_ip_none</code></a></strong>
+            e la porta <strong>non può essere zero</strong>.</li>
+    </ul>
+    <p>Restituisce:</p>
+    <ul>
+        <li>Zero se l’operazione fallisce, un valore diverso da zero
+            altrimenti.</li>
+    </ul>
+    <h4 id="vr_tcp_listener_uninit"><code>vr_tcp_listener_uninit</code></h4>
+    <p>Distrugge un listener. Questa operazione chiude la connessione e
+        dall’altro lato nessun socket riuscirà più a scrivere o leggere.</p>
+    <div class="sourceCode" id="cb24">
+        <pre
+            class="sourceCode c"><code class="sourceCode c"><span id="cb24-1"><a href="#cb24-1" aria-hidden="true" tabindex="-1"></a><span class="dt">void</span> vr_tcp_listener_uninit<span class="op">(</span>VrTcpListener self<span class="op">)</span></span></code></pre>
+    </div>
+    <h4 id="vr_tcp_listener_bind_and_listen"><code>vr_tcp_listener_bind_and_listen</code></h4>
+    <p>Lega un listener alla porta con cui è stato inizializzato e comincia
+        ad ascoltare connessioni in arrivo su quella porta.</p>
+    <div class="sourceCode" id="cb25">
+        <pre
+            class="sourceCode c"><code class="sourceCode c"><span id="cb25-1"><a href="#cb25-1" aria-hidden="true" tabindex="-1"></a>VrBool32 vr_tcp_listener_bind_and_listen<span class="op">(</span>VrTcpListener self<span class="op">)</span></span></code></pre>
+    </div>
+    <p>Restituisce:</p>
+    <ul>
+        <li>Zero se l’operazione fallisce, un valore diverso da zero
+            altrimenti.</li>
+    </ul>
+    <h4 id="vr_tcp_socket_reserve"><code>vr_tcp_socket_reserve</code></h4>
+    <p>Riserva la memoria per un socket TCP.</p>
+    <div class="sourceCode" id="cb26">
+        <pre
+            class="sourceCode c"><code class="sourceCode c"><span id="cb26-1"><a href="#cb26-1" aria-hidden="true" tabindex="-1"></a>VrTcpSocket vr_tcp_socket_reserve<span class="op">(</span>VrAlloc<span class="op">*</span> alloc<span class="op">)</span></span></code></pre>
+    </div>
+    <p>Restituisce:</p>
+    <ul>
+        <li>Un socket invalido se l’operazione fallisce, uno valido
+            altrimenti.</li>
+    </ul>
+    <h4 id="vr_tcp_socket_init"><code>vr_tcp_socket_init</code></h4>
+    <p>Inizializza un socket a partire da un indirizzo IP.</p>
+    <div class="sourceCode" id="cb27">
+        <pre
+            class="sourceCode c"><code class="sourceCode c"><span id="cb27-1"><a href="#cb27-1" aria-hidden="true" tabindex="-1"></a>VrBool32 vr_tcp_socket_init<span class="op">(</span>VrTcpSocket self<span class="op">,</span> VrAddressIp addr<span class="op">)</span></span></code></pre>
+    </div>
+    <p>Parametri:</p>
+    <ul>
+        <li><code>VrTcpSocket self</code> - Il socket da inizializzare.</li>
+        <li><code>VrAddressIp addr</code> - L’indirizzo IP, <strong>non può
+                essere <a href="#vr_address_ip_none"><code>vr_address_ip_none</code></a></strong>
+            e la porta <strong>non può essere zero</strong>.</li>
+    </ul>
+    <p>Restituisce:</p>
+    <ul>
+        <li>Zero se l’operazione fallisce, un valore diverso da zero
+            altrimenti.</li>
+    </ul>
+    <h4 id="vr_tcp_socket_uninit"><code>vr_tcp_socket_uninit</code></h4>
+    <p>Distrugge un socket. Questa operazione chiude la connessione e
+        dall’altro lato nessun socket riuscirà più a scrivere o leggere.</p>
+    <div class="sourceCode" id="cb28">
+        <pre
+            class="sourceCode c"><code class="sourceCode c"><span id="cb28-1"><a href="#cb28-1" aria-hidden="true" tabindex="-1"></a><span class="dt">void</span> vr_tcp_socket_uninit<span class="op">(</span>VrTcpSocket self<span class="op">)</span></span></code></pre>
+    </div>
+    <h4 id="vr_tcp_socket_bind"><code>vr_tcp_socket_bind</code></h4>
+    <p>Lega un socket alla porta con cui è stato inizializzato.</p>
+    <div class="sourceCode" id="cb29">
+        <pre
+            class="sourceCode c"><code class="sourceCode c"><span id="cb29-1"><a href="#cb29-1" aria-hidden="true" tabindex="-1"></a>VrBool32 vr_tcp_socket_bind<span class="op">(</span>VrTcpSocket self<span class="op">)</span></span></code></pre>
+    </div>
+    <p>Restituisce:</p>
+    <ul>
+        <li>Zero se l’operazione fallisce, un valore diverso da zero
+            altrimenti.</li>
+    </ul>
+    <h4 id="vr_tcp_socket_accept"><code>vr_tcp_socket_accept</code></h4>
+    <p>Accetta una nuova connessione su un socket a partire da un
+        listener.</p>
+    <div class="sourceCode" id="cb30">
+        <pre
+            class="sourceCode c"><code class="sourceCode c"><span id="cb30-1"><a href="#cb30-1" aria-hidden="true" tabindex="-1"></a>VrBool32 vr_tcp_socket_accept<span class="op">(</span>VrTcpSocket self<span class="op">,</span> VrTcpListener listener<span class="op">)</span></span></code></pre>
+    </div>
+    <p>Parametri:</p>
+    <ul>
+        <li><code>VrTcpSocket self</code> - Il socket su cui accettare la nuova
+            connessione, <strong>deve essere riservato ma non
+                inizializzato</strong>.</li>
+        <li><code>VrTcpListener listener</code> - Il listener in ascolto.</li>
+    </ul>
+    <p>Restituisce:</p>
+    <ul>
+        <li>Zero se l’operazione fallisce, un valore diverso da zero
+            altrimenti.</li>
+    </ul>
+    <h4 id="vr_tcp_socket_connect"><code>vr_tcp_socket_connect</code></h4>
+    <p>Comincia una nuova connessione su un socket verso un altro host a
+        partire da un indirizzo IP.</p>
+    <div class="sourceCode" id="cb31">
+        <pre
+            class="sourceCode c"><code class="sourceCode c"><span id="cb31-1"><a href="#cb31-1" aria-hidden="true" tabindex="-1"></a>VrBool32 vr_tcp_socket_connect<span class="op">(</span>VrTcpSocket self<span class="op">,</span> VrAddressIp addr<span class="op">)</span></span></code></pre>
+    </div>
+    <p>Parametri:</p>
+    <ul>
+        <li><code>VrTcpSocket self</code> - Il socket con cui iniziare la nuova
+            connessione.</li>
+        <li><code>VrAddressIp addr</code> - L’indirizzo a cui connettersi.</li>
+    </ul>
+    <p>Restituisce:</p>
+    <ul>
+        <li>Zero se l’operazione fallisce, un valore diverso da zero
+            altrimenti.</li>
+    </ul>
+    <h4 id="vr_tcp_socket_write"><code>vr_tcp_socket_write</code></h4>
+    <p>Scrive su un socket il contenuto di un blocco di memoria.</p>
+    <p>L’operazione potrebbe non inviare tutto il blocco, in generale è
+        consigliato controllare quanti byte sono stati effettivamente inviati e
+        scrivere i rimanenti con altre chiamate. L’operazione inoltre è
+        bloccante, cioè attende che sia possibile scrivere almeno un byte prima
+        di ritornare al chiamante.</p>
+    <p><strong>Nota</strong>: Se il socket è in uno stato valido e i
+        parametri sono corretti ma l’operazione comunque termina con zero byte
+        scritti, può significare che la connessione dall’altro lato è stata
+        interrotta.</p>
+    <div class="sourceCode" id="cb32">
+        <pre
+            class="sourceCode c"><code class="sourceCode c"><span id="cb32-1"><a href="#cb32-1" aria-hidden="true" tabindex="-1"></a>VrSint vr_tcp_socket_write<span class="op">(</span>VrTcpSocket self<span class="op">,</span> VrUint8<span class="op">*</span> pntr<span class="op">,</span> VrSint size<span class="op">)</span></span></code></pre>
+    </div>
+    <p>Parametri:</p>
+    <ul>
+        <li><code>VrTcpSocket self</code> - Il socket su cui scrivere.</li>
+        <li><code>VrUint8* pntr</code> - Il blocco di memoria, <strong>non può
+                essere NULL</strong>.</li>
+        <li><code>VrSint size</code> - Dimensione (in byte) del blocco di
+            memoria, <strong>deve essere positiva</strong>.</li>
+    </ul>
+    <p>Restituisce:</p>
+    <ul>
+        <li>Zero se l’operazione fallisce, il numero di byte scritti compreso in
+            <code>[1, size]</code> altrimenti.
+        </li>
+    </ul>
+    <h4 id="vr_tcp_socket_write_all"><code>vr_tcp_socket_write_all</code></h4>
+    <p>Scrive su un socket il contenuto di un blocco di memoria.</p>
+    <p>L’operazione è bloccante, cioè attende che sia possibile scrivere
+        almeno un byte prima di ritornare al chiamante.</p>
+    <p><strong>Nota</strong>: Se il socket è in uno stato valido e i
+        parametri sono corretti ma l’operazione comunque termina con zero byte
+        scritti, può significare che la connessione dall’altro lato è stata
+        interrotta.</p>
+    <div class="sourceCode" id="cb33">
+        <pre
+            class="sourceCode c"><code class="sourceCode c"><span id="cb33-1"><a href="#cb33-1" aria-hidden="true" tabindex="-1"></a>VrSint vr_tcp_socket_write_all<span class="op">(</span>VrTcpSocket self<span class="op">,</span> VrUint8<span class="op">*</span> pntr<span class="op">,</span> VrSint size<span class="op">)</span></span></code></pre>
+    </div>
+    <p>Parametri:</p>
+    <ul>
+        <li><code>VrTcpSocket self</code> - Il socket su cui scrivere.</li>
+        <li><code>VrUint8* pntr</code> - Il blocco di memoria, <strong>non può
+                essere NULL</strong>.</li>
+        <li><code>VrSint size</code> - Dimensione (in byte) del blocco di
+            memoria, <strong>deve essere positiva</strong>.</li>
+    </ul>
+    <p>Restituisce:</p>
+    <ul>
+        <li>Zero se l’operazione fallisce, il numero di byte scritti compreso in
+            <code>[1, size]</code> altrimenti.
+        </li>
+    </ul>
+    <h4 id="vr_tcp_socket_read"><code>vr_tcp_socket_read</code></h4>
+    <p>Legge da un socket e copia il contenuto in un blocco di memoria.</p>
+    <p>L’operazione è bloccante, cioè attende che sia possibile leggere
+        almeno un byte prima di ritornare al chiamante.</p>
+    <p><strong>Nota</strong>: Se il socket è in uno stato valido e i
+        parametri sono corretti ma l’operazione comunque termina con zero byte
+        letti, può significare che la connessione dall’altro lato è stata
+        interrotta.</p>
+    <div class="sourceCode" id="cb34">
+        <pre
+            class="sourceCode c"><code class="sourceCode c"><span id="cb34-1"><a href="#cb34-1" aria-hidden="true" tabindex="-1"></a>VrSint vr_tcp_socket_read<span class="op">(</span>VrTcpSocket self<span class="op">,</span> VrUint8<span class="op">*</span> pntr<span class="op">,</span> VrSint size<span class="op">)</span></span></code></pre>
+    </div>
+    <p>Parametri:</p>
+    <ul>
+        <li><code>VrTcpSocket self</code> - Il socket da cui leggere.</li>
+        <li><code>VrUint8* pntr</code> - Il blocco di memoria, <strong>non può
+                essere NULL</strong>.</li>
+        <li><code>VrSint size</code> - Dimensione (in byte) del blocco di
+            memoria, <strong>deve essere positiva</strong>.</li>
+    </ul>
+    <p>Restituisce:</p>
+    <ul>
+        <li>Zero se l’operazione fallisce, il numero di byte letti compreso in
+            <code>[1, size]</code> altrimenti.
+        </li>
+    </ul>
+    <h2 id="socket-udp">Socket UDP</h2>
+    <h3 id="tipi-2">Tipi</h3>
+    <h4 id="vrudpsocket"><code>VrUdpSocket</code></h4>
+    <p>Classe per lavorare con socket UDP.</p>
+    <div class="sourceCode" id="cb35">
+        <pre
+            class="sourceCode c"><code class="sourceCode c"><span id="cb35-1"><a href="#cb35-1" aria-hidden="true" tabindex="-1"></a><span class="kw">struct</span> VrUdpSocket <span class="op">{</span> <span class="dt">void</span><span class="op">*</span> impl<span class="op">;</span> <span class="op">};</span></span></code></pre>
+    </div>
+    <p>Per utilizzare questa classe lato server è necessario inizializzare
+        un socket e successivamente eseguire la <a href="#vr_udp_socket_bind"><code>bind</code></a>. Ad esempio:</p>
+    <div class="sourceCode" id="cb36">
+        <pre
+            class="sourceCode c"><code class="sourceCode c"><span id="cb36-1"><a href="#cb36-1" aria-hidden="true" tabindex="-1"></a>VrArenaAlloc arena <span class="op">=</span> <span class="co">/* ... */</span><span class="op">;</span></span>
+<span id="cb36-2"><a href="#cb36-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb36-3"><a href="#cb36-3" aria-hidden="true" tabindex="-1"></a>VrUdpSocket socket <span class="op">=</span> vr_udp_socket_reserve<span class="op">((</span>VrAlloc<span class="op">*)</span> <span class="op">&amp;</span>arena<span class="op">);</span></span>
+<span id="cb36-4"><a href="#cb36-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb36-5"><a href="#cb36-5" aria-hidden="true" tabindex="-1"></a>vr_udp_socket_init<span class="op">(</span>socket<span class="op">,</span> vr_address_ip_ver4_local<span class="op">(</span><span class="dv">50000</span><span class="op">));</span></span>
+<span id="cb36-6"><a href="#cb36-6" aria-hidden="true" tabindex="-1"></a>vr_udp_socket_bind<span class="op">(</span>socket<span class="op">);</span></span>
+<span id="cb36-7"><a href="#cb36-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb36-8"><a href="#cb36-8" aria-hidden="true" tabindex="-1"></a>VrUint8     msg_buffer<span class="op">[</span><span class="dv">256</span><span class="op">]</span> <span class="op">=</span> <span class="op">{</span><span class="dv">0</span><span class="op">};</span></span>
+<span id="cb36-9"><a href="#cb36-9" aria-hidden="true" tabindex="-1"></a>VrSint      msg_size        <span class="op">=</span> <span class="op">(</span>VrSint<span class="op">)</span> <span class="kw">sizeof</span> msg_buffer<span class="op">;</span></span>
+<span id="cb36-10"><a href="#cb36-10" aria-hidden="true" tabindex="-1"></a>VrSint      msg_count       <span class="op">=</span> <span class="dv">0</span><span class="op">;</span></span>
+<span id="cb36-11"><a href="#cb36-11" aria-hidden="true" tabindex="-1"></a>VrAddressIp msg_addr        <span class="op">=</span> <span class="op">{</span><span class="dv">0</span><span class="op">};</span></span>
+<span id="cb36-12"><a href="#cb36-12" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb36-13"><a href="#cb36-13" aria-hidden="true" tabindex="-1"></a>msg_count <span class="op">=</span> vr_udp_socket_read<span class="op">(</span>socket<span class="op">,</span> msg_buffer<span class="op">,</span> msg_size<span class="op">,</span> <span class="op">&amp;</span>msg_addr<span class="op">);</span></span>
+<span id="cb36-14"><a href="#cb36-14" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb36-15"><a href="#cb36-15" aria-hidden="true" tabindex="-1"></a>vr_udp_socket_write_all<span class="op">(</span>socket<span class="op">,</span> msg_buffer<span class="op">,</span> msg_count<span class="op">,</span> msg_addr<span class="op">);</span></span></code></pre>
+    </div>
+    <p>Per utilizzare questa classe lato client è sufficiente inizializzare
+        un socket. Ad esempio:</p>
+    <div class="sourceCode" id="cb37">
+        <pre
+            class="sourceCode c"><code class="sourceCode c"><span id="cb37-1"><a href="#cb37-1" aria-hidden="true" tabindex="-1"></a>VrUdpSocket socket      <span class="op">=</span> vr_udp_socket_reserve<span class="op">(</span>alloc<span class="op">);</span></span>
+<span id="cb37-2"><a href="#cb37-2" aria-hidden="true" tabindex="-1"></a>VrAddressIp server_addr <span class="op">=</span> vr_address_ip_ver4_local<span class="op">(</span><span class="dv">50000</span><span class="op">);</span></span>
+<span id="cb37-3"><a href="#cb37-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb37-4"><a href="#cb37-4" aria-hidden="true" tabindex="-1"></a>vr_udp_socket_init<span class="op">(</span>socket<span class="op">,</span> vr_addres_ip_ver4_empty<span class="op">());</span></span>
+<span id="cb37-5"><a href="#cb37-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb37-6"><a href="#cb37-6" aria-hidden="true" tabindex="-1"></a>VrUint8     msg_buffer<span class="op">[</span><span class="dv">256</span><span class="op">]</span> <span class="op">=</span> <span class="op">{</span><span class="dv">0</span><span class="op">};</span></span>
+<span id="cb37-7"><a href="#cb37-7" aria-hidden="true" tabindex="-1"></a>VrSint      msg_size        <span class="op">=</span> <span class="op">(</span>VrSint<span class="op">)</span> <span class="kw">sizeof</span> msg_buffer<span class="op">;</span></span>
+<span id="cb37-8"><a href="#cb37-8" aria-hidden="true" tabindex="-1"></a>VrSint      msg_count       <span class="op">=</span> <span class="dv">0</span><span class="op">;</span></span>
+<span id="cb37-9"><a href="#cb37-9" aria-hidden="true" tabindex="-1"></a>VrAddressIp msg_addr        <span class="op">=</span> <span class="op">{</span><span class="dv">0</span><span class="op">};</span></span>
+<span id="cb37-10"><a href="#cb37-10" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb37-11"><a href="#cb37-11" aria-hidden="true" tabindex="-1"></a>msg_count <span class="op">=</span> snprintf<span class="op">((</span>VrChar8<span class="op">*)</span> msg_buffer<span class="op">,</span></span>
+<span id="cb37-12"><a href="#cb37-12" aria-hidden="true" tabindex="-1"></a>    msg_size <span class="op">-</span> <span class="dv">1</span><span class="op">,</span> <span class="st">&quot;</span><span class="sc">%s</span><span class="st">&quot;</span><span class="op">,</span> <span class="st">&quot;Ciao!&quot;</span><span class="op">);</span></span>
+<span id="cb37-13"><a href="#cb37-13" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb37-14"><a href="#cb37-14" aria-hidden="true" tabindex="-1"></a>vr_udp_socket_write_all<span class="op">(</span>socket<span class="op">,</span> msg_buffer<span class="op">,</span> msg_count<span class="op">,</span> server_addr<span class="op">);</span></span>
+<span id="cb37-15"><a href="#cb37-15" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb37-16"><a href="#cb37-16" aria-hidden="true" tabindex="-1"></a>msg_count <span class="op">=</span> vr_udp_socket_read<span class="op">(</span>socket<span class="op">,</span> msg_buffer<span class="op">,</span> msg_size<span class="op">,</span> <span class="op">&amp;</span>msg_addr<span class="op">);</span></span></code></pre>
+    </div>
+    <p><strong>Nota</strong>: È sempre possibile eseguire la <a href="#vr_udp_socket_bind"><code>bind</code></a> di un
+        socket ad una
+        porta libera, ma nel caso di un client è consigliato lasciare che sia il
+        sistema operativo a selezionarne una libera in automatico.</p>
+    <h3 id="procedure-3">Procedure</h3>
+    <h4 id="vr_udp_socket_reserve"><code>vr_udp_socket_reserve</code></h4>
+    <p>Riserva la memoria per un socket UDP.</p>
+    <div class="sourceCode" id="cb38">
+        <pre
+            class="sourceCode c"><code class="sourceCode c"><span id="cb38-1"><a href="#cb38-1" aria-hidden="true" tabindex="-1"></a>VrUdpSocket vr_udp_socket_reserve<span class="op">(</span>VrAlloc<span class="op">*</span> alloc<span class="op">)</span></span></code></pre>
+    </div>
+    <p>Restituisce:</p>
+    <ul>
+        <li>Un socket invalido se l’operazione fallisce, uno valido
+            altrimenti.</li>
+    </ul>
+    <h4 id="vr_udp_socket_init"><code>vr_udp_socket_init</code></h4>
+    <p>Inizializza un socket a partire da un indirizzo IP.</p>
+    <div class="sourceCode" id="cb39">
+        <pre
+            class="sourceCode c"><code class="sourceCode c"><span id="cb39-1"><a href="#cb39-1" aria-hidden="true" tabindex="-1"></a>VrBool32 vr_udp_socket_init<span class="op">(</span>VrUdpSocket self<span class="op">,</span> VrAddressIp addr<span class="op">)</span></span></code></pre>
+    </div>
+    <p>Parametri:</p>
+    <ul>
+        <li><code>VrUdpSocket self</code> - Il socket da inizializzare.</li>
+        <li><code>VrAddressIp addr</code> - L’indirizzo IP, <strong>non può
+                essere <a href="#vr_address_ip_none"><code>vr_address_ip_none</code></a></strong>
+            e la porta <strong>non può essere zero</strong>.</li>
+    </ul>
+    <p>Restituisce:</p>
+    <ul>
+        <li>Zero se l’operazione fallisce, un valore diverso da zero
+            altrimenti.</li>
+    </ul>
+    <h4 id="vr_udp_socket_uninit"><code>vr_udp_socket_uninit</code></h4>
+    <p>Distrugge un socket.</p>
+    <div class="sourceCode" id="cb40">
+        <pre
+            class="sourceCode c"><code class="sourceCode c"><span id="cb40-1"><a href="#cb40-1" aria-hidden="true" tabindex="-1"></a><span class="dt">void</span> vr_udp_socket_uninit<span class="op">(</span>VrUdpSocket self<span class="op">)</span></span></code></pre>
+    </div>
+    <h4 id="vr_udp_socket_bind"><code>vr_udp_socket_bind</code></h4>
+    <p>Lega un socket alla porta con cui è stato inizializzato.</p>
+    <div class="sourceCode" id="cb41">
+        <pre
+            class="sourceCode c"><code class="sourceCode c"><span id="cb41-1"><a href="#cb41-1" aria-hidden="true" tabindex="-1"></a>VrBool32 vr_udp_socket_bind<span class="op">(</span>VrUdpSocket self<span class="op">)</span></span></code></pre>
+    </div>
+    <p>Restituisce:</p>
+    <ul>
+        <li>Zero se l’operazione fallisce, un valore diverso da zero
+            altrimenti.</li>
+    </ul>
+    <h4 id="vr_udp_socket_write"><code>vr_udp_socket_write</code></h4>
+    <p>Scrive su un socket il contenuto di un blocco di memoria e lo invia
+        ad un certo indirizzo.</p>
+    <p>L’operazione potrebbe non inviare tutto il blocco, in generale è
+        consigliato controllare quanti byte sono stati effettivamente inviati e
+        scrivere i rimanenti con altre chiamate. L’operazione inoltre è
+        bloccante, cioè attende che sia possibile scrivere almeno un byte prima
+        di tornare al chiamante.</p>
+    <p><strong>Nota</strong>: L’operazione può terminare con successo ma non
+        è garantito che dall’altro lato il contenuto venga ricevuto. Nel caso in
+        cui vengano svolte più chiamate non è nemmeno garantito l’ordine di
+        arrivo delle varie parti.</p>
+    <div class="sourceCode" id="cb42">
+        <pre
+            class="sourceCode c"><code class="sourceCode c"><span id="cb42-1"><a href="#cb42-1" aria-hidden="true" tabindex="-1"></a>VrSint vr_udp_socket_write<span class="op">(</span>VrTcpSocket self<span class="op">,</span> VrUint8<span class="op">*</span> pntr<span class="op">,</span> VrSint size<span class="op">,</span> VrAddressIp addr<span class="op">)</span></span></code></pre>
+    </div>
+    <p>Parametri:</p>
+    <ul>
+        <li><code>VrUdpSocket self</code> - Il socket su cui scrivere.</li>
+        <li><code>VrUint8* pntr</code> - Il blocco di memoria, <strong>non può
+                essere NULL</strong>.</li>
+        <li><code>VrSint size</code> - Dimensione (in byte) del blocco di
+            memoria, <strong>deve essere positiva</strong>.</li>
+        <li><code>VrAddressIp addr</code> - L’indirizzo del destinatario.</li>
+    </ul>
+    <p>Restituisce:</p>
+    <ul>
+        <li>Zero se l’operazione fallisce, il numero di byte scritti compreso in
+            <code>[1, size]</code> altrimenti.
+        </li>
+    </ul>
+    <h4 id="vr_udp_socket_write_all"><code>vr_udp_socket_write_all</code></h4>
+    <p>Scrive su un socket il contenuto di un blocco di memoria e lo invia
+        ad un certo indirizzo.</p>
+    <p>L’operazione è bloccante, cioè attende che sia possibile scrivere
+        almeno un byte prima di tornare al chiamante.</p>
+    <p><strong>Nota</strong>: L’operazione può terminare con successo ma non
+        è garantito che dall’altro lato il contenuto venga ricevuto. Nel caso in
+        cui vengano svolte più chiamate non è nemmeno garantito l’ordine di
+        arrivo delle varie parti.</p>
+    <div class="sourceCode" id="cb43">
+        <pre
+            class="sourceCode c"><code class="sourceCode c"><span id="cb43-1"><a href="#cb43-1" aria-hidden="true" tabindex="-1"></a>VrSint vr_udp_socket_write_all<span class="op">(</span>VrTcpSocket self<span class="op">,</span> VrUint8<span class="op">*</span> pntr<span class="op">,</span> VrSint size<span class="op">,</span> VrAddressIp addr<span class="op">)</span></span></code></pre>
+    </div>
+    <p>Parametri:</p>
+    <ul>
+        <li><code>VrUdpSocket self</code> - Il socket su cui scrivere.</li>
+        <li><code>VrUint8* pntr</code> - Il blocco di memoria, <strong>non può
+                essere NULL</strong>.</li>
+        <li><code>VrSint size</code> - Dimensione (in byte) del blocco di
+            memoria, <strong>deve essere positiva</strong>.</li>
+        <li><code>VrAddressIp addr</code> - L’indirizzo del destinatario.</li>
+    </ul>
+    <p>Restituisce:</p>
+    <ul>
+        <li>Zero se l’operazione fallisce, il numero di byte scritti compreso in
+            <code>[1, size]</code> altrimenti.
+        </li>
+    </ul>
+    <h4 id="vr_udp_socket_read"><code>vr_udp_socket_read</code></h4>
+    <p>Legge da un socket e copia il contenuto in un blocco di memoria
+        ricevuto da un certo indirizzo.</p>
+    <p>L’operazione è bloccante, cioè attende che sia possibile leggere
+        almeno un byte prima di ritornare al chiamante.</p>
+    <p><strong>Nota</strong>: L’operazione può terminare con successo ma non
+        è garantito che il contenuto sia quello inviato originariamente
+        dall’altro lato. In più se dall’altro lato viene interrotta la
+        comunicazione l’operazione potrebbe attendere all’infinito.</p>
+    <div class="sourceCode" id="cb44">
+        <pre
+            class="sourceCode c"><code class="sourceCode c"><span id="cb44-1"><a href="#cb44-1" aria-hidden="true" tabindex="-1"></a>VrSint vr_udp_socket_read<span class="op">(</span>VrUdpSocket self<span class="op">,</span> VrUint8<span class="op">*</span> pntr<span class="op">,</span> VrSint size<span class="op">,</span> VrAddressIp<span class="op">*</span> addr<span class="op">)</span></span></code></pre>
+    </div>
+    <p>Parametri:</p>
+    <ul>
+        <li><code>VrUdpSocket self</code> - Il socket da cui leggere.</li>
+        <li><code>VrUint8* pntr</code> - Il blocco di memoria, <strong>non può
+                essere NULL</strong>.</li>
+        <li><code>VrSint size</code> - Dimensione (in byte) del blocco di
+            memoria, <strong>deve essere positiva</strong>.</li>
+        <li><code>VrAddressIp* addr</code> - Endpoint del mittente, può essere
+            NULL.</li>
+    </ul>
+    <p>Restituisce:</p>
+    <ul>
+        <li>Zero se l’operazione fallisce, il numero di byte letti compreso in
+            <code>[1, size]</code> altrimenti.
+        </li>
+    </ul>
+</body>
 
-            /* Tabelle */
-            table {
-                border-collapse: collapse;
-                width: 100%;
-                margin: 2em 0;
-            }
-
-            th,
-            td {
-                padding: 12px 15px;
-                border: 1px solid var(--border);
-                text-align: left;
-            }
-
-            th {
-                background: #f0f0f0;
-                font-weight: 600;
-            }
-
-            /* Blockquote / Note */
-            blockquote {
-                border-left: 5px solid var(--accent);
-                padding-left: 20px;
-                margin: 2em 0;
-                color: var(--text-light);
-                font-style: italic;
-            }
-
-            /* TOC semplice (solo in pagina) */
-            #toc {
-                background: #f8f8f8;
-                padding: 20px 25px;
-                border: 1px solid var(--border);
-                border-radius: 6px;
-                margin-bottom: 2.5em;
-            }
-
-            /* Utili per documentazione C */
-            .function {
-                color: #2980b9;
-                font-family: monospace;
-                font-weight: 500;
-            }
-
-            .struct,
-            .enum,
-            .macro,
-            .typedef {
-                color: #2e8b57;
-                font-family: monospace;
-            }
-
-            /* Responsive */
-            @media (max-width: 768px) {
-                .markdown-body {
-                    margin: 20px 10px;
-                    padding: 30px 25px;
-                    border-radius: 6px;
-                }
-
-                h1 {
-                    font-size: 2.1rem;
-                }
-            }
-        </style>
-    </head>
-
-    <body class="markdown-body">
-        <h1>Manuale VR</h1>
-        <h2>Utilizzo, esempi e test</h2>
-        <p>
-            Nella cartella <code>test/</code> si trovano dei programmi di test
-            per la libreria mentre nella cartella <code>example/</code> si
-            trovano degli esempi di uso. Per compilare tutto in Windows è
-            sufficiente chiamare lo script <code>build.bat</code> nella root del
-            progetto, per compilare in Linux il processo è simile con
-            <code>build.sh</code> ma potrebbe essere necessario rendere
-            eseguibili tutti gli script prima di chiamarli.
-        </p>
-        <p>
-            Il codice è stato testato su
-            <a href="https://it.wikipedia.org/wiki/Microsoft_Windows"
-                >Windows 10/11</a
-            >,
-            <a href="https://it.wikipedia.org/wiki/Linux_Mint_Debian_Edition"
-                >Linux Mint DE 7</a
-            >
-            e
-            <a href="https://en.wikipedia.org/wiki/Fedora_Linux"
-                >Fedora Linux 43</a
-            >
-            nativi e su
-            <a href="https://it.wikipedia.org/wiki/Ubuntu">Ubuntu 24.04</a>
-            tramite WSL2. Al momento la libreria non supporta MacOS e potrebbe
-            dare problemi su sistemi in cui non è mai stata testata.
-        </p>
-        <h1>VR system memory</h1>
-        <p>
-            Modulo che permette di lavorare con il sistema operativo per
-            ottenere e liberare memoria.
-        </p>
-        <h2>Tabella dei contenuti</h2>
-        <ol>
-            <li>
-                Procedure:
-                <ul>
-                    <li>vr_memory_page_size</li>
-                    <li>vr_memory_reserve</li>
-                    <li>vr_memory_release</li>
-                </ul>
-            </li>
-        </ol>
-        <h3>Procedure</h3>
-        <h4><code>vr_memory_page_size</code></h4>
-        <p>
-            Restituisce la dimensione (in byte) delle pagine usate dal sistema
-            operativo.
-        </p>
-        <pre><code class="language-c">intptr vr_memory_page_size()
-</code></pre>
-        <h4><code>vr_memory_reserve</code></h4>
-        <p>
-            Riserva un&#39;arena di memoria delle dimensioni richieste. La
-            quantità riservata è sempre arrotondata per eccesso alla grandezza
-            di una pagina.
-        </p>
-        <pre><code class="language-c">VR_Arena_Alloc vr_memory_reserve(intptr elem_count, intptr elem_size)
-</code></pre>
-        <p>Parametri:</p>
-        <ul>
-            <li>
-                <code>intptr elem_count</code> - La quantità di elementi da
-                riservare, <strong>deve essere positiva</strong>.
-            </li>
-            <li>
-                <code>intptr elem_size</code> - La dimensione (in byte) degli
-                elementi da riservare, <strong>deve essere positiva</strong>.
-            </li>
-        </ul>
-        <p>Risultato:</p>
-        <ul>
-            <li>
-                Un&#39;arena di memoria delle dimensioni richieste se
-                l&#39;operazione ha successo, un&#39;arena di memoria vuota
-                altrimenti.
-            </li>
-        </ul>
-        <h4><code>vr_memory_release</code></h4>
-        <p>Rilascia un&#39;arena di memoria precedentemente riservata.</p>
-        <pre><code class="language-c">void vr_memory_release(VR_Arena_Alloc* arena)
-</code></pre>
-        <p>Parametri:</p>
-        <ul>
-            <li>
-                <code>VR_Arena_Alloc* arena</code> - L&#39;arena da rilasciare,
-                <strong>non può essere NULL</strong>.
-            </li>
-        </ul>
-        <h1>VR system socket</h1>
-        <p>
-            Modulo che permette di lavorare con il sistema operativo per
-            comunicare tramite socket TCP e UDP.
-        </p>
-        <h2>Tabella dei contenuti</h2>
-        <ol>
-            <li>
-                <a href="#network-ip-address">Network IP Address</a>
-                <ul>
-                    <li>
-                        Tipi:
-                        <ul>
-                            <li>VR_Network_Ip_Addr</li>
-                            <li>VR_Network_Ip_Addr_Kind</li>
-                            <li>VR_Network_Ip_Addr_Ver4</li>
-                            <li>VR_Network_Ip_Addr_Ver6</li>
-                        </ul>
-                    </li>
-                    <li>
-                        Procedure:
-                        <ul>
-                            <li>vr_network_ip_addr_none</li>
-                            <li>vr_network_ip_addr_any</li>
-                            <li>vr_network_ip_addr_local</li>
-                            <li>vr_network_ip_addr_ver4</li>
-                            <li>vr_network_ip_addr_ver6</li>
-                            <li>vr_network_ip_addr_is_equal</li>
-                        </ul>
-                    </li>
-                </ul>
-            </li>
-            <li>
-                <a href="#socket-tcp">Socket TCP</a>
-                <ul>
-                    <li>
-                        Tipi:
-                        <ul>
-                            <li>VR_Socket_Tcp</li>
-                        </ul>
-                    </li>
-                    <li>
-                        Procedure:
-                        <ul>
-                            <li>vr_socket_tcp_reserve</li>
-                            <li>vr_socket_tcp_init</li>
-                            <li>vr_socket_tcp_init_bound</li>
-                            <li>vr_socket_tcp_uninit</li>
-                            <li>vr_socket_tcp_listen</li>
-                            <li>vr_socket_tcp_accept</li>
-                            <li>vr_socket_tcp_connect</li>
-                            <li>vr_socket_tcp_write</li>
-                            <li>vr_socket_tcp_write_all</li>
-                            <li>vr_socket_tcp_read</li>
-                        </ul>
-                    </li>
-                </ul>
-            </li>
-            <li>
-                <a href="#socket-udp">Socket UDP</a>
-                <ul>
-                    <li>
-                        Tipi:
-                        <ul>
-                            <li>VR_Socket_Udp</li>
-                        </ul>
-                    </li>
-                    <li>
-                        Procedure:
-                        <ul>
-                            <li>vr_socket_udp_reserve</li>
-                            <li>vr_socket_udp_init</li>
-                            <li>vr_socket_udp_init_bound</li>
-                            <li>vr_socket_udp_uninit</li>
-                            <li>vr_socket_udp_write</li>
-                            <li>vr_socket_udp_write_all</li>
-                            <li>vr_socket_udp_read</li>
-                        </ul>
-                    </li>
-                </ul>
-            </li>
-        </ol>
-        <h2>Network IP Address</h2>
-        <h2>Tipi</h2>
-        <h4><code>VR_Network_Ip_Addr</code></h4>
-        <p>
-            Classe per lavorare con indirizzi IP. Un indirizzo è costituito da
-            un indirizzo IPv4 o IPv6 e da una porta.
-        </p>
-        <pre><code class="language-c">struct VR_Network_Ip_Addr
-{
-    VR_Network_Ip_Addr_Kind kind;
-
-    union {
-        VR_Network_Ip_Addr_Ver4 ip_ver4;
-        VR_Network_Ip_Addr_Ver6 ip_ver6;
-    };
-
-    uint16 port;
-};
-</code></pre>
-        <p>Membri:</p>
-        <ul>
-            <li>
-                <code>VR_Network_Ip_Addr_Kind kind</code> - Il ipo di indirizzo
-                IP.
-            </li>
-            <li>
-                <code>VR_Network_Ip_Addr_Ver4 ip_ver4</code> - L&#39;indirizzo
-                IPv4, è sempre disposto in <strong>big endian</strong>.
-            </li>
-            <li>
-                <code>VR_Network_Ip_Addr_Ver6 ip_ver6</code> - L&#39;indirizzo
-                IPv6, è sempre disposto in <strong>big endian</strong>.
-            </li>
-            <li>
-                <code>uint16 port</code> - La porta, è sempre disposta come
-                <strong>l&#39;endian nativo della macchina</strong>.
-            </li>
-        </ul>
-        <h4><code>VR_Network_Ip_Addr_Kind</code></h4>
-        <p>
-            Elenca i vari tipi di indirizzi IP che un indirizzo IP può
-            rappresentare.
-        </p>
-        <pre><code class="language-c">enum VR_Network_Ip_Addr_Kind
-{
-    VR_Network_Ip_Addr_Kind_None,
-    VR_Network_Ip_Addr_Kind_Ver4,
-    VR_Network_Ip_Addr_Kind_Ver6,
-};
-</code></pre>
-        <p>Membri:</p>
-        <ul>
-            <li>
-                <code>VR_Network_Ip_Addr_Kind_None</code> - Indirizzo IP
-                invalido.
-            </li>
-            <li><code>VR_Network_Ip_Addr_Kind_Ver4</code> - Indirizzo IPv4.</li>
-            <li><code>VR_Network_Ip_Addr_Kind_Ver6</code> - Indirizzo IPv6.</li>
-        </ul>
-        <h4><code>VR_Network_Ip_Addr_Ver4</code></h4>
-        <p>
-            Rappresenta un indirizzo IPv4. Gli elementi sono sempre disposti in
-            <strong>big endian</strong>.
-        </p>
-        <pre><code class="language-c">union VR_Network_Ip_Addr_Ver4
-{
-    uint8[4] elements;
-
-    struct {
-        uint8 elem_0, elem_1, elem_2, elem_3;
-    };
-};
-</code></pre>
-        <h4><code>VR_Network_Ip_Addr_Ver6</code></h4>
-        <p>
-            Rappresenta un indirizzo IPv6. Gli elementi sono sempre disposti in
-            <strong>big endian</strong>.
-        </p>
-        <pre><code class="language-c">union VR_Network_Ip_Addr_Ver6
-{
-    uint8[16] elements;
-
-    struct {
-        uint8 elem_0,  elem_1,  elem_2,  elem_3;
-        uint8 elem_4,  elem_5,  elem_6,  elem_7;
-        uint8 elem_8,  elem_9,  elem_10, elem_11;
-        uint8 elem_12, elem_13, elem_14, elem_15;
-    };
-};
-</code></pre>
-        <h3>Procedure</h3>
-        <h4><code>vr_network_ip_addr_none</code></h4>
-        <p>Produce un indirizzo IP invalido.</p>
-        <pre><code class="language-c">VR_Network_Ip_Addr vr_network_ip_addr_none()
-</code></pre>
-        <h4><code>vr_network_ip_addr_any</code></h4>
-        <p>
-            Produce un indirizzo IP vuoto a partire da un tipo. Se il tipo
-            specificato è <code>VR_Network_Ip_Addr_Kind_None</code> diventa
-            equivalente a
-            <a href="#vr_network_ip_addr_none">vr_network_ip_addr_none()</a>.
-        </p>
-        <pre><code class="language-c">VR_Network_Ip_Addr vr_network_ip_addr_any(VR_Network_Ip_Addr_Kind kind)
-</code></pre>
-        <h4><code>vr_network_ip_addr_local</code></h4>
-        <p>
-            Produce un indirizzo IP localhost a partire da un tipo e una porta.
-            Se il tipo specificato è
-            <code>VR_Network_Ip_Addr_Kind_None</code> diventa equivalente a
-            <a href="#vr_network_ip_addr_none">vr_network_ip_addr_none()</a>.
-        </p>
-        <pre><code class="language-c">VR_Network_Ip_Addr vr_network_ip_addr_local(VR_Network_Ip_Addr_Kind kind, uint16 port)
-</code></pre>
-        <h4><code>vr_network_ip_addr_ver4</code></h4>
-        <p>Produce un indirizzo IPv4 a partire da un indirizzo e una porta.</p>
-        <pre><code class="language-c">VR_Network_Ip_Addr vr_network_ip_addr_ver4(VR_Network_Ip_Addr_Ver4 ipv4, uint16 port)
-</code></pre>
-        <h4><code>vr_network_ip_addr_ver6</code></h4>
-        <p>Produce un indirizzo IPv6 a partire da un indirizzo e una porta.</p>
-        <pre><code class="language-c">VR_Network_Ip_Addr vr_network_ip_addr_ver6(VR_Network_Ip_Addr_Ver6 ipv6, uint16 port)
-</code></pre>
-        <h4><code>vr_network_ip_addr_is_equal</code></h4>
-        <p>
-            Determina se due indirizzi IP contengono lo stesso indirizzo e la
-            stessa porta.
-        </p>
-        <pre><code class="language-c">bool32 vr_network_ip_addr_is_equal(VR_Network_Ip_Addr self, VR_Network_Ip_Addr other)
-</code></pre>
-        <p>Risultato:</p>
-        <ul>
-            <li>
-                Zero se i due indirizzi sono diversi, un valore diverso da zero
-                altrimenti.
-            </li>
-        </ul>
-        <h2>Socket TCP</h2>
-        <h2>Tipi</h2>
-        <h4><code>VR_Socket_Tcp</code></h4>
-        <p>Classe per lavorare con socket TCP.</p>
-        <p>
-            Per utilizzare questa classe lato client è sufficiente preparare un
-            socket e connettersi ad un certo indirizzo IP. Ad esempio:
-        </p>
-        <pre><code class="language-c">VR_Socket_Tcp socket = vr_socket_tcp_reserve(&amp;arena);
-
- // localhost:34137
-VR_Network_Ip_Addr server_addr = vr_network_ip_addr_ver4(
-    VR_NETWORK_IP_ADDR_VER4_LOCAL, 34137);
-
-vr_socket_tcp_init(socket, server_addr.kind);
-vr_socket_tcp_connect(socket, server_addr);
-
-uint8 buffer[256] = {0};
-
-intptr count = snprintf((char8*) buffer, sizeof buffer - 1, &quot;%s&quot;, &quot;Ciao!&quot;);
-
-vr_socket_tcp_write(socket, buffer, count);
-
-count = vr_socket_tcp_read(socket, buffer, sizeof buffer);
-</code></pre>
-        <p>
-            Per utilizzare questa classe lato server invece è necessario
-            preparare un socket <strong>bound</strong> che deve essere proposso
-            a <strong>listener</strong> e successivamente riservare un socket
-            per le connessioni che si intende accettare. Ad esempio:
-        </p>
-        <pre><code class="language-c">VR_Socket_Tcp listener = vr_socket_tcp_reserve(&amp;arena);
-
-// localhost:34137
-vr_socket_tcp_init_bound(listener, VR_Network_Ip_Addr_Kind_Ver4, 34137);
-vr_socket_tcp_listen(listener);
-
-VR_Socket_Tcp socket = vr_socket_tcp_reserve(&amp;arena);
-
-uint8 buffer[256] = {0};
-
-vr_socket_tcp_accept(socket, listener);
-
-intptr count = vr_socket_tcp_read(socket, buffer, sizeof buffer);
-
-vr_socket_tcp_write(socket, buffer, count);
-</code></pre>
-        <p>
-            <strong>Nota</strong>: È sempre possibile creare un socket bound a
-            patto che la porta sia disponibile, nel caso di un server è
-            fondamentale ma nel caso di un client è consigliato lasciare che sia
-            il sistema operativo a selezionarne una libera in automatico.
-        </p>
-        <pre><code class="language-c">struct VR_Socket_Tcp { void* impl; };
-</code></pre>
-        <h3>Procedure</h3>
-        <h4><code>vr_socket_tcp_reserve</code></h4>
-        <p>Riserva la memoria per un socket TCP.</p>
-        <pre><code class="language-c">VR_Socket_Tcp vr_socket_tcp_reserve(VR_Alloc* alloc)
-</code></pre>
-        <p>Restituisce:</p>
-        <ul>
-            <li>
-                Un socket invalido se l&#39;operazione fallisce, uno valido
-                altrimenti.
-            </li>
-        </ul>
-        <h4><code>vr_socket_tcp_init</code></h4>
-        <p>Inizializza un socket a partire da un tipo di indirizzo IP.</p>
-        <pre><code class="language-c">bool32 vr_socket_tcp_init(VR_Socket_Tcp self, VR_Network_Ip_Addr_Kind kind)
-</code></pre>
-        <p>Parametri:</p>
-        <ul>
-            <li>
-                <code>VR_Socket_Tcp self</code> - Il socket da inizializzare.
-            </li>
-            <li>
-                <code>VR_Network_Ip_Addr_Kind kind</code> - Il tipo di indirizzo
-                IP,
-                <strong
-                    >non può essere
-                    <code>VR_Network_Ip_Addr_Kind_None</code></strong
-                >.
-            </li>
-        </ul>
-        <p>Restituisce:</p>
-        <ul>
-            <li>
-                Zero se l&#39;operazione fallisce, un valore diverso da zero
-                altrimenti.
-            </li>
-        </ul>
-        <h4><code>vr_socket_tcp_init_bound</code></h4>
-        <p>
-            Inizializza un socket <strong>bound</strong> a partire da un tipo di
-            indirizzo IP e una porta.
-        </p>
-        <pre><code class="language-c">bool32 vr_socket_tcp_init_bound(VR_Socket_Tcp self, VR_Network_Ip_Addr_Kind kind, uint16 port)
-</code></pre>
-        <p>Parametri:</p>
-        <ul>
-            <li>
-                <code>VR_Socket_Tcp self</code> - Il socket da inizializzare.
-            </li>
-            <li>
-                <code>VR_Network_Ip_Addr_Kind kind</code> - Il tipo di indirizzo
-                IP,
-                <strong
-                    >non può essere
-                    <code>VR_Network_Ip_Addr_Kind_None</code></strong
-                >.
-            </li>
-            <li>
-                <code>uint16 port</code> - La porta,
-                <strong>non può essere zero</strong>.
-            </li>
-        </ul>
-        <p>Restituisce:</p>
-        <ul>
-            <li>
-                Zero se l&#39;operazione fallisce, un valore diverso da zero
-                altrimenti.
-            </li>
-        </ul>
-        <h4><code>vr_socket_tcp_uninit</code></h4>
-        <p>
-            Distrugge un socket. Questa operazione chiude la connessione e
-            dall&#39;altro capo nessun socket riuscirà più a scrivere o leggere.
-        </p>
-        <pre><code class="language-c">void vr_socket_tcp_uninit(VR_Socket_Tcp self)
-</code></pre>
-        <h4><code>vr_socket_tcp_listen</code></h4>
-        <p>Promuove un socket a listener.</p>
-        <pre><code class="language-c">bool32 vr_socket_tcp_listen(VR_Socket_Tcp listener)
-</code></pre>
-        <p>Restituisce:</p>
-        <ul>
-            <li>
-                Zero se l&#39;operazione fallisce, un valore diverso da zero
-                altrimenti.
-            </li>
-        </ul>
-        <h4><code>vr_socket_tcp_accept</code></h4>
-        <p>
-            Accetta una nuova connessione su un socket a partire da un socket
-            listener.
-        </p>
-        <pre><code class="language-c">bool32 vr_socket_tcp_accept(VR_Socket_Tcp self, VR_Socket_Tcp listener)
-</code></pre>
-        <p>Parametri:</p>
-        <ul>
-            <li>
-                <code>VR_Socket_Tcp self</code> - Il socket su cui accettare la
-                nuova connessione,
-                <strong>deve essere riservato ma non inizializzato</strong>.
-            </li>
-            <li><code>VR_Socket_Tcp listener</code> - Il socket listener.</li>
-        </ul>
-        <p>Restituisce:</p>
-        <ul>
-            <li>
-                Zero se l&#39;operazione fallisce, un valore diverso da zero
-                altrimenti.
-            </li>
-        </ul>
-        <h4><code>vr_socket_tcp_connect</code></h4>
-        <p>
-            Inizia una nuova connessione su un socket verso un altro host a
-            partire da un indirizzo IP.
-        </p>
-        <pre><code class="language-c">bool32 vr_socket_tcp_connect(VR_Socket_Tcp self, VR_Network_Ip_Addr addr)
-</code></pre>
-        <p>Parametri:</p>
-        <ul>
-            <li>
-                <code>VR_Socket_Tcp self</code> - Il socket con cui iniziare la
-                nuova connessione.
-            </li>
-            <li>
-                <code>VR_Network_Ip_Addr addr</code> - L&#39;addr a cui
-                connettersi.
-            </li>
-        </ul>
-        <p>Restituisce:</p>
-        <ul>
-            <li>
-                Zero se l&#39;operazione fallisce, un valore diverso da zero
-                altrimenti.
-            </li>
-        </ul>
-        <h4><code>vr_socket_tcp_write</code></h4>
-        <p>
-            Scrive su un socket <strong>non listener</strong> il contenuto di un
-            blocco di memoria.
-        </p>
-        <p>
-            L&#39;operazione potrebbe non inviare tutto il blocco, in generale è
-            consigliato controllare quanti byte sono stati effettivamente
-            inviati e scrivere i rimanenti con altre chiamate. L&#39;operazione
-            inoltre è bloccante, cioè attende che sia possibile scrivere almeno
-            un byte prima di ritornare al chiamante.
-        </p>
-        <p>
-            <strong>Nota</strong>: Se il socket è in uno stato valido e i
-            parametri sono corretti ma l&#39;operazione comunque termina con
-            zero byte scritti, può significare che la connessione dall&#39;altro
-            lato è stata interrotta.
-        </p>
-        <pre><code class="language-c">intptr vr_socket_tcp_write(VR_Socket_Tcp self, uint8* pntr, intptr size)
-</code></pre>
-        <p>Parametri:</p>
-        <ul>
-            <li>
-                <code>VR_Socket_Tcp self</code> - Il socket su cui scrivere.
-            </li>
-            <li>
-                <code>uint8* pntr</code> - Il blocco di memoria,
-                <strong>non può essere NULL</strong>.
-            </li>
-            <li>
-                <code>intptr size</code> - Dimensione (in byte) del blocco di
-                memoria, <strong>deve essere positiva</strong>.
-            </li>
-        </ul>
-        <p>Restituisce:</p>
-        <ul>
-            <li>
-                Zero se l&#39;operazione fallisce, il numero di byte scritti
-                compreso in <code>[1, size]</code> altrimenti.
-            </li>
-        </ul>
-        <h4><code>vr_socket_tcp_write_all</code></h4>
-        <p>
-            Scrive su un socket <strong>non listener</strong> il contenuto di un
-            blocco di memoria.
-        </p>
-        <p>
-            L&#39;operazione è bloccante, cioè attende che sia possibile
-            scrivere almeno un byte prima di ritornare al chiamante.
-        </p>
-        <p>
-            <strong>Nota</strong>: Se il socket è in uno stato valido e i
-            parametri sono corretti ma l&#39;operazione comunque termina con
-            zero byte scritti, può significare che la connessione dall&#39;altro
-            lato è stata interrotta.
-        </p>
-        <pre><code class="language-c">intptr vr_socket_tcp_write_all(VR_Socket_Tcp self, uint8* pntr, intptr size)
-</code></pre>
-        <p>Parametri:</p>
-        <ul>
-            <li>
-                <code>VR_Socket_Tcp self</code> - Il socket su cui scrivere.
-            </li>
-            <li>
-                <code>uint8* pntr</code> - Il blocco di memoria,
-                <strong>non può essere NULL</strong>.
-            </li>
-            <li>
-                <code>intptr size</code> - Dimensione (in byte) del blocco di
-                memoria, <strong>deve essere positiva</strong>.
-            </li>
-        </ul>
-        <p>Restituisce:</p>
-        <ul>
-            <li>
-                Zero se l&#39;operazione fallisce, il numero di byte scritti
-                compreso in <code>size</code> altrimenti.
-            </li>
-        </ul>
-        <h4><code>vr_socket_tcp_read</code></h4>
-        <p>
-            Legge da un socket <strong>non listener</strong> e copia il
-            contenuto in un blocco di memoria.
-        </p>
-        <p>
-            L&#39;operazione è bloccante, cioè attende che sia possibile leggere
-            almeno un byte prima di ritornare al chiamante.
-        </p>
-        <p>
-            <strong>Nota</strong>: Se il socket è in uno stato valido e i
-            parametri sono corretti ma l&#39;operazione comunque termina con
-            zero byte letti, può significare che la connessione dall&#39;altro
-            lato è stata interrotta.
-        </p>
-        <pre><code class="language-c">intptr vr_socket_tcp_read(VR_Socket_Tcp self, uint8* pntr, intptr size)
-</code></pre>
-        <p>Parametri:</p>
-        <ul>
-            <li><code>VR_Socket_Tcp self</code> - Il socket da cui leggere.</li>
-            <li>
-                <code>uint8* pntr</code> - Il blocco di memoria,
-                <strong>non può essere NULL</strong>.
-            </li>
-            <li>
-                <code>intptr size</code> - Dimensione (in byte) del blocco di
-                memoria, <strong>deve essere positiva</strong>.
-            </li>
-        </ul>
-        <p>Restituisce:</p>
-        <ul>
-            <li>
-                Zero se l&#39;operazione fallisce, il numero di byte letti
-                compreso in <code>[1, size]</code> altrimenti.
-            </li>
-        </ul>
-        <h2>Socket UDP</h2>
-        <h3>Tipi</h3>
-        <h4><code>VR_Socket_Udp</code></h4>
-        <p>Classe per lavorare con socket UDP.</p>
-        <p>
-            Per utilizzare questa classe lato client è sufficiente preparare un
-            socket. Ad esempio:
-        </p>
-        <pre><code class="language-c">VR_Socket_Udp socket = vr_socket_udp_reserve(alloc);
-
-// localhost:34137
-VR_Network_Ip_Addr server_addr = vr_network_ip_addr_ver4(
-    VR_NETWORK_IP_ADDR_VER4_LOCAL, 34137);
-
-vr_socket_udp_init(socket, server_addr.kind);
-
-uint8 buffer[256] = {0};
-
-intptr count = snprintf((char8*) buffer, sizeof buffer - 1, &quot;%s&quot;, &quot;Ciao!&quot;);
-
-vr_socket_udp_write(socket, buffer, count, addr);
-
-count = vr_socket_udp_read(socket, buffer, sizeof buffer, &amp;addr);
-</code></pre>
-        <p>
-            Per utilizzare questa classe lato server invece è necessario
-            preparare un socket <strong>bound</strong>. Ad esempio:
-        </p>
-        <pre><code class="language-c">VR_Socket_Udp socket = vr_socket_udp_reserve(alloc);
-
-VR_Network_Ip_Addr addr = {0};
-
-vr_socket_udp_init_bound(listener, VR_Network_Ip_Addr_Kind_Ver4, 34137);
-
-uint8 buffer[256] = {0};
-
-intptr count = vr_socket_udp_read(socket, buffer, sizeof buffer, &amp;addr);
-
-vr_socket_udp_write(socket, buffer, count, addr);
-</code></pre>
-        <p>
-            <strong>Nota</strong>: È sempre possibile creare un socket bound a
-            patto che la porta sia disponibile, nel caso di un server è
-            fondamentale ma nel caso di un client è consigliato lasciare che sia
-            il sistema operativo a selezionarne una libera in automatico.
-        </p>
-        <pre><code class="language-c">struct VR_Socket_Udp { void* impl; };
-</code></pre>
-        <h3>Procedure</h3>
-        <h4><code>vr_socket_udp_reserve</code></h4>
-        <p>Riserva la memoria per un socket UDP.</p>
-        <pre><code class="language-c">VR_Socket_Udp vr_socket_udp_reserve(VR_Alloc* alloc)
-</code></pre>
-        <p>Restituisce:</p>
-        <ul>
-            <li>
-                Un socket invalido se l&#39;operazione fallisce, uno valido
-                altrimenti.
-            </li>
-        </ul>
-        <h4><code>vr_socket_udp_init</code></h4>
-        <p>Inizializza un socket a partire da un tipo di indirizzo IP.</p>
-        <pre><code class="language-c">bool32 vr_socket_udp_init(VR_Socket_Udp self, VR_Network_Ip_Addr_Kind kind)
-</code></pre>
-        <p>Parametri:</p>
-        <ul>
-            <li>
-                <code>VR_Socket_Udp self</code> - Il socket da inizializzare.
-            </li>
-            <li>
-                <code>VR_Network_Ip_Addr_Kind kind</code> - Il tipo di indirizzo
-                IP,
-                <strong
-                    >non può essere
-                    <code>VR_Network_Ip_Addr_Kind_None</code></strong
-                >.
-            </li>
-        </ul>
-        <p>Restituisce:</p>
-        <ul>
-            <li>
-                Zero se l&#39;operazione fallisce, un valore diverso da zero
-                altrimenti.
-            </li>
-        </ul>
-        <h4><code>vr_socket_udp_init_bound</code></h4>
-        <p>
-            Inizializza un socket <strong>bound</strong> a partire da un tipo di
-            indirizzo IP e una porta.
-        </p>
-        <pre><code class="language-c">bool32 vr_socket_udp_init_bound(VR_Socket_Udp self, VR_Network_Ip_Addr_Kind kind, uint16 port)
-</code></pre>
-        <p>Parametri:</p>
-        <ul>
-            <li>
-                <code>VR_Socket_Udp self</code> - Il socket da inizializzare.
-            </li>
-            <li>
-                <code>VR_Network_Ip_Addr_Kind kind</code> - Il tipo di indirizzo
-                specificato,
-                <strong
-                    >non può essere
-                    <code>VR_Network_Ip_Addr_Kind_None</code></strong
-                >.
-            </li>
-            <li>
-                <code>uint16 port</code> - La porta specificata,
-                <strong>non può essere zero</strong>.
-            </li>
-        </ul>
-        <p>Restituisce:</p>
-        <ul>
-            <li>
-                Zero se l&#39;operazione fallisce, un valore diverso da zero
-                altrimenti.
-            </li>
-        </ul>
-        <h4><code>vr_socket_udp_uninit</code></h4>
-        <p>Distrugge un socket.</p>
-        <pre><code class="language-c">void vr_socket_udp_uninit(VR_Socket_Udp self)
-</code></pre>
-        <h4><code>vr_socket_udp_write</code></h4>
-        <p>
-            Scrive su un socket il contenuto di un blocco di memoria ad un certo
-            addr.
-        </p>
-        <p>
-            L&#39;operazione potrebbe non inviare tutto il blocco, in generale è
-            consigliato controllare quanti byte sono stati effettivamente
-            inviati e scrivere i rimanenti con altre chiamate. L&#39;operazione
-            inoltre è bloccante, cioè attende che sia possibile scrivere almeno
-            un byte prima di tornare al chiamante.
-        </p>
-        <p>
-            <strong>Nota</strong>: L&#39;operazione può terminare con successo
-            ma non è garantito che dall&#39;altro lato il contenuto venga
-            ricevuto. Nel caso in cui vengano svolte più chiamate non è nemmeno
-            garantito l&#39;ordine di arrivo delle varie parti.
-        </p>
-        <pre><code class="language-c">intptr vr_socket_udp_write(VR_Socket_Tcp self, uint8* pntr, intptr size, VR_Network_Ip_Addr addr)
-</code></pre>
-        <p>Parametri:</p>
-        <ul>
-            <li>
-                <code>VR_Socket_Udp self</code> - Il socket su cui scrivere.
-            </li>
-            <li>
-                <code>uint8* pntr</code> - Il blocco di memoria,
-                <strong>non può essere NULL</strong>.
-            </li>
-            <li>
-                <code>intptr size</code> - Dimensione (in byte) del blocco di
-                memoria, <strong>deve essere positiva</strong>.
-            </li>
-            <li>
-                <code>VR_Network_Ip_Addr addr</code> - Endpoint del
-                destinatario.
-            </li>
-        </ul>
-        <p>Restituisce:</p>
-        <ul>
-            <li>
-                Zero se l&#39;operazione fallisce, il numero di byte scritti
-                compreso in <code>[1, size]</code> altrimenti.
-            </li>
-        </ul>
-        <h4><code>vr_socket_udp_write_all</code></h4>
-        <p>
-            Scrive su un socket il contenuto di un blocco di memoria ad un certo
-            addr.
-        </p>
-        <p>
-            L&#39;operazione è bloccante, cioè attende che sia possibile
-            scrivere almeno un byte prima di tornare al chiamante.
-        </p>
-        <p>
-            <strong>Nota</strong>: L&#39;operazione può terminare con successo
-            ma non è garantito che dall&#39;altro lato il contenuto venga
-            ricevuto. Nel caso in cui vengano svolte più chiamate non è nemmeno
-            garantito l&#39;ordine di arrivo delle varie parti.
-        </p>
-        <pre><code class="language-c">intptr vr_socket_udp_write_all(VR_Socket_Tcp self, uint8* pntr, intptr size, VR_Network_Ip_Addr addr)
-</code></pre>
-        <p>Parametri:</p>
-        <ul>
-            <li>
-                <code>VR_Socket_Udp self</code> - Il socket su cui scrivere.
-            </li>
-            <li>
-                <code>uint8* pntr</code> - Il blocco di memoria,
-                <strong>non può essere NULL</strong>.
-            </li>
-            <li>
-                <code>intptr size</code> - Dimensione (in byte) del blocco di
-                memoria, <strong>deve essere positiva</strong>.
-            </li>
-            <li>
-                <code>VR_Network_Ip_Addr addr</code> - Endpoint del
-                destinatario.
-            </li>
-        </ul>
-        <p>Restituisce:</p>
-        <ul>
-            <li>
-                Zero se l&#39;operazione fallisce, il numero di byte scritti
-                compreso in <code>[1, size]</code> altrimenti.
-            </li>
-        </ul>
-        <h4><code>vr_socket_udp_read</code></h4>
-        <p>Legge da un socket e copia il contenuto in un blocco di memoria.</p>
-        <p>
-            L&#39;operazione è bloccante, cioè attende che sia possibile leggere
-            almeno un byte prima di ritornare al chiamante.
-        </p>
-        <p>
-            <strong>Nota</strong>: L&#39;operazione può terminare con successo
-            ma non è garantito che il contenuto sia quello inviato
-            originariamente dall&#39;altro lato. In più se dall&#39;altro lato
-            viene interrotta la comunicazione l&#39;operazione potrebbe
-            attendere all&#39;infinito.
-        </p>
-        <pre><code class="language-c">intptr vr_socket_udp_read(VR_Socket_Udp self, uint8* pntr, intptr size, VR_Network_Ip_Addr* addr)
-</code></pre>
-        <p>Parametri:</p>
-        <ul>
-            <li><code>VR_Socket_Udp self</code> - Il socket da cui leggere.</li>
-            <li>
-                <code>uint8* pntr</code> - Il blocco di memoria,
-                <strong>non può essere NULL</strong>.
-            </li>
-            <li>
-                <code>intptr size</code> - Dimensione (in byte) del blocco di
-                memoria, <strong>deve essere positiva</strong>.
-            </li>
-            <li>
-                <code>VR_Network_Ip_Addr* addr</code> - Endpoint del mittente,
-                può essere NULL.
-            </li>
-        </ul>
-        <p>Restituisce:</p>
-        <ul>
-            <li>
-                Zero se l&#39;operazione fallisce, il numero di byte letti
-                compreso in <code>[1, size]</code> altrimenti.
-            </li>
-        </ul>
-    </body>
 </html>

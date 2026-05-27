@@ -1,5 +1,5 @@
-#include <vr_system_memory.h>
-#include <vr_system_socket.h>
+#include <vr_platform_memory.h>
+#include <vr_platform_socket.h>
 
 #include <stdio.h>
 #include <stdlib.h>
@@ -9,20 +9,20 @@
 
 int main(int args_count, char** args_array)
 {
-    VR_Arena_Alloc arena = vr_memory_reserve(16, 1024);
+    VrArenaAlloc arena = vr_memory_reserve(16, 1024);
 
-    VR_Socket_Tcp listener = vr_socket_tcp_reserve((VR_Alloc*) &arena);
-    VR_Socket_Tcp socket   = vr_socket_tcp_reserve((VR_Alloc*) &arena);
+    VrTcpListener listener = vr_tcp_listener_reserve((VrAlloc*) &arena);
+    VrTcpSocket   socket   = vr_tcp_socket_reserve((VrAlloc*) &arena);
 
-    vr_socket_tcp_init_bound(listener, VR_Network_Ip_Addr_Kind_Ver4, 37134);
-    vr_socket_tcp_listen(listener);
+    vr_tcp_listener_init(listener, vr_address_ip_ver4_local(50000));
+    vr_tcp_listener_bind_and_listen(listener);
 
     while (1) {
-        vr_socket_tcp_accept(socket, listener);
-        vr_socket_tcp_uninit(socket);
+        vr_tcp_socket_accept(socket, listener);
+        vr_tcp_socket_uninit(socket);
     }
 
-    vr_socket_tcp_uninit(listener);
+    vr_tcp_listener_uninit(listener);
 
     return 0;
 }

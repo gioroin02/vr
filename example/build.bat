@@ -34,8 +34,8 @@ set "example_udp_client_add=example\udp_client_add.c"
 %comp% -o output\tcp_server_add.exe  %impl% %example_tcp_server_add%
 %comp% -o output\tcp_client_add.exe  %impl% %example_tcp_client_add%
 
-@rem %comp% -o output\tcp_server_file.exe %impl% %example_tcp_server_file%
-@rem %comp% -o output\tcp_client_file.exe %impl% %example_tcp_client_file%
+%comp% -o output\tcp_server_file.exe %impl% %example_tcp_server_file%
+%comp% -o output\tcp_client_file.exe %impl% %example_tcp_client_file%
 
 %comp% -o output\udp_server_echo.exe %impl% %example_udp_server_echo%
 %comp% -o output\udp_client_echo.exe %impl% %example_udp_client_echo%
