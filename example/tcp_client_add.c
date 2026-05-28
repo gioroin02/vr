@@ -12,8 +12,8 @@ int main(int args_count, char** args_array)
 
     VrTcpSocket socket = vr_tcp_socket_reserve((VrAlloc*) &arena);
 
-    vr_tcp_socket_init(socket, vr_address_ip_ver4_empty());
-    vr_tcp_socket_connect(socket, vr_address_ip_ver4_local(50000));
+    vr_tcp_socket_init(socket, vr_address_ipv4_empty());
+    vr_tcp_socket_connect(socket, vr_address_ipv4_local(50000));
 
     printf(INFO "Sessione iniziata\n");
 

@@ -11,10 +11,10 @@ int main(void)
 
     VrTcpSocket socket = vr_tcp_socket_reserve((VrAlloc*) &arena);
 
-    VrAddressIp addr = vr_address_ip_ver4(
+    VrAddressIp addr = vr_address_ipv4(
         VR_ADDRESS_IP_VER4_LOCAL, 5000);
 
-    vr_tcp_socket_init(socket, vr_address_ip_ver4_empty());
+    vr_tcp_socket_init(socket, vr_address_ipv4_empty());
     vr_tcp_socket_connect(socket, addr);
 
     VrChar8 message[32] = "Ciao!";

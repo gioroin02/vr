@@ -11,7 +11,7 @@ int main(void)
     VrUdpSocket socket = vr_udp_socket_reserve((VrAlloc*) &arena);
     VrAddressIp addr   = {0};
 
-    vr_udp_socket_init(socket, vr_address_ip_ver4_local(5000));
+    vr_udp_socket_init(socket, vr_address_ipv4_local(5000));
     vr_udp_socket_bind(socket);
 
     VrChar8 message[32] = {0};

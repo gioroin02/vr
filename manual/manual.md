@@ -8,16 +8,16 @@ Nella cartella `test/` si trovano dei programmi di test per la libreria mentre n
 
 Il codice è stato testato su [Windows 10/11](https://it.wikipedia.org/wiki/Microsoft_Windows), [Linux Mint DE 7](https://it.wikipedia.org/wiki/Linux_Mint_Debian_Edition) e [Fedora Linux 43](https://en.wikipedia.org/wiki/Fedora_Linux) nativi e su [Ubuntu 24.04](https://it.wikipedia.org/wiki/Ubuntu) tramite WSL2. Al momento la libreria non supporta MacOS e potrebbe dare problemi su sistemi in cui non è mai stata testata.
 
-# VR system memory
+# VR platform memory
 
 Modulo che permette di lavorare con il sistema operativo per ottenere e liberare memoria.
 
 ## Tabella dei contenuti
 
 1. Procedure:
-	- vr_memory_page_size
-	- vr_memory_reserve
-	- vr_memory_release
+	- [vr_memory_page_size](#vr_memory_page_size)
+	- [vr_memory_reserve](#vr_memory_reserve)
+	- [vr_memory_release](#vr_memory_release)
 
 ### Procedure
 
@@ -58,7 +58,7 @@ Parametri:
 
 - `VrArenaAlloc* arena` - L'arena da rilasciare, **non può essere NULL**.
 
-# VR system socket
+# VR platform socket
 
 Modulo che permette di lavorare con il sistema operativo per comunicare tramite socket TCP e UDP.
 
@@ -66,52 +66,48 @@ Modulo che permette di lavorare con il sistema operativo per comunicare tramite 
 
 1. [Address IP](#address-ip)
     - Tipi:
-        - VrAddressIp
-        - VrAddressIpKind
-        - VrAddressIpVer4
-        - VrAddressIpVer6
+        - [VrAddressIp](#vraddressip)
+        - [VrAddressIpKind](#vraddressipkind)
+        - [VrAddressIpV4](#vraddressipv4)
+        - [VrAddressIpV6](#vraddressipv6)
     - Procedure:
-        - vr_address_ip_none
-        - vr_address_ip_empty
-        - vr_address_ip_local
-        - vr_address_ip_ver4_empty
-        - vr_address_ip_ver4_empty
-        - vr_address_ip_ver4
-        - vr_address_ip_ver6_empty
-        - vr_address_ip_ver6_empty
-        - vr_address_ip_ver6
-        - vr_address_ip_is_equal
+        - [vr_address_ip_none](#vr_address_ip_none)
+        - [vr_address_ip_empty](#vr_address_ip_empty)
+        - [vr_address_ip_local](#vr_address_ip_local)
+        - [vr_address_ipv4](#vr_address_ipv4)
+        - [vr_address_ipv6](#vr_address_ipv6)
+        - [vr_address_ip_is_equal](#vr_address_ip_is_equal)
 2. [Socket TCP](#socket-tcp)
     - Tipi:
-        - VrTcpListener
-        - VrTcpSocket
+        - [VrTcpListener](#vrtcplistener)
+        - [VrTcpSocket](#vrtcpsocket)
     - Procedure:
-        - vr_tcp_listener_reserve
-        - vr_tcp_listener_init
-        - vr_tcp_listener_uninit
-        - vr_tcp_listener_bind
-        - vr_tcp_socket_reserve
-        - vr_tcp_socket_init
-        - vr_tcp_socket_uninit
-        - vr_tcp_socket_bind
-        - vr_tcp_socket_listen
-        - vr_tcp_socket_connect
-        - vr_tcp_socket_write
-        - vr_tcp_socket_write_all
-        - vr_tcp_socket_read
+        - [vr_tcp_listener_reserve](#vr_tcp_listener_reserve)
+        - [vr_tcp_listener_init](#vr_tcp_listener_init)
+        - [vr_tcp_listener_uninit](#vr_tcp_listener_uninit)
+        - [vr_tcp_listener_bind_and_listen](#vr_tcp_listener_bind_and_listen)
+        - [vr_tcp_socket_reserve](#vr_tcp_socket_reserve)
+        - [vr_tcp_socket_init](#vr_tcp_socket_init)
+        - [vr_tcp_socket_uninit](#vr_tcp_socket_uninit)
+        - [vr_tcp_socket_bind](#vr_tcp_socket_bind)
+        - [vr_tcp_socket_accept](#vr_tcp_socket_accept)
+        - [vr_tcp_socket_connect](#vr_tcp_socket_connect)
+        - [vr_tcp_socket_write](#vr_tcp_socket_write)
+        - [vr_tcp_socket_write_all](#vr_tcp_socket_write_all)
+        - [vr_tcp_socket_read](#vr_tcp_socket_read)
 3. [Socket UDP](#socket-udp)
     - Tipi:
-        - VrUdpSocket
+        - [VrUdpSocket](#vrudpsocket)
     - Procedure:
-        - vr_udp_socket_reserve
-        - vr_udp_socket_init
-        - vr_udp_socket_uninit
-        - vr_udp_socket_bind
-        - vr_udp_socket_write
-        - vr_udp_socket_write_all
-        - vr_udp_socket_read
+        - [vr_udp_socket_reserve](#vr_udp_socket_reserve)
+        - [vr_udp_socket_init](#vr_udp_socket_init)
+        - [vr_udp_socket_uninit](#vr_udp_socket_uninit)
+        - [vr_udp_socket_bind](#vr_udp_socket_bind)
+        - [vr_udp_socket_write](#vr_udp_socket_write)
+        - [vr_udp_socket_write_all](#vr_udp_socket_write_all)
+        - [vr_udp_socket_read](#vr_udp_socket_read)
 
-## Network IP Address
+## Address IP
 
 ## Tipi
 
@@ -126,8 +122,8 @@ struct VrAddressIp
 
     union
     {
-        VrAddressIpVer4 ver4;
-        VrAddressIpVer6 ver6;
+        VrAddressIpV4 v4;
+        VrAddressIpV6 v6;
     }
     ip;
 
@@ -137,9 +133,9 @@ struct VrAddressIp
 
 Membri:
 
-- `VrAddressIpKind kind` - Il tipo di indirizzo IP.
-- `VrAddressIpVer4 ip.ver4` - L'indirizzo IPv4, è sempre disposto in **big endian**.
-- `VrAddressIpVer6 ip.ver6` - L'indirizzo IPv6, è sempre disposto in **big endian**.
+- [`VrAddressIpKind kind`](#vraddressipkind) - Il tipo di indirizzo IP.
+- [`VrAddressIpV4 ip.v4`](#vraddressipv4) - L'indirizzo IPv4, è sempre disposto in **big endian**.
+- [`VrAddressIpV6 ip.v6`](#vraddressipv6) - L'indirizzo IPv6, è sempre disposto in **big endian**.
 - `VrUint16 port` - La porta, è sempre disposta come **l'endian nativo della macchina**.
 
 #### `VrAddressIpKind`
@@ -150,23 +146,23 @@ Elenca i vari tipi di indirizzi IP che un indirizzo IP può rappresentare.
 enum VrAddressIpKind
 {
     VrAddressIpKind_None,
-    VrAddressIpKind_Ver4,
-    VrAddressIpKind_Ver6,
+    VrAddressIpKind_V4,
+    VrAddressIpKind_V6,
 };
 ```
 
 Membri:
 
 - `VrAddressIpKind_None` - Indirizzo IP invalido.
-- `VrAddressIpKind_Ver4` - Indirizzo IPv4.
-- `VrAddressIpKind_Ver6` - Indirizzo IPv6.
+- `VrAddressIpKind_V4` - Indirizzo IPv4.
+- `VrAddressIpKind_V6` - Indirizzo IPv6.
 
-#### `VrAddressIpVer4`
+#### `VrAddressIpV4`
 
 Rappresenta un indirizzo IPv4. Gli elementi sono sempre disposti in **big endian**.
 
 ```c
-struct VrAddressIpVer4
+struct VrAddressIpV4
 {
     union
     {
@@ -182,12 +178,12 @@ struct VrAddressIpVer4
 };
 ```
 
-#### `VrAddressIpVer6`
+#### `VrAddressIpV6`
 
 Rappresenta un indirizzo IPv6. Gli elementi sono sempre disposti in **big endian**.
 
 ```c
-struct VrAddressIpVer6
+struct VrAddressIpV6
 {
     union
     {
@@ -216,48 +212,18 @@ Produce un indirizzo IP invalido.
 VrAddressIp vr_address_ip_none(void)
 ```
 
-#### `vr_address_ip_ver4_empty`
-
-Produce un indirizzo IPv4 vuoto.
-
-```c
-#define vr_address_ip_ver4_empty() \
-    vr_address_ip_empty(VrAddressIpKind_Ver4)
-```
-
-#### `vr_address_ip_ver6_empty`
-
-Produce un indirizzo IPv6 vuoto.
-
-```c
-#define vr_address_ip_ver6_empty() \
-    vr_address_ip_empty(VrAddressIpKind_Ver6)
-```
-
 #### `vr_address_ip_empty`
 
 Produce un indirizzo IP vuoto a partire da un tipo. Se il tipo specificato è [`VrAddressIpKind_None`](#vraddressipkind) diventa equivalente a [`vr_address_ip_none`](#vr_address_ip_none).
 
 ```c
 VrAddressIp vr_address_ip_empty(VrAddressIpKind kind)
-```
 
-#### `vr_address_ip_ver4_local`
+#define vr_address_ipv4_empty() \
+    vr_address_ip_empty(VrAddressIpKind_V4)
 
-Produce un indirizzo IPv4 localhost a partire da una porta.
-
-```c
-#define vr_address_ip_ver4_local(port) \
-    vr_address_ip_local(VrAddressIpKind_Ver4, port)
-```
-
-#### `vr_address_ip_ver6_local`
-
-Produce un indirizzo IPv6 localhost a partire da una porta.
-
-```c
-#define vr_address_ip_ver6_local(port) \
-    vr_address_ip_local(VrAddressIpKind_Ver6, port)
+#define vr_address_ipv6_empty() \
+    vr_address_ip_empty(VrAddressIpKind_V6)
 ```
 
 #### `vr_address_ip_local`
@@ -266,22 +232,28 @@ Produce un indirizzo IP localhost a partire da un tipo e una porta. Se il tipo s
 
 ```c
 VrAddressIp vr_address_ip_local(VrAddressIpKind kind, VrUint16 port)
+
+#define vr_address_ipv4_local(port) \
+    vr_address_ip_local(VrAddressIpKind_V4, port)
+
+#define vr_address_ipv6_local(port) \
+    vr_address_ip_local(VrAddressIpKind_V6, port)
 ```
 
-#### `vr_address_ip_ver4`
+#### `vr_address_ipv4`
 
 Produce un indirizzo IPv4 a partire da un indirizzo e una porta.
 
 ```c
-VrAddressIp vr_address_ip_ver4(VrAddressIpVer4 ipv4, VrUint16 port)
+VrAddressIp vr_address_ipv4(VrAddressIpV4 ipv4, VrUint16 port)
 ```
 
-#### `vr_address_ip_ver6`
+#### `vr_address_ipv6`
 
 Produce un indirizzo IPv6 a partire da un indirizzo e una porta.
 
 ```c
-VrAddressIp vr_address_ip_ver6(VrAddressIpVer6 ipv6, VrUint16 port)
+VrAddressIp vr_address_ipv6(VrAddressIpV6 ipv6, VrUint16 port)
 ```
 
 #### `vr_address_ip_is_equal`
@@ -317,14 +289,14 @@ VrTcpListener listener = vr_tcp_listener_reserve((VrAlloc*) &arena);
 VrTcpSocket   socket   = vr_tcp_socket_reserve((VrAlloc*) &arena);
 
 // localhost:50000
-vr_tcp_listener_init(listener, vr_address_ip_ver4_local(50000));
+vr_tcp_listener_init(listener, vr_address_ipv4_local(50000));
 vr_tcp_listener_bind_and_listen(listener);
 
 vr_tcp_socket_accept(socket, listener);
 
 VrUint8 msg_buffer[256] = {0};
-VrSint msg_size         = (VrSint) sizeof msg_buffer;
-VrSint msg_count        = 0;
+VrSint  msg_size        = (VrSint) sizeof msg_buffer;
+VrSint  msg_count       = 0;
 
 msg_count = vr_tcp_socket_read(socket, msg_buffer, msg_size);
 
@@ -346,12 +318,12 @@ VrArenaAlloc arena = /* ... */;
 
 VrTcpSocket socket = vr_tcp_socket_reserve((VrAlloc*) &arena);
 
-vr_tcp_socket_init(socket, vr_address_ip_ver4_empty());
-vr_tcp_socket_connect(socket, vr_address_ip_ver4_local(50000));
+vr_tcp_socket_init(socket, vr_address_ipv4_empty());
+vr_tcp_socket_connect(socket, vr_address_ipv4_local(50000));
 
 VrUint8 msg_buffer[256] = {0};
-VrSint msg_size         = (VrSint) sizeof msg_buffer;
-VrSint msg_count        = 0;
+VrSint  msg_size        = (VrSint) sizeof msg_buffer;
+VrSint  msg_count       = 0;
 
 msg_count = snprintf((VrChar8*) msg_buffer,
     msg_size - 1, "%s", "Ciao!");
@@ -387,8 +359,8 @@ VrBool32 vr_tcp_listener_init(VrTcpListener self, VrAddressIp addr)
 
 Parametri:
 
-- `VrTcpListener self` - Il listener da inizializzare.
-- `VrAddressIp addr` - L'indirizzo IP, **non può essere [`vr_address_ip_none`](#vr_address_ip_none)** e la porta **non può essere zero**.
+- [`VrTcpListener self`](#vrtcplistener) - Il listener da inizializzare.
+- [`VrAddressIp addr`](#vraddressip) - L'indirizzo IP, **non può essere [`vr_address_ip_none`](#vr_address_ip_none)** e la porta **non può essere zero**.
 
 Restituisce:
 
@@ -436,8 +408,8 @@ VrBool32 vr_tcp_socket_init(VrTcpSocket self, VrAddressIp addr)
 
 Parametri:
 
-- `VrTcpSocket self` - Il socket da inizializzare.
-- `VrAddressIp addr` - L'indirizzo IP, **non può essere [`vr_address_ip_none`](#vr_address_ip_none)** e la porta **non può essere zero**.
+- [`VrTcpSocket self`](#vrtcpsocket) - Il socket da inizializzare.
+- [`VrAddressIp addr`](#vraddressip) - L'indirizzo IP, **non può essere [`vr_address_ip_none`](#vr_address_ip_none)** e la porta **non può essere zero**.
 
 Restituisce:
 
@@ -473,8 +445,8 @@ VrBool32 vr_tcp_socket_accept(VrTcpSocket self, VrTcpListener listener)
 
 Parametri:
 
-- `VrTcpSocket self` - Il socket su cui accettare la nuova connessione, **deve essere riservato ma non inizializzato**.
-- `VrTcpListener listener` - Il listener in ascolto.
+- [`VrTcpSocket self`](#vrtcpsocket) - Il socket su cui accettare la nuova connessione, **deve essere riservato ma non inizializzato**.
+- [`VrTcpListener listener`](#vrtcplistener) - Il listener in ascolto.
 
 Restituisce:
 
@@ -490,8 +462,8 @@ VrBool32 vr_tcp_socket_connect(VrTcpSocket self, VrAddressIp addr)
 
 Parametri:
 
-- `VrTcpSocket self` - Il socket con cui iniziare la nuova connessione.
-- `VrAddressIp addr` - L'indirizzo a cui connettersi.
+- [`VrTcpSocket self`](#vrtcpsocket) - Il socket con cui iniziare la nuova connessione.
+- [`VrAddressIp addr`](#vraddressip) - L'indirizzo a cui connettersi.
 
 Restituisce:
 
@@ -511,7 +483,7 @@ VrSint vr_tcp_socket_write(VrTcpSocket self, VrUint8* pntr, VrSint size)
 
 Parametri:
 
-- `VrTcpSocket self` - Il socket su cui scrivere.
+- [`VrTcpSocket self`](#vrtcpsocket) - Il socket su cui scrivere.
 - `VrUint8* pntr` - Il blocco di memoria, **non può essere NULL**.
 - `VrSint size` - Dimensione (in byte) del blocco di memoria, **deve essere positiva**.
 
@@ -533,7 +505,7 @@ VrSint vr_tcp_socket_write_all(VrTcpSocket self, VrUint8* pntr, VrSint size)
 
 Parametri:
 
-- `VrTcpSocket self` - Il socket su cui scrivere.
+- [`VrTcpSocket self`](#vrtcpsocket) - Il socket su cui scrivere.
 - `VrUint8* pntr` - Il blocco di memoria, **non può essere NULL**.
 - `VrSint size` - Dimensione (in byte) del blocco di memoria, **deve essere positiva**.
 
@@ -555,7 +527,7 @@ VrSint vr_tcp_socket_read(VrTcpSocket self, VrUint8* pntr, VrSint size)
 
 Parametri:
 
-- `VrTcpSocket self` - Il socket da cui leggere.
+- [`VrTcpSocket self`](#vrtcpsocket) - Il socket da cui leggere.
 - `VrUint8* pntr` - Il blocco di memoria, **non può essere NULL**.
 - `VrSint size` - Dimensione (in byte) del blocco di memoria, **deve essere positiva**.
 
@@ -582,7 +554,7 @@ VrArenaAlloc arena = /* ... */;
 
 VrUdpSocket socket = vr_udp_socket_reserve((VrAlloc*) &arena);
 
-vr_udp_socket_init(socket, vr_address_ip_ver4_local(50000));
+vr_udp_socket_init(socket, vr_address_ipv4_local(50000));
 vr_udp_socket_bind(socket);
 
 VrUint8     msg_buffer[256] = {0};
@@ -599,9 +571,9 @@ Per utilizzare questa classe lato client è sufficiente inizializzare un socket.
 
 ```c
 VrUdpSocket socket      = vr_udp_socket_reserve(alloc);
-VrAddressIp server_addr = vr_address_ip_ver4_local(50000);
+VrAddressIp server_addr = vr_address_ipv4_local(50000);
 
-vr_udp_socket_init(socket, vr_addres_ip_ver4_empty());
+vr_udp_socket_init(socket, vr_addres_ipv4_empty());
 
 VrUint8     msg_buffer[256] = {0};
 VrSint      msg_size        = (VrSint) sizeof msg_buffer;
@@ -642,8 +614,8 @@ VrBool32 vr_udp_socket_init(VrUdpSocket self, VrAddressIp addr)
 
 Parametri:
 
-- `VrUdpSocket self` - Il socket da inizializzare.
-- `VrAddressIp addr` - L'indirizzo IP, **non può essere [`vr_address_ip_none`](#vr_address_ip_none)** e la porta **non può essere zero**.
+- [`VrUdpSocket self`](#vrudpsocket) - Il socket da inizializzare.
+- [`VrAddressIp addr`](#vraddressip) - L'indirizzo IP, **non può essere [`vr_address_ip_none`](#vr_address_ip_none)** e la porta **non può essere zero**.
 
 Restituisce:
 
@@ -683,10 +655,10 @@ VrSint vr_udp_socket_write(VrTcpSocket self, VrUint8* pntr, VrSint size, VrAddre
 
 Parametri:
 
-- `VrUdpSocket self` - Il socket su cui scrivere.
+- [`VrUdpSocket self`](#vrudpsocket) - Il socket su cui scrivere.
 - `VrUint8* pntr` - Il blocco di memoria, **non può essere NULL**.
 - `VrSint size` - Dimensione (in byte) del blocco di memoria, **deve essere positiva**.
-- `VrAddressIp addr` - L'indirizzo del destinatario.
+- [`VrAddressIp addr`](#vraddressip) - L'indirizzo del destinatario.
 
 Restituisce:
 
@@ -706,10 +678,10 @@ VrSint vr_udp_socket_write_all(VrTcpSocket self, VrUint8* pntr, VrSint size, VrA
 
 Parametri:
 
-- `VrUdpSocket self` - Il socket su cui scrivere.
+- [`VrUdpSocket self`](#vrudpsocket) - Il socket su cui scrivere.
 - `VrUint8* pntr` - Il blocco di memoria, **non può essere NULL**.
 - `VrSint size` - Dimensione (in byte) del blocco di memoria, **deve essere positiva**.
-- `VrAddressIp addr` - L'indirizzo del destinatario.
+- [`VrAddressIp addr`](#vraddressip) - L'indirizzo del destinatario.
 
 Restituisce:
 
@@ -729,10 +701,10 @@ VrSint vr_udp_socket_read(VrUdpSocket self, VrUint8* pntr, VrSint size, VrAddres
 
 Parametri:
 
-- `VrUdpSocket self` - Il socket da cui leggere.
+- [`VrUdpSocket self`](#vrudpsocket) - Il socket da cui leggere.
 - `VrUint8* pntr` - Il blocco di memoria, **non può essere NULL**.
 - `VrSint size` - Dimensione (in byte) del blocco di memoria, **deve essere positiva**.
-- `VrAddressIp* addr` - Endpoint del mittente, può essere NULL.
+- [`VrAddressIp* addr`](#vraddressip) - Endpoint del mittente, può essere NULL.
 
 Restituisce:
 

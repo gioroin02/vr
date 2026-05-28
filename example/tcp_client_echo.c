@@ -20,10 +20,10 @@ int main(int args_count, char** args_array)
     // Inizializzazione del socket su un'interfaccia IPv4 qualsiasi.
     // La porta invece è assegnata automaticamente dal sistema operativo alla
     // prima operazione, in questo caso durante la "connect" che segue.
-    vr_tcp_socket_init(socket, vr_address_ip_ver4_empty());
+    vr_tcp_socket_init(socket, vr_address_ipv4_empty());
 
     // Connessione al server all'indirizzo "localhost:50000".
-    vr_tcp_socket_connect(socket, vr_address_ip_ver4_local(50000));
+    vr_tcp_socket_connect(socket, vr_address_ipv4_local(50000));
 
     printf(INFO "Sessione iniziata\n");
 

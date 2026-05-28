@@ -11,7 +11,7 @@ int main(void)
     VrTcpListener listener = vr_tcp_listener_reserve((VrAlloc*) &arena);
     VrTcpSocket   socket   = vr_tcp_socket_reserve((VrAlloc*) &arena);
 
-    vr_tcp_listener_init(listener, vr_address_ip_ver4_local(5000));
+    vr_tcp_listener_init(listener, vr_address_ipv4_local(5000));
     vr_tcp_listener_bind_and_listen(listener);
 
     vr_tcp_socket_accept(socket, listener);

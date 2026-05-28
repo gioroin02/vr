@@ -6,18 +6,18 @@
 typedef enum VrAddressIpKind
 {
     VrAddressIpKind_None,
-    VrAddressIpKind_Ver4,
-    VrAddressIpKind_Ver6,
+    VrAddressIpKind_V4,
+    VrAddressIpKind_V6,
 }
 VrAddressIpKind;
 
 #define VR_ADDRESS_IP_VER4_SIZE  ((VrSint) 4)
-#define VR_ADDRESS_IP_VER4_EMPTY ((VrAddressIpVer4) {0})
+#define VR_ADDRESS_IP_VER4_EMPTY ((VrAddressIpV4) {0})
 
 #define VR_ADDRESS_IP_VER4_LOCAL \
-    ((VrAddressIpVer4) {.elements.members = {.elem_0 = 0x7F, .elem_3 = 0x01}})
+    ((VrAddressIpV4) {.elements.members = {.elem_0 = 0x7F, .elem_3 = 0x01}})
 
-typedef struct VrAddressIpVer4
+typedef struct VrAddressIpV4
 {
     union
     {
@@ -31,15 +31,15 @@ typedef struct VrAddressIpVer4
     }
     elements;
 }
-VrAddressIpVer4;
+VrAddressIpV4;
 
 #define VR_ADDRESS_IP_VER6_SIZE  ((VrSint) 16)
-#define VR_ADDRESS_IP_VER6_EMPTY ((VrAddressIpVer6) {0})
+#define VR_ADDRESS_IP_VER6_EMPTY ((VrAddressIpV6) {0})
 
 #define VR_ADDRESS_IP_VER6_LOCAL \
-    ((VrAddressIpVer6) {.elements.members = {.elem_15 = 0x01}})
+    ((VrAddressIpV6) {.elements.members = {.elem_15 = 0x01}})
 
-typedef struct VrAddressIpVer6
+typedef struct VrAddressIpV6
 {
     union
     {
@@ -56,7 +56,7 @@ typedef struct VrAddressIpVer6
     }
     elements;
 }
-VrAddressIpVer6;
+VrAddressIpV6;
 
 typedef struct VrAddressIp
 {
@@ -64,8 +64,8 @@ typedef struct VrAddressIp
 
     union
     {
-        VrAddressIpVer4 ver4;
-        VrAddressIpVer6 ver6;
+        VrAddressIpV4 v4;
+        VrAddressIpV6 v6;
     }
     ip;
 
@@ -75,25 +75,19 @@ VrAddressIp;
 
 VrAddressIp vr_address_ip_none(void);
 
-#define vr_address_ip_ver4_empty() \
-    vr_address_ip_empty(VrAddressIpKind_Ver4)
-
-#define vr_address_ip_ver6_empty() \
-    vr_address_ip_empty(VrAddressIpKind_Ver6)
+#define vr_address_ipv4_empty() vr_address_ip_empty(VrAddressIpKind_V4)
+#define vr_address_ipv6_empty() vr_address_ip_empty(VrAddressIpKind_V6)
 
 VrAddressIp vr_address_ip_empty(VrAddressIpKind kind);
 
-#define vr_address_ip_ver4_local(port) \
-    vr_address_ip_local(VrAddressIpKind_Ver4, (port))
-
-#define vr_address_ip_ver6_local(port) \
-    vr_address_ip_local(VrAddressIpKind_Ver6, (port))
+#define vr_address_ipv4_local(port) vr_address_ip_local(VrAddressIpKind_V4, (port))
+#define vr_address_ipv6_local(port) vr_address_ip_local(VrAddressIpKind_V6, (port))
 
 VrAddressIp vr_address_ip_local(VrAddressIpKind kind, VrUint16 port);
 
-VrAddressIp vr_address_ip_ver4(VrAddressIpVer4 ip4, VrUint16 port);
+VrAddressIp vr_address_ipv4(VrAddressIpV4 ip4, VrUint16 port);
 
-VrAddressIp vr_address_ip_ver6(VrAddressIpVer6 ip6, VrUint16 port);
+VrAddressIp vr_address_ipv6(VrAddressIpV6 ip6, VrUint16 port);
 
 VrBool32 vr_address_ip_is_equal(VrAddressIp self, VrAddressIp other);
 
@@ -177,8 +171,8 @@ VrAddressIp vr_udp_socket_addr(VrUdpSocket self);
 
         typedef struct sockaddr_storage sockaddr_storage_t;
         typedef struct sockaddr         sockaddr_t;
-        typedef struct sockaddr_in      sockaddr_ip_ver4_t;
-        typedef struct sockaddr_in6     sockaddr_ip_ver6_t;
+        typedef struct sockaddr_in      sockaddr_ipv4_t;
+        typedef struct sockaddr_in6     sockaddr_ipv6_t;
 
         VrBool32 vr_win32_socket_start(void);
 
@@ -273,8 +267,8 @@ VrAddressIp vr_udp_socket_addr(VrUdpSocket self);
 
         typedef struct sockaddr_storage sockaddr_storage_t;
         typedef struct sockaddr         sockaddr_t;
-        typedef struct sockaddr_in      sockaddr_ip_ver4_t;
-        typedef struct sockaddr_in6     sockaddr_ip_ver6_t;
+        typedef struct sockaddr_in      sockaddr_ipv4_t;
+        typedef struct sockaddr_in6     sockaddr_ipv6_t;
 
         sockaddr_storage_t vr_linux_sockaddr_make(VrAddressIp addr);
 

@@ -65,7 +65,7 @@ int main(int args_count, const char** args_array)
     // Inizializzazione del listener all'indirizzo "localhost:50000", successivamente
     // facciamo in modo che si leghi alla porta e inizi ad ascoltare le richieste di
     // connessione in arrivo.
-    vr_tcp_listener_init(listener, vr_address_ip_ver4_local(50000));
+    vr_tcp_listener_init(listener, vr_address_ipv4_local(50000));
     vr_tcp_listener_bind_and_listen(listener);
 
     // Ripete il ciclo:

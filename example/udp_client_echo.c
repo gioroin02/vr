@@ -18,12 +18,12 @@ int main(int args_count, char** args_array)
     VrUdpSocket socket = vr_udp_socket_reserve((VrAlloc*) &arena);
 
     // Indirizzo di destinazione del server, in questo caso "localhost:50000".
-    VrAddressIp server_addr = vr_address_ip_ver4_local(50000);
+    VrAddressIp server_addr = vr_address_ipv4_local(50000);
 
     // Inizializzazione del socket su un'interfaccia IPv4 qualsiasi.
     // La porta invece è assegnata automaticamente dal sistema operativo alla
     // prima operazione, in questo caso durante la "write_all" che segue.
-    vr_udp_socket_init(socket, vr_address_ip_ver4_empty());
+    vr_udp_socket_init(socket, vr_address_ipv4_empty());
 
     VrChar8 message[32] = {0};
     VrSint  count       = 0;
