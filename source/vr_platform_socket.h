@@ -11,17 +11,17 @@ typedef enum VrAddressIpKind
 }
 VrAddressIpKind;
 
-#define VR_ADDRESS_IP_VER4_SIZE  ((VrSint) 4)
-#define VR_ADDRESS_IP_VER4_EMPTY ((VrAddressIpV4) {0})
+#define VR_ADDRESS_IPV4_SIZE  ((VrSint) 4)
+#define VR_ADDRESS_IPV4_EMPTY ((VrAddressIpV4) {0})
 
-#define VR_ADDRESS_IP_VER4_LOCAL \
+#define VR_ADDRESS_IPV4_LOCAL \
     ((VrAddressIpV4) {.elements.members = {.elem_0 = 0x7F, .elem_3 = 0x01}})
 
 typedef struct VrAddressIpV4
 {
     union
     {
-        VrUint8 array[VR_ADDRESS_IP_VER4_SIZE];
+        VrUint8 array[VR_ADDRESS_IPV4_SIZE];
 
         struct
         {
@@ -33,17 +33,17 @@ typedef struct VrAddressIpV4
 }
 VrAddressIpV4;
 
-#define VR_ADDRESS_IP_VER6_SIZE  ((VrSint) 16)
-#define VR_ADDRESS_IP_VER6_EMPTY ((VrAddressIpV6) {0})
+#define VR_ADDRESS_IPV6_SIZE  ((VrSint) 16)
+#define VR_ADDRESS_IPV6_EMPTY ((VrAddressIpV6) {0})
 
-#define VR_ADDRESS_IP_VER6_LOCAL \
+#define VR_ADDRESS_IPV6_LOCAL \
     ((VrAddressIpV6) {.elements.members = {.elem_15 = 0x01}})
 
 typedef struct VrAddressIpV6
 {
     union
     {
-        VrUint8 array[VR_ADDRESS_IP_VER6_SIZE];
+        VrUint8 array[VR_ADDRESS_IPV6_SIZE];
 
         struct
         {
@@ -75,13 +75,19 @@ VrAddressIp;
 
 VrAddressIp vr_address_ip_none(void);
 
-#define vr_address_ipv4_empty() vr_address_ip_empty(VrAddressIpKind_V4)
-#define vr_address_ipv6_empty() vr_address_ip_empty(VrAddressIpKind_V6)
+#define vr_address_ipv4_empty() \
+    vr_address_ip_empty(VrAddressIpKind_V4)
+
+#define vr_address_ipv6_empty() \
+    vr_address_ip_empty(VrAddressIpKind_V6)
 
 VrAddressIp vr_address_ip_empty(VrAddressIpKind kind);
 
-#define vr_address_ipv4_local(port) vr_address_ip_local(VrAddressIpKind_V4, (port))
-#define vr_address_ipv6_local(port) vr_address_ip_local(VrAddressIpKind_V6, (port))
+#define vr_address_ipv4_local(port) \
+    vr_address_ip_local(VrAddressIpKind_V4, (port))
+
+#define vr_address_ipv6_local(port) \
+    vr_address_ip_local(VrAddressIpKind_V6, (port))
 
 VrAddressIp vr_address_ip_local(VrAddressIpKind kind, VrUint16 port);
 

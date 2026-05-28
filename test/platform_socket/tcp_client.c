@@ -11,22 +11,20 @@ int main(void)
 
     VrTcpSocket socket = vr_tcp_socket_reserve((VrAlloc*) &arena);
 
-    VrAddressIp addr = vr_address_ipv4(
-        VR_ADDRESS_IP_VER4_LOCAL, 5000);
-
     vr_tcp_socket_init(socket, vr_address_ipv4_empty());
-    vr_tcp_socket_connect(socket, addr);
+    vr_tcp_socket_connect(socket, vr_address_ipv4_local(5000));
 
-    VrChar8 message[32] = "Ciao!";
-    VrSint  count       = strlen(message);
+    VrUint8 msg_buffer[32] = "Ciao!";
+    VrSint  msg_size       = sizeof msg_buffer;
+    VrSint  msg_count      = strlen((VrChar8*) msg_buffer);
 
-    vr_tcp_socket_write(socket, (VrUint8*) message, count);
+    vr_tcp_socket_write_all(socket, msg_buffer, msg_count);
 
-    printf("[INFO] Inviato '%.*s'\n", count, message);
+    printf("[INFO] Inviato '%.*s'\n", msg_count, msg_buffer);
 
-    count = vr_tcp_socket_read(socket, (VrUint8*) message, sizeof message);
+    msg_count = vr_tcp_socket_read(socket, msg_buffer, msg_size);
 
-    printf("[INFO] Ricevuto '%.*s'\n", count, message);
+    printf("[INFO] Ricevuto '%.*s'\n", msg_count, msg_buffer);
 
     vr_tcp_socket_uninit(socket);
 

@@ -16,15 +16,17 @@ int main(void)
 
     vr_tcp_socket_accept(socket, listener);
 
-    VrChar8 message[32] = {0};
+    VrUint8 msg_buffer[32] = {0};
+    VrSint  msg_size       = sizeof msg_buffer;
+    VrSint  msg_count      = 0;
 
-    VrSint count = vr_tcp_socket_read(socket, (VrUint8*) message, sizeof message);
+    msg_count = vr_tcp_socket_read(socket, msg_buffer, msg_size);
 
-    printf("[INFO] Ricevuto '%.*s'\n", count, message);
+    printf("[INFO] Ricevuto '%.*s'\n", msg_count, msg_buffer);
 
-    vr_tcp_socket_write(socket, (VrUint8*) message, count);
+    vr_tcp_socket_write_all(socket, msg_buffer, msg_count);
 
-    printf("[INFO] Inviato '%.*s'\n", count, message);
+    printf("[INFO] Inviato '%.*s'\n", msg_count, msg_buffer);
 
     vr_tcp_socket_uninit(socket);
     vr_tcp_listener_uninit(listener);

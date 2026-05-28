@@ -105,7 +105,7 @@
                 ipv4->sin_port   = htons(addr.port);
 
                 vr_memory_copy(&ipv4->sin_addr.s_addr,
-                    VR_ADDRESS_IP_VER4_SIZE, addr.ip.v4.elements.array);
+                    VR_ADDRESS_IPV4_SIZE, addr.ip.v4.elements.array);
             } break;
 
             case VrAddressIpKind_V6: {
@@ -115,7 +115,7 @@
                 ipv6->sin6_port   = htons(addr.port);
 
                 vr_memory_copy(&ipv6->sin6_addr.s6_addr,
-                    VR_ADDRESS_IP_VER6_SIZE, addr.ip.v6.elements.array);
+                    VR_ADDRESS_IPV6_SIZE, addr.ip.v6.elements.array);
             } break;
 
             default: break;
@@ -138,7 +138,7 @@
                 ipv4->sin_port   = htons(port);
 
                 vr_memory_copy(&ipv4->sin_addr.s_addr,
-                    VR_ADDRESS_IP_VER4_SIZE, (void*) &in4addr_any);
+                    VR_ADDRESS_IPV4_SIZE, (void*) &in4addr_any);
             } break;
 
             case VrAddressIpKind_V6: {
@@ -148,7 +148,7 @@
                 ipv6->sin6_port   = htons(port);
 
                 vr_memory_copy(&ipv6->sin6_addr.s6_addr,
-                    VR_ADDRESS_IP_VER6_SIZE, (void*) &in6addr_any);
+                    VR_ADDRESS_IPV6_SIZE, (void*) &in6addr_any);
             } break;
 
             default: break;
@@ -181,7 +181,7 @@
                 result.port = ntohs(ipv4->sin_port);
 
                 vr_memory_copy(result.ip.v4.elements.array,
-                    VR_ADDRESS_IP_VER4_SIZE, &ipv4->sin_addr.s_addr);
+                    VR_ADDRESS_IPV4_SIZE, &ipv4->sin_addr.s_addr);
             } break;
 
             case AF_INET6: {
@@ -191,7 +191,7 @@
                 result.port = ntohs(ipv6->sin6_port);
 
                 vr_memory_copy(result.ip.v6.elements.array,
-                    VR_ADDRESS_IP_VER6_SIZE, &ipv6->sin6_addr.s6_addr);
+                    VR_ADDRESS_IPV6_SIZE, &ipv6->sin6_addr.s6_addr);
             } break;
 
             default: break;
@@ -531,7 +531,7 @@
                 ipv4->sin_port   = htons(addr.port);
 
                 vr_memory_copy(&ipv4->sin_addr.s_addr,
-                    VR_ADDRESS_IP_VER4_SIZE, addr.ip.v4.elements.array);
+                    VR_ADDRESS_IPV4_SIZE, addr.ip.v4.elements.array);
             } break;
 
             case VrAddressIpKind_V6: {
@@ -541,7 +541,7 @@
                 ipv6->sin6_port   = htons(addr.port);
 
                 vr_memory_copy(&ipv6->sin6_addr.s6_addr,
-                    VR_ADDRESS_IP_VER6_SIZE, addr.ip.v6.elements.array);
+                    VR_ADDRESS_IPV6_SIZE, addr.ip.v6.elements.array);
             } break;
 
             default: break;
@@ -564,7 +564,7 @@
                 ipv4->sin_port   = htons(port);
 
                 vr_memory_copy(&ipv4->sin_addr.s_addr,
-                    VR_ADDRESS_IP_VER4_SIZE, (void*) &in4addr_any);
+                    VR_ADDRESS_IPV4_SIZE, (void*) &in4addr_any);
             } break;
 
             case VrAddressIpKind_V6: {
@@ -574,7 +574,7 @@
                 ipv6->sin6_port   = htons(port);
 
                 vr_memory_copy(&ipv6->sin6_addr.s6_addr,
-                    VR_ADDRESS_IP_VER6_SIZE, (void*) &in6addr_any);
+                    VR_ADDRESS_IPV6_SIZE, (void*) &in6addr_any);
             } break;
 
             default: break;
@@ -607,7 +607,7 @@
                 result.port = ntohs(ipv4->sin_port);
 
                 vr_memory_copy(result.ip.v4.elements.array,
-                    VR_ADDRESS_IP_VER4_SIZE, &ipv4->sin_addr.s_addr);
+                    VR_ADDRESS_IPV4_SIZE, &ipv4->sin_addr.s_addr);
             } break;
 
             case AF_INET6: {
@@ -617,7 +617,7 @@
                 result.port = ntohs(ipv6->sin6_port);
 
                 vr_memory_copy(result.ip.v6.elements.array,
-                    VR_ADDRESS_IP_VER6_SIZE, &ipv6->sin6_addr.s6_addr);
+                    VR_ADDRESS_IPV6_SIZE, &ipv6->sin6_addr.s6_addr);
             } break;
 
             default: break;
@@ -1053,7 +1053,7 @@ VrAddressIp vr_address_ip_local(VrAddressIpKind kind, VrUint16 port)
 {
     switch (kind) {
         case VrAddressIpKind_V4: {
-            VrAddressIpV4 ipv4 = VR_ADDRESS_IP_VER4_LOCAL;
+            VrAddressIpV4 ipv4 = VR_ADDRESS_IPV4_LOCAL;
 
             return (VrAddressIp) {
                 .kind = kind,
@@ -1063,7 +1063,7 @@ VrAddressIp vr_address_ip_local(VrAddressIpKind kind, VrUint16 port)
         } break;
 
         case VrAddressIpKind_V6: {
-            VrAddressIpV6 ipv6 = VR_ADDRESS_IP_VER6_LOCAL;
+            VrAddressIpV6 ipv6 = VR_ADDRESS_IPV6_LOCAL;
 
             return (VrAddressIp) {
                 .kind = kind,
@@ -1102,14 +1102,14 @@ VrBool32 vr_address_ip_is_equal(VrAddressIp self, VrAddressIp other)
 
     switch (self.kind) {
         case VrAddressIpKind_V4: {
-            for (VrSint i = 0; i < VR_ADDRESS_IP_VER4_SIZE; i += 1) {
+            for (VrSint i = 0; i < VR_ADDRESS_IPV4_SIZE; i += 1) {
                 if (self.ip.v4.elements.array[i] != other.ip.v4.elements.array[i])
                     return 0;
             }
         } break;
 
         case VrAddressIpKind_V6: {
-            for (VrSint i = 0; i < VR_ADDRESS_IP_VER6_SIZE; i += 1) {
+            for (VrSint i = 0; i < VR_ADDRESS_IPV6_SIZE; i += 1) {
                 if (self.ip.v6.elements.array[i] != other.ip.v6.elements.array[i])
                     return 0;
             }

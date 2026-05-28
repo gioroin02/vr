@@ -9,24 +9,23 @@ int main(void)
 
     VrArenaAlloc arena = vr_arena_alloc_make(memory, sizeof memory);
 
-    VrUdpSocket socket = vr_udp_socket_reserve((VrAlloc*) &arena);
-
-    VrAddressIp addr = vr_address_ipv4(
-        VR_ADDRESS_IP_VER4_LOCAL, 5000);
+    VrUdpSocket socket      = vr_udp_socket_reserve((VrAlloc*) &arena);
+    VrAddressIp server_addr = vr_address_ipv4_local(5000);
 
     vr_udp_socket_init(socket, vr_address_ipv4_empty());
 
-    VrChar8 message[32] = "Ciao";
-    VrSint  count       = strlen(message);
+    VrUint8     msg_buffer[32] = "Ciao";
+    VrSint      msg_size       = sizeof msg_buffer;
+    VrSint      msg_count      = strlen((VrChar8*) msg_buffer);
+    VrAddressIp msg_addr       = vr_address_ip_none();
 
-    vr_udp_socket_write(socket, (VrUint8*) message, count, addr);
+    vr_udp_socket_write_all(socket, msg_buffer, msg_count, server_addr);
 
-    printf("[INFO] Inviato '%.*s'\n", count, message);
+    printf("[INFO] Inviato '%.*s'\n", msg_count, msg_buffer);
 
-    count = vr_udp_socket_read(socket,
-        (VrUint8*) message, sizeof message, &addr);
+    msg_count = vr_udp_socket_read(socket, msg_buffer, msg_size, &msg_addr);
 
-    printf("[INFO] Ricevuto '%.*s'\n", count, message);
+    printf("[INFO] Ricevuto '%.*s'\n", msg_count, msg_buffer);
 
     vr_udp_socket_uninit(socket);
 
